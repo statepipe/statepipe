@@ -7,9 +7,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Testing code
+    - name: Setup Node
       uses: actions/setup-node@v1
-      run: |
+
+    - name: Setup Node
+    - run: |
         npm ci
         npm run lint
         npm run test
