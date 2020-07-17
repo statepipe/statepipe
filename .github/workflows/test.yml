@@ -1,4 +1,4 @@
-name: Ava Test
+name: Script Tests
 on: [push, pull_request]
 jobs:
   test:
