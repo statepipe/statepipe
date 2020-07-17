@@ -1,5 +1,5 @@
 name: Ava Test
-on: pull_request
+on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -9,7 +9,7 @@ jobs:
 
     - name: Install packages
       uses: actions/setup-node@v1
+
     - run: npm ci
     - run: npm run test
-      env:
-        CI: true
+    - run: npm test
