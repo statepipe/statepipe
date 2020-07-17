@@ -1,7 +1,7 @@
-name: Lint
-on: push
+name: Ava Test
+on: pull_request
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -10,6 +10,6 @@ jobs:
     - name: Install packages
       uses: actions/setup-node@v1
     - run: npm ci
-    - run: npm run lint
+    - run: npm run test
       env:
         CI: true
