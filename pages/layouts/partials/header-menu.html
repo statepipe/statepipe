@@ -31,7 +31,7 @@ class="desktop"
          name="{{$name}}"
          class="button" :state="{}"
          style="width: 160px;text-align: center;text-align-last: left;"
-         :trigger="goto@mouseup|eventPick:target.value">
+         :trigger="goto@change|eventPick:target.value">
             {{$rel := ($.Site.GetPage .URL).RelPermalink}}
             <option value="">{{$pre}} {{$name}}</option>
             <option value="{{.URL}}">
