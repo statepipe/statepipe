@@ -7,7 +7,7 @@
     "test": "ava",
     "start": "webpack --env.NODE_ENV=development --env.watch=yes",
     "build": "webpack --env.NODE_ENV=production",
-    "postbuild": "gzip -vk pages/content/dist/*.js",
+    "postbuild": "gzip -fvk pages/content/dist/*.js",
     "coverage": "nyc --report-dir=pages/static/coverage/ --reporter=text-summary --reporter=lcov ava -tv",
     "postcoverage": "rsync -ar docs/coverage/lcov-report/ docs/coverage/ && rm -rf docs/coverage/lcov-report/",
     "preversion": "npm test && npm run lint",
