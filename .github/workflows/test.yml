@@ -1,4 +1,4 @@
-name: Script Tests
+name: Javascript tests
 on: [push, pull_request]
 jobs:
   test:
@@ -7,9 +7,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Install packages
+    - name: Testing code
       uses: actions/setup-node@v1
-
-    - run: npm ci
-    - run: npm run test
-    - run: npm test
+      run: |
+        npm ci
+        npm run lint
+        npm run test
