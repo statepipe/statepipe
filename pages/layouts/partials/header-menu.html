@@ -22,7 +22,7 @@ style="padding:0;margin:1em 0 0 0;"
 class="desktop"
 :statepipe="header-desktop"
 :state="{}"
-:pipe="goto|set:target.value:value"
+:pipe="from:goto|set:target.value:value"
 :out="redirect">
     {{range sort $.Site.Menus.main "Name"}}
     {{$name := .Name}}
