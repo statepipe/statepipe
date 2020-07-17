@@ -5,7 +5,6 @@ then
   rm -fv "pages/content/dist/*latest*"
   docker run --rm -it \
     -v $(pwd)/pages:/src \
-    -p 1313:1313 \
     -u hugo jguyomard/hugo-builder:0.55-extras hugo
 else
   echo "Starting hugo server"
