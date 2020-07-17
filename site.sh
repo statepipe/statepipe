@@ -2,6 +2,7 @@
 if [[ $1 == "build" ]];
 then
   echo "Building site"
+  rm -fv "pages/content/dist/*latest*"
   docker run --rm -it \
     -v $(pwd)/pages:/src \
     -p 1313:1313 \

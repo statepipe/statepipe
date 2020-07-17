@@ -1,3 +1,8 @@
+{{with ($.Site.GetPage "/dist").Params.versions}}
+{{range first 1 .}}
+{{$.Scratch.Set "version" .version}}
+{{end}}
+{{end}}
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -22,11 +27,9 @@
             >statepipe</a>
 
             {{with $.Site.GetPage "/dist"}}
-              <small style="font-size:0.3em;font: lighter;vertical-align: top;">
-                {{with .Params.versions}}
-                  {{range first 1 .}}                  
-                  🏷️ <a style="color:white" href="/dist">{{.version}}</a>
-                  {{end}}
+              <small style="font-size:0.3em;font-weight: lighter;vertical-align: top;margin: 0;padding: 0;">
+                {{with $.Scratch.Get "version"}}
+                  🏷️ <a style="color:white" href="/dist">{{.}}</a>
                 {{end}}
               </small>
             {{end}}
@@ -83,9 +86,10 @@
     </footer>
     {{ end }}
   </div>
-
-  {{if .Site.IsServer}}
+  {{if $.Site.IsServer }}
     <script src="/dist/statepipe.latest.js" defer></script>
+  {{else}}
+    <script src="/dist/statepipe.{{$.Scratch.Get "version"}}.js" defer></script>
   {{end}}
   </body>
 </html>
