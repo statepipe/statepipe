@@ -1,0 +1,133 @@
+<style>
+.gallery figure,
+.gallery img,
+.gallery label,
+.gallery nav,
+.gallery button, 
+.gallery ul,
+.gallery li{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+.gallery {
+  box-sizing:border-box;
+  display:flex;
+  width:300px;
+  
+  padding:0;
+  margin:0;
+  flex-direction: column;
+}
+.gallery figure {
+  line-height:0
+}
+.gallery figure figcaption {
+padding:3px;
+  text-align:center;
+  display:block;
+  line-height:1;
+  margin:0.5rem;
+  background-color: white;
+}
+.gallery figure,
+.gallery nav {
+  flex:1;
+  width:100%;
+}
+
+.gallery nav ul {
+  flex:5;
+  display:flex;
+  overflow:hidden;
+}
+
+.gallery nav button {
+  flex:1;
+  display:flex;
+}
+
+.gallery nav ul li span {
+  width:100%;
+  text-align:center;
+}
+.gallery nav ul li{
+  display: flex;
+  flex: 1;
+  margin: 5px;
+  width: 70px;
+}
+.gallery nav {
+  display:flex;
+}
+.gallery .thumb {
+    font-size: 2rem;
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+}
+.gallery .arrow {
+    margin-top:1.5rem;
+    font-weight: bold;
+    padding:5px;
+    color:deeppink;
+    font-size: 1.3em;
+    line-height: 1;
+    height: 20px;
+    text-decoration: none;
+}
+</style>
+
+
+<div class="gallery" :statepipe="gallery">
+    {{$list := split "🥝 Kiwi/🍓 Strawberry/🍋 Lemon/🥭 Mango/🍑 Peach/🍊 Tangerine" "/"}}
+    <figure>
+    {{$firtItem := index (first 1 $list) 0}}
+    {{$icon := index (first 1 (split $firtItem " ")) 0}}
+    {{$name := index (last 1 (split $firtItem " ")) 0}}
+        <img
+        :state="{}"
+        :pipe="from:select|pickAll"
+        :out="attrSet:src:value|attrSet:title:name"
+        title="{{$name}}" width="300" height="300"
+        src="/images/{{$name | lower}}.png" />
+        <figcaption
+        :state="{}"
+        :pipe="from:select|pickAll"
+        :out="text:name">{{$name}}</figcaption>
+    </figure>
+    <nav>
+    {{$size := 75}}
+    {{$total := sub (len $list) 3}}
+      <a 
+      :state='{"page":0}'
+      :trigger="scroll@click|eventFn:preventDefault|truthy:page|dec:page"
+      :pipe="from:scroll|set:page:page"
+      class="arrow" href="#prev"><</a>
+      <ul>
+        {{range  $list}}
+            {{$icon := index (first 1 (split . " ")) 0}}
+            {{$name := index (last 1 (split . " ")) 0}}
+            <li
+            :state='{"page":0,"size":{{$size}}, "translateX":"transform: translate(-${state.page*state.size}px)" }'
+            :pipe="scroll|set:page:page"
+            :out="attrSet:style:translateX"
+            >
+                <button
+                :state='{"value":"/images/{{$name | lower}}.png","name":"{{$name}}"}'
+                :trigger="select@click|pickAll"
+                class="thumb"
+                >{{$icon}}</button>
+            </li>
+        {{end}}
+      </ul>
+      <a
+       :state='{"page":0,"max":{{$total}}}'
+       :trigger="scroll@click|eventFn:preventDefault|lt:page:max|inc:page"
+       :pipe="from:scroll|set:page:page"
+       class="arrow" href="#next">></a>
+    </nav>    
+  </div>
+
+
+    

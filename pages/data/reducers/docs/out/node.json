@@ -1,0 +1,21 @@
+{
+  "description": [
+    "Realizam operações no elemento do compomente (node)."
+  ],
+  "reducers": [
+    {
+      "name": "nodePick",
+      "description": [
+        "Same as [pipe nodePick()](../pipe#nodePick)"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "nodeFn",
+      "description": [
+        "Same as [pipe nodeFn()](../pipe#nodeFn)"
+      ],
+      "schemas": []
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{{$current := .Page.RelPermalink}}
+<script>
+    let stores = window.$statepipeStores || {}
+    stores.out = Object.assign(stores.out || {} , {
+        "redirect" : () => (state, node) => {
+            if (!!state
+                && !!state.value
+                && state.value.length 
+                && location.href !== state.value
+            ){
+                location.href = state.value;
+            }
+        }
+    })
+    window.$statepipeStores = stores;
+</script>
+
+<form
+action="/"
+name="menu-desktop"
+style="padding:0;margin:1em 0 0 0;"
+class="desktop"
+:statepipe="header-desktop"
+:state="{}"
+:pipe="goto|set:target.value:value"
+:out="redirect">
+    {{range sort $.Site.Menus.main "Name"}}
+    {{$name := .Name}}
+    {{$pre := .Pre}}
+        <select 
+         name="{{$name}}"
+         class="button" :state="{}"
+         style="width: 160px;text-align: center;text-align-last: left;"
+         :trigger="goto@mouseup|eventPick:target.value">
+            {{$rel := ($.Site.GetPage .URL).RelPermalink}}
+            <option value="">{{$pre}} {{$name}}</option>
+            <option value="{{.URL}}">
+                {{if eq $current (print .URL "/")}}• {{else}}↪ {{end}}index
+            </option>
+            {{with $.Site.GetPage .URL}}
+            {{range sort .Pages "Weight" "desc"}}
+                {{if eq .Kind "page"}}
+                <option value="{{.RelPermalink}}">
+                    {{if eq $current .RelPermalink}}• {{else}}↪ {{end}}{{.Name | lower}}
+                </option>
+                {{end}}
+            {{end}}
+        {{end}}
+        </select>
+    {{end}}
+</form>
+
+<form
+name="menu-mobile"
+style="padding:0;margin:0;width: 70px;float:right;"
+class="mobile"
+action="/"
+:statepipe="header-mobile"
+:state="{}"
+:pipe="goto|set:target.value:value"
+:out="redirect">
+
+    <select
+    class="button"
+    name="sitemap"
+    style="margin-top:10px;max-width: 300px;"
+    :state="{}"
+    :trigger="goto@mouseup|eventPick:target.value">
+        <option value="">📚 menu</option>
+        {{range sort $.Site.Menus.main "Name"}}
+            {{$name := .Name}}
+            {{$pre := .Pre}}0
+            {{$rel := ($.Site.GetPage .URL).RelPermalink}}
+            <optgroup label="{{$pre}} {{$name}}">
+                <option value="{{.URL}}">
+                    {{if eq $current (print .URL "/")}}• {{else}}↪ {{end}}index
+                </option>
+                {{with $.Site.GetPage .URL}}
+                    {{range sort .Pages "Weight" "desc"}}
+                        {{if eq .Kind "page"}}
+                        <option value="{{.RelPermalink}}">
+                            {{if eq $current .RelPermalink}}• {{else}}↪ {{end}}{{.Name | lower}}
+                        </option>
+                        {{end}}
+                    {{end}}
+                {{end}}
+            </optgroup>
+        {{end}}
+    </select>
+</form>

@@ -1,0 +1,14 @@
+{{define "body"}}
+<main style="">
+    <h3>tag: {{.Name}}</h3>
+    <ul style="margin:0;">
+    {{range .Pages}}
+        <li style="list-style-type: none;margin:1rem 0">
+            👉 <a href="{{.Permalink}}">{{.Title}}</a>
+            <br>
+            <small style="display: block;;max-width:640px;">{{.Description}}</small>
+        </li>
+        {{end}}
+    </ul>
+</main>
+{{end}}

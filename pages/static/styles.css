@@ -1,0 +1,211 @@
+body {
+  text-align: center;
+  min-width: 320px;
+  display: block;
+  font-size: 18px;
+  line-height: 1.4rem;
+}
+
+.button,
+button,
+input[type=button],
+input[type=reset],
+input[type=submit] {
+  margin-bottom: .5em;
+}
+
+*:focus,
+a:focus{
+  outline: none;
+
+}
+
+.-wrapper {
+  min-width: 320px;
+  text-align: left;
+  margin-top: 1rem;
+}
+
+section {
+  margin-top:2rem;
+  font-size:90%;
+  padding:0 1rem;
+}
+
+h2{
+  margin-top:2rem;
+}
+
+header {
+  display:flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  padding: 1em;
+  background-color:darkslateblue;
+  color:black;
+  font-size: 80%;
+}
+header h1 {
+  flex:1;
+  padding:0;
+  margin:0;
+  display: inline;
+}
+header h1>a:after {content: "";}
+
+code {
+  font-size: 1em;
+  color:darkmagenta;
+  padding: 0.1rem;
+}
+
+figcaption { text-align: center}
+figure {
+  background-color: seashell;
+  padding: 5px;
+  margin:2rem 0;
+}
+
+blockquote:before {
+  color: var(--color-bg);
+  content: "💡";
+  font-size: 1em;
+  line-height: 1rem;
+  margin-right: .2em;
+  margin-top: 0.2em;
+  float: left;
+}
+
+.desktop {
+  display: none;
+}
+
+.mobile {
+  display:block
+}
+
+/*large screen*/
+@media (min-width: 850px) {
+  .-wrapper {
+    width: 100%;
+  }
+
+  .mobile {
+    display:none
+  }
+
+  .desktop {
+    display: block;
+  }
+
+  main {
+    padding: 0 2rem;
+  }
+  .-example-wrapper {
+    margin: 2rem
+  }
+  code {
+    font-size: 1em;
+    color:darkmagenta;
+    padding: 0.25rem;
+  }
+  header {
+    font-size: 100%;
+    flex-direction: column;
+    height: auto;
+  }
+}
+
+/* 
+Docs 
+*/
+.-docs {
+  padding: 0;
+  padding-top:1rem;
+  display: flex;
+}
+
+.-docs aside {
+  flex:1;
+  margin: 0;
+  margin-right: 1rem;
+  background-color: lightyellow;
+  padding:0;
+  max-width: max(150px,10%);
+}
+
+.-docs aside dl {
+  margin: 1rem; 
+}
+.-docs aside dd {
+  margin-inline-start: 0;
+  font-weight: lighter;
+  font-size: 90%;
+}
+
+.-docs aside dt{
+  font-weight: bolder;
+}
+.-docs aside dt a{
+color:black;
+}
+
+.-docs aside dt:not(:first-child){
+  margin-top:1rem;
+}
+
+
+.-docs section {
+  flex:1;
+  vertical-align: top;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.-docs section h1,
+.-docs section h2,
+.-docs section h3,
+.-docs section h4,
+.-docs section h5 { margin-top:0}
+
+.-docs .-schemas {
+  font-size: 0.85rem;
+  line-height: 0;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+h3 a {
+  color:navy;
+}
+
+h4 {
+  font-size: 1.35rem;
+}
+h4 a {
+  color:darkred;
+}
+
+
+
+/*Examples*/
+
+body.examples small{margin:0;padding:0;}
+body.examples small p {display:inline;}
+body.examples small strong {display:block;margin:0 0 0.5rem 0}
+
+nav.continue {
+  background-color: white;
+  display:inline-block;
+  width: 100%;
+  padding:0.5em;
+  margin:1em 0;border-radius: 0.5em;
+  text-align: center;
+}
+nav.continue a.button {
+  display: inline-block;
+  font-size: 120%;
+}

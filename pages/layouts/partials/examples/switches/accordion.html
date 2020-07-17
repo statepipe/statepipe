@@ -1,0 +1,50 @@
+<style>
+    .sanfona{
+        margin:0;
+    }
+    .sanfona .-active {
+        display:block
+    }
+    .sanfona p {
+        display:none
+    }
+    .sanfona li {
+        display: inline-block;
+        
+        background-color: antiquewhite;
+        list-style-type: none;
+        padding: 1rem;
+        margin: 0.5rem;
+        border-radius: 1rem;
+    }
+    .sanfona li a{
+        font-weight: bolder;
+        text-decoration: none;
+        color:black;
+    }
+</style>
+
+<ul class="sanfona" :statepipe="sanfona">
+{{ range (split "1.2.3.4.5" ".")}}
+    <li>
+    <span
+    :state='{"closeIcon":"▸","openIcon":"▾","target":{{.}},"value":-1}'
+    :pipe="from:change|pickAll"
+    :out="equals:target:value|truthy:opened|text:openIcon,
+    falsy:opened|text:closeIcon,
+    notEquals:target:value|text:closeIcon"
+    >▸</span>
+    <a
+    :state='{"value":{{.}},"opened":false}'
+    :trigger="change@click|eventFn:preventDefault|not:opened|pickAll"
+    :pipe="from:change:$self|pickAll,from:change:$others|truthy:opened|not:opened:opened"
+     href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>
+     <p
+    :state='{"target":{{.}},"value":-1,"state":"-active"}'
+    :pipe="change|pickAll"
+    :out="equals:target:value|truthy:opened|classAdd:state,
+    falsy:opened|classRm:state,notEquals:target:value|classRm:state"
+    >Etiam facilisis dui tellus, ac mattis libero malesuada in. Mauris sed eros rhoncus, mattis sapien ac, elementum dolor. Fusce eleifend arcu sit amet nunc malesuada fringilla. Nunc accumsan faucibus sem non scelerisque. Integer eleifend dignissim ligula a pretium. Fusce porttitor tellus lacinia pulvinar lobortis. In eget mollis quam, nec ultricies nibh. Suspendisse at consequat turpis. Nullam sit amet justo dolor. Proin aliquam nisi ac sapien mollis accumsan. Duis egestas sed urna et malesuada. Proin ut bibendum quam. In hac habitasse platea dictumst.</p>
+</li>
+{{end}}
+</ul>

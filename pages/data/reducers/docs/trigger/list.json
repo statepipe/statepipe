@@ -1,0 +1,103 @@
+{
+  "description": [
+    "Realizam operações em `Array` ou `String`."
+  ],
+  "reducers": [
+    {
+      "name": "takeLast",
+      "description": [
+        "See pipe [takeLast()](../pipe#takeLast)",
+        "Consider that **trigger.takeLast()** is the same as **pipe.takeLast(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "take",
+      "description": [
+        "See pipe [take()](../pipe#take)",
+        "Consider that **trigger.take()** is the same as **pipe.take(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "drop",
+      "description": [
+        "See pipe [drop()](../pipe#drop)",
+        "Consider that **trigger.drop()** is the same as **pipe.drop(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "dropLast",
+      "description": [
+        "See pipe [dropLast()](../pipe#dropLast)",
+        "Consider that **trigger.dropLast()** is the same as **pipe.dropLast(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "append",
+      "description": [
+        "See pipe [append()](../pipe#append)",
+        "Consider that **trigger.append()** is the same as **pipe.append(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "prepend",
+      "description": [
+        "See pipe [prepend()](../pipe#prepend)",
+        "Consider that **trigger.prepend()** is the same as **pipe.prepend(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "flatten",
+      "description": [
+        "See pipe [flatten()](../pipe#flatten)",
+        "Consider that **trigger.flatten()** is the same as **pipe.flatten(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "reverse",
+      "description": [
+        "See pipe [reverse()](../pipe#reverse)",
+        "Consider that **trigger.reverse()** is the same as **pipe.reverse(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "concat",
+      "description": [
+        "See pipe [concat()](../pipe#concat)",
+        "Consider that **trigger.concat()** is the same as **pipe.concat(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "filter",
+      "description": [
+        "See pipe [filter()](../pipe#filter)",
+        "Consider that **trigger.filter()** is the same as **pipe.filter(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "filterNot",
+      "description": [
+        "See pipe [filterNot()](../pipe#filterNot)",
+        "Consider that **trigger.filterNot()** is the same as **pipe.filterNot(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "sort",
+      "description": [
+        "See pipe [sort()](../pipe#sort)",
+        "Consider that **trigger.sort()** is the same as **pipe.sort(-)**"
+      ],
+      "schemas": []
+    }
+  ]
+}

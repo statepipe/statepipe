@@ -1,0 +1,17 @@
+{{define "body"}}
+{{if eq .Section "examples"}}
+<style>
+    h3 {
+        margin-top:1rem;
+        border-top: 2px solid darkblue;
+        padding-top:1rem;
+    }
+    small {
+        line-height: 0;
+    }
+</style>
+{{end}}
+<main>
+    {{.Content}}
+</main>
+{{end}}

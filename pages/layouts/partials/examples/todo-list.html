@@ -1,0 +1,131 @@
+
+<style>
+    .todo input[type=text]{
+        font-size:2em;
+        width:100%;
+        margin:0.2em;
+        text-align:center;
+    }
+    .todo ul{ 
+        margin:0;
+        text-align:center
+    }
+    .todo ul.-completed li{
+        display:none;
+    }
+    .todo ul li.-completed{
+        border-color:green;
+    }
+    .todo ul.-completed li.-completed{
+        display:inline-block;
+    }
+    .todo ul.-active li.-completed{
+        display:none;
+    }
+    .todo li {
+        list-style-type: none;
+        padding:0.5rem;
+        border:2px solid lightgray;
+        border-radius:0.2em;
+        margin:5px 0;
+        display:inline-block;
+        width:80%
+    } 
+    .todo li label {
+        font-size: 1em;
+    }
+    .todo li a { 
+        float:right;
+    }
+    .todo ul.-done li{
+        display: none;
+    }
+    .todo ul.-done li.-done{
+        display: block;
+    }
+</style>
+
+<template id="row">
+<li
+ class=""
+ :statepipe="todo-row${state.count}"
+ :state='{"rm":"rm","style": "-completed"}'
+ :pipe="from:*|set:$action:action|pickAll"
+ :out="equals:action:rm|nodeFn:remove,
+ truthy:checked|classAdd:style,
+ falsy:checked|classRm:style"
+ >
+    <label>
+        <input type="checkbox"
+        :state='{}'
+        :trigger="check@click|nodePick:checked"></input>
+        ${state.value}
+    </label>
+    <a href="#"
+    :state='{"value":0}'
+    :pipe='from:check|pick:checked'
+    :trigger="rm@click|eventFn:preventDefault|pickAll">x</a>
+</li>
+</template>
+
+<form 
+ class="todo"
+ action="#" 
+ name="todomvc"
+ :statepipe="todo-list"
+ :state='{}'
+ :trigger="void@submit|eventFn:preventDefault"
+ :pipe="from:void|pickAll"
+ :out="nodeFn:focus">
+    <input 
+        type="text"
+        :state='{"enter":13,"empty":""}'
+        :pipe="from:*:$self|pickAll"
+        :trigger='add@keydown|eventPick:keyCode|equals:keyCode:enter|nodePick:value|truthy|pick'
+        :out="prop:value:empty"
+        placeholder="What needs to be done?" />
+    <span style="display:block;width:100%;text-align:right"
+        :state='{"count":0,"tpl":"${state.count} ${state.count > 1 ? \"items\" : \"item\"} left"}'
+        :pipe="from:check|truthy:checked|dec:-:count
+        ,from:check|falsy:checked|inc:-:count
+        ,from:add|inc:-:count
+        ,from:rm|falsy:checked|dec:-:count"
+        :out="text:tpl">0 items left</span>
+    <div style="width:100%;text-align:center">
+        <label for="all">
+            <input id="all"
+            value="all"
+            :state='{}'
+            :trigger="filter@click|nodePick"
+            type="radio"
+            checked="checked"
+            name="filter"></input>
+            all
+        </label>
+        <label for="active">
+            <input id="active"
+            value="active"
+            :state='{}'
+            :trigger="filter@click|nodePick"
+            type="radio"
+            name="filter"></input>
+            active
+        </label>
+        <label for="completed">
+            <input id="completed"
+            value="completed"
+            :state='{}'
+            :trigger="filter@click|nodePick"
+            type="radio"
+            name="filter"></input>
+            completed
+        </label>
+    </div>
+    <ul
+    :state='{"count":0,"add":"add","filter":"filter","style":"-${state.value}"}'
+    :pipe="from:add|set:$action:action|pickAll|inc:-:count
+    ,from:filter|set:$action:action|pickAll"
+    :out="equals:action:add|prependChild:#row
+    ,equals:action:filter|attrSet:class:style"
+    ></ul>
+</form>

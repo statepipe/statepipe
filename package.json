@@ -1,0 +1,65 @@
+{
+  "name": "statepipe",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/statepipe/index.js",
+  "scripts": {
+    "test": "ava",
+    "start": "webpack --env.NODE_ENV=development --env.watch=yes",
+    "build": "webpack --env.NODE_ENV=production",
+    "postbuild": "gzip -vk pages/content/dist/*.js",
+    "coverage": "nyc --report-dir=pages/static/coverage/ --reporter=text-summary --reporter=lcov ava -tv",
+    "postcoverage": "rsync -ar docs/coverage/lcov-report/ docs/coverage/ && rm -rf docs/coverage/lcov-report/",
+    "preversion": "npm test && npm run lint",
+    "lint": "eslint .",
+    "version": "npm run build",
+    "postversion": "npm run coverage"
+  },
+  "dependencies": {
+    "babel-plugin-root-import": "6.4.1",
+    "ramda": "0.26.1"
+  },
+  "devDependencies": {
+    "@ava/babel": "1.0.1",
+    "@babel/cli": "7.10.1",
+    "@babel/core": "7.5.5",
+    "@babel/preset-env": "7.6.0",
+    "@babel/register": "7.5.5",
+    "ava": "3.5.0",
+    "babel-loader": "8.0.6",
+    "eslint": "7.3.1",
+    "nyc": "15.0.0",
+    "terser-webpack-plugin": "2.0.1",
+    "webpack": "4.40.1",
+    "webpack-cli": "3.3.8",
+    "webpack-dev-server": "3.11.0"
+  },
+  "babel": {
+    "presets": [
+      "@ava/babel/stage-4"
+    ],
+    "plugins": [
+      [
+        "babel-plugin-root-import"
+      ]
+    ]
+  },
+  "ava": {
+    "require": [
+      "@babel/register"
+    ],
+    "verbose": true,
+    "failFast": true,
+    "files": [
+      "src/**/test/*.js"
+    ]
+  },
+  "nyc": {
+    "exclude": [
+      "test-utils/**/*.js"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

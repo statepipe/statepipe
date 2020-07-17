@@ -1,0 +1,70 @@
+{
+  "description": [
+    "Realizam operações de Object combinando payload e state."
+  ],
+  "reducers": [
+    {
+      "name": "pick",
+      "reff": "https://ramdajs.com/docs/#pick",
+      "description": [
+        "Pick all the values listed on arguments and hydrate the state with it."
+      ],
+      "schemas": [
+        "`pick()` state = merge(state, pick([value], payload))",
+        "`pick(a,b.inner,c)` state = merge(state, pick([a,b.inner,c], payload))",
+        "**Ignoring the payload**",
+        "`pick(-)` state = merge(state, pick([value], state))",
+        "`pick(-,a,b.inner,c)` state = merge(state, pick([a,b.inner,c], state))"
+      ]
+    },
+    {
+      "name": "pickAll",
+      "reff": "https://ramdajs.com/docs/#pickAll",
+      "description": [
+        "Merges the payload into your state."
+      ],
+      "schemas": [
+        "`pickAll()` state = {...state,...payload}",
+        "**Ignoring the payload**",
+        "`pickAll(-)` state = {...state}"
+      ]
+    },
+    {
+      "name": "not",
+      "reff": "https://ramdajs.com/docs/#not",
+      "description": [
+        "A function that returns the ! of its argument. It will return true when passed false-y value, and false when passed a truth-y one."
+      ],
+      "schemas": [
+        "`not()` state.value = not(payload.value)",
+        "`not(a)` state.value = not(payload.a)",
+        "`not(a.inner,b.c)` state.b.c = not(payload.a.inner)",
+        "**Ignoring the payload**",
+        "`not(-)` state.value = not(state.value)",
+        "`not(-,a)` state.value = not(state.a)",
+        "`not(-,a.inner,b.c)` state.b.c = not(state.a.inner)"
+      ]
+    },
+    {
+      "name": "set",
+      "reff": "https://ramdajs.com/docs/#set",
+      "description": [
+        "Returns the result of *setting* the portion of the given data structure focused by the given lens to the given value."
+      ],
+      "schemas": [
+        "`set()` state = set(value, payload.value, state)",
+        "`set(a)` state = set(a, payload.a, state)",
+        "`set(a.inner,b)` = set(b, payload.a.inner, state)",
+        "There is wildcard to save the current action into state.",
+        "Consider action=ping",
+        "`set($action)` state = set(value, *ping*, state)",
+        "`set($action,b)` state = set(b, *ping*, state)",
+        "`set($action,b.inner)` state = set(b.inner, *ping*, state)",
+        "**Ignoring the payload**",
+        "`set(-)` state = set(state.value,state.value,state)",
+        "`set(-,a,b)` state= set(state.a,state.b,state)",
+        "`set(-,a.inner,b.inner)` state= set(state.a.inner,state.b.inner,state)"
+      ]
+    }
+  ]
+}

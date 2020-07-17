@@ -1,0 +1,42 @@
+{
+"baseURL" :  "https://statepipe.netlify.app/",
+"languageCode" :  "en-us",
+"title" : ":statepipe",
+"menu":{
+   "main": [
+      {
+         "name":"core",
+         "pre": "⚙️",
+         "url": "/core"
+      },
+      {
+         "name":"docs",
+         "pre": "📕",
+         "url": "/docs"
+      },
+      {
+      "name":"setup",
+      "pre": "✏️",
+      "url": "/setup"
+      },
+      {
+      "name":"examples",
+      "pre": "🚀",
+      "url": "/examples"
+      }
+   ]
+},
+"markup": {
+    "highlight": {
+       "codeFences": true,
+       "guessSyntax": false,
+       "hl_Lines": "",
+       "lineNoStart": 1,
+       "lineNos": false,
+       "lineNumbersInTable": true,
+       "noClasses": true,
+       "style": "github",
+       "tabWidth": 4
+    }
+ }
+}

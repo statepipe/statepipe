@@ -1,0 +1,12 @@
+{{$slug := .Get 1 | anchorize }}
+{{if eq (.Get 0) "h1"}}<h1 id="{{$slug}}">{{end}}
+{{if eq (.Get 0) "h2"}}<h2 id="{{$slug}}">{{end}}
+{{if eq (.Get 0) "h3"}}<h3 id="{{$slug}}">{{end}}
+{{if eq (.Get 0) "h4"}}<h4 id="{{$slug}}">{{end}}
+{{if eq (.Get 0) "h5"}}<h5 id="{{$slug}}">{{end}}
+<a href="#{{$slug}}">{{.Get 1}}</a>
+{{if eq (.Get 0) "h1"}}</h1>{{end}}
+{{if eq (.Get 0) "h2"}}</h2>{{end}}
+{{if eq (.Get 0) "h3"}}</h3>{{end}}
+{{if eq (.Get 0) "h4"}}</h4>{{end}}
+{{if eq (.Get 0) "h5"}}</h5>{{end}}

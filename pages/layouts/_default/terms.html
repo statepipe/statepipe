@@ -1,0 +1,17 @@
+{{define "body"}}
+<main style="padding:0 2rem;">
+    <h2>tags:</h2>
+    <ul style="margin:0">
+    {{range sort .Pages "Pages" "desc" }}
+        <li style="display: inline-block;list-style-type: none;margin:0">
+            <a
+             style="margin: 0.5rem;"
+             class="button"
+             href="{{.Permalink}}">
+             {{.Title | lower}} ({{len .Pages}})
+            </a>
+        </li>
+    {{end}}
+    </ul>
+</main>
+{{end}}

@@ -1,0 +1,45 @@
+<div class="example" :statepipe="example-handlebars">
+    <button :state='{"hide":"display:none;","value": false, "list": [
+        {"name":"tab 1", "body": "conteudo tab 1"},
+        {"name":"tab 2","body": "conteudo tab 2"},
+        {"name":"tab 3","body": "conteudo tab 3"}
+    ]}'
+    :trigger="render@click|pickAll"
+    :pipe="from:render:$self|not:-"
+    :out="attrSet:style:hide"
+    >test</button>
+    <div id="holder" :state="{}" :pipe="from:render|pickAll" :out="hbl:tpl"></div>
+</div>
+
+<script>
+stores = window.$statepipeStores || {}
+stores.out = Object.assign(stores.out || {} , {
+    hbl: (name) => (state, node) => {
+        Handlebars.registerHelper("inc", (value, options) => parseInt(value) + 1)
+        Handlebars.registerHelper("dec", (value, options) => parseInt(value) - 1)
+        const source   = document.getElementById(name).innerHTML;
+        const template = Handlebars.compile(source);
+        node.innerHTML = template(state)
+        return state;
+    }
+});
+window.$statepipeStores = stores;
+</script>
+
+<style>
+    .tab{
+    display:block;
+    border:2px solid black;
+    padding:10px;
+    margin-top:10px;
+    height:150px;
+    opacity: 1;
+    transition: 0.3s opacity;
+}
+.tab.-hidden { 
+    opacity: 0;
+}
+.-invisible {
+    display: none;
+}
+</style>

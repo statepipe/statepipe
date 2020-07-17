@@ -1,0 +1,27 @@
+{
+  "description": [
+    "Realizam operações no elemento do compomente (node)."
+  ],
+  "reducers": [
+    {
+      "name": "nodePick",
+      "description": [
+        "Run [pick](#pick) over node element."
+      ],
+      "schemas": [
+        "`nodePick()` state = merge(state, pick([value], node))",
+        "`nodePick(a,b)` state = merge(state, pick([a,b], node)"
+      ]
+    },
+    {
+      "name": "nodeFn",
+      "description": [
+        "Run all arguments as node function."
+      ],
+      "schemas": [
+        "`nodeFn(blur)` node.blur(); return state",
+        "`nodeFn(blur,reset)` node.blur();node.reset(); return state"
+      ]
+    }
+  ]
+}

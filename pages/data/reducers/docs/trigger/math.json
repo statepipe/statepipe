@@ -1,0 +1,85 @@
+{
+  "description" : ["Realizam operações matemáticas."], 
+  "reducers": [
+      {
+          "name":"add",
+          "description": [
+              "See pipe [add()](../pipe#add)",
+              "Consider that **trigger.add()** is the same as **pipe.add(-)**"
+          ],
+          "schemas": []
+      },
+      {
+          "name":"subtract",
+          "description": [
+            "See pipe [subtract()](../pipe#subtract)",
+            "Consider that **trigger.subtract()** is the same as **pipe.subtract(-)**"
+        ],
+        "schemas": []
+      },
+      {
+          "name":"inc",
+          "description": [
+            "See pipe [inc()](../pipe#inc)",
+            "Consider that **trigger.inc()** is the same as **pipe.inc(-)**"
+        ],
+        "schemas": []
+      },
+      {
+          "name":"dec",
+          "description": [
+            "See pipe [dec()](../pipe#dec)",
+            "Consider that **trigger.dec()** is the same as **pipe.dec(-)**"
+        ],
+        "schemas": []
+      },
+      {
+          "name":"divide",
+          "description": [
+            "See pipe [divide()](../pipe#divide)",
+            "Consider that **trigger.divide()** is the same as **pipe.divide(-)**"
+        ],
+        "schemas": []
+      },
+      {
+          "name":"multiply",
+          "description": [
+            "See pipe [multiply()](../pipe#multiply)",
+            "Consider that **trigger.multiply()** is the same as **pipe.multiply(-)**"
+        ],
+        "schemas": []
+      },
+      {
+          "name":"max",
+          "description": [
+            "See pipe [max()](../pipe#max)",
+            "Consider that **trigger.max()** is the same as **pipe.max(-)**"
+        ],
+        "schemas": []
+      },
+      {
+          "name":"min",
+          "description": [
+            "See pipe [min()](../pipe#min)",
+            "Consider that **trigger.min()** is the same as **pipe.min(-)**"
+        ],
+        "schemas": []
+      },
+      {
+          "name":"modulo",
+          "description": [
+            "See pipe [modulo()](../pipe#modulo)",
+            "Consider that **trigger.modulo()** is the same as **pipe.modulo(-)**"
+        ],
+        "schemas": []
+      },
+      {
+          "name":"negate",
+          "description": [
+            "See pipe [negate()](../pipe#negate)",
+            "Consider that **trigger.negate()** is the same as **pipe.negate(-)**"
+        ],
+        "schemas": []
+      }
+  ]
+}

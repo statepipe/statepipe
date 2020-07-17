@@ -1,0 +1,112 @@
+{
+  "description": [
+    "Realizam operações lógicas.",
+    "Quando um reducer retorna `null` ele irá interromper a fila de execução e não produzirá mutation"
+  ],
+  "reducers": [
+    {
+      "name": "gt",
+      "description": [
+        "See pipe [gt()](../pipe#gt)",
+        "Consider that **out.gt()** is the same as **pipe.gt(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "gte",
+      "description": [
+        "See pipe [gte()](../pipe#gte)",
+        "Consider that **out.gte()** is the same as **pipe.gte(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "lt",
+      "description": [
+        "See pipe [lt()](../pipe#lt)",
+        "Consider that **out.lt()** is the same as **pipe.lt(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "lte",
+      "description": [
+        "See pipe [lte()](../pipe#lte)",
+        "Consider that **out.lte()** is the same as **pipe.lte(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "equals",
+      "description": [
+        "See pipe [equals()](../pipe#equals)",
+        "Consider that **out.equals()** is the same as **pipe.equals(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "notEquals",
+      "description": [
+        "See pipe [notEquals()](../pipe#notEquals)",
+        "Consider that **out.notEquals()** is the same as **pipe.notEquals(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "includes",
+      "description": [
+        "See pipe [includes()](../pipe#includes)",
+        "Consider that **out.includes()** is the same as **pipe.includes(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "truthy",
+      "description": [
+        "See pipe [truthy()](../pipe#truthy)",
+        "Consider that **out.truthy()** is the same as **pipe.truthy(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "falsy",
+      "description": [
+        "See pipe [falsy()](../pipe#falsy)",
+        "Consider that **out.falsy()** is the same as **pipe.falsy(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "odd",
+      "description": [
+        "See pipe [odd()](../pipe#odd)",
+        "Consider that **out.odd()** is the same as **pipe.odd(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "even",
+      "description": [
+        "See pipe [even()](../pipe#even)",
+        "Consider that **out.even()** is the same as **pipe.even(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "positive",
+      "description": [
+        "See pipe [positive()](../pipe#positive)",
+        "Consider that **out.positive()** is the same as **pipe.positive(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "negative",
+      "description": [
+        "See pipe [negative()](../pipe#negative)",
+        "Consider that **out.negative()** is the same as **pipe.negative(-)**"
+      ],
+      "schemas": []
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{{with .Site.GetPage (.Get 0)}}
+<nav class="continue">
+<a class="button"
+href="{{.Permalink}}">👉  Continue em {{.Name}}</a>
+</nav>
+{{end}}

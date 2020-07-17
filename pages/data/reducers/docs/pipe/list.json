@@ -1,0 +1,212 @@
+{
+  "description": [
+    "Realizam operações em `Array` ou `String`."
+  ],
+  "reducers": [
+    {
+      "name": "takeLast",
+      "reff": "https://ramdajs.com/docs/#takeLast",
+      "description": [
+        "First arg must be and `int`",
+        "Returns a new list containing the last n elements of the given list. If n > list.length, returns a list of list.length elements.."
+      ],
+      "schemas": [
+        "`takeLast(2)` state.value = takeLast(2, payload.value)",
+        "`takeLast(2,a)` state.value = takeLast(2,payload.a)",
+        "`takeLast(2,a.inner)` state.value = takeLast(2,payload.a.inner)",
+        "`takeLast(2,a.inner,result)` state.result = takeLast(2,payload.a.inner)",
+        "**Ignoring the payload**",
+        "`takeLast(-,2)` state.value = takeLast(2,state.value)",
+        "`takeLast(-,2,a.inner)` state.value = takeLast(2,state.a.inner)",
+        "`takeLast(-,2,a.inner,result)` state.result = takeLast(2,state.a.inner)"
+      ]
+    },
+    {
+      "name": "take",
+      "reff": "https://ramdajs.com/docs/#take",
+      "description": [
+        "First arg must be and `int`",
+        "Returns the first n elements of the given list, string, or transducer/transformer (or object with a take method)."
+      ],
+      "schemas": [
+        "`take(2)` state.value = take(2,payload.value)",
+        "`take(2,a)` state.value = take(2,payload.a)",
+        "`take(2,a.inner)` state.value = take(2,payload.a.inner)",
+        "`take(2,a.inner,result)` state.result = take(2,payload.a.inner)",
+        "**Ignoring the payload**",
+        "`take(-,2)` state.value = take(2,state.value)",
+        "`take(-,2,a.inner)` state.value = take(2,state.a.inner)",
+        "`take(-,2,a.inner,result)` state.result = take(2,state.a.inner)"
+      ]
+    },
+    {
+      "name": "drop",
+      "reff": "https://ramdajs.com/docs/#drop",
+      "description": [
+        "First arg must be and `int`",
+        "Returns all but the first n elements of the given list, string, or transducer/transformer (or object with a drop method)."
+      ],
+      "schemas": [
+        "`drop(2)` state.value = drop(2,payload.value)",
+        "`drop(2,a)` state.value = drop(2,payload.a)",
+        "`drop(2,a.inner)` state.value = drop(2,payload.a.inner)",
+        "`drop(2,a.inner,result)` state.result = drop(2,payload.a.inner)",
+        "**Ignoring the payload**",
+        "`drop(-,2)` state.value = drop(2,state.value)",
+        "`drop(-,2,a.inner)` state.value = drop(2,state.a.inner)",
+        "`drop(-,2,a.inner,result)` state.result = drop(2,state.a.inner)"
+      ]
+    },
+    {
+      "name": "dropLast",
+      "reff": "https://ramdajs.com/docs/#dropLast",
+      "description": [
+        "First arg must be and `int`",
+        "Returns all but the first n elements of the given list, string, or transducer/transformer (or object with a dropLast method)."
+      ],
+      "schemas": [
+        "`dropLast(2)` state.value = dropLast(2,payload.value)",
+        "`dropLast(2,a)` state.value = dropLast(2,payload.a)",
+        "`dropLast(2,a.inner)` state.value = dropLast(2,payload.a.inner)",
+        "`dropLast(2,a.inner,result)` state.result = dropLast(2,payload.a.inner)",
+        "**Ignoring the payload**",
+        "`dropLast(-,2)` state.value = dropLast(2,state.value)",
+        "`dropLast(-,2,a.inner)` state.value = dropLast(2,state.a.inner)",
+        "`dropLast(-,2,a.inner,result)` state.result = dropLast(2,state.a.inner)"
+      ]
+    },
+    {
+      "name": "append",
+      "reff": "https://ramdajs.com/docs/#append",
+      "description": [
+        "Returns a new list containing the contents of the given list, followed by the given element."
+      ],
+      "schemas": [
+        "`append()` state.value = append(payload.value,state.value)",
+        "`append(a)` state.value = append(payload.a,state.value)",
+        "`append(a.inner,b.inner)` state.b.inner = append(payload.a.inner,state.b.inner)",
+        "`append(a,b,c)` state.c = append(payload.a,state.b)",
+        "**Ignoring the payload**",
+        "`append(-)` state.value = append(state.value,state.value)",
+        "`append(-,a.inner)` state.value = append(state.a.inner,state.value)",
+        "`append(-,a,b,c)` state.c = append(state.a,state.b)"
+      ]
+    },
+    {
+      "name": "prepend",
+      "reff": "https://ramdajs.com/docs/#prepend",
+      "description": [
+        "Returns a new list with the given element at the front, followed by the contents of the list."
+      ],
+      "schemas": [
+        "`prepend()` state.value = prepend(payload.value,state.value)",
+        "`prepend(a)` state.value = prepend(payload.a,state.value)",
+        "`prepend(a.inner,b.inner)` state.b.inner = prepend(payload.a.inner,state.b.inner)",
+        "`prepend(a,b,c)` state.c = prepend(payload.a,state.b)",
+        "**Ignoring the payload**",
+        "`prepend(-)` state.value = prepend(state.value,state.value)",
+        "`prepend(-,a.inner)` state.value = prepend(state.a.inner,state.value)",
+        "`prepend(-,a,b,c)` state.c = prepend(state.a,state.b)"
+      ]
+    },
+    {
+      "name": "flatten",
+      "reff": "https://ramdajs.com/docs/#flatten",
+      "description": [
+        "Returns a new list by pulling every item out of it (and all its sub-arrays) and putting them in a new array, depth-first."
+      ],
+      "schemas": [
+        "`flatten()` state.value = flatten(payload.value)",
+        "`flatten(a)` state.a = flatten(payload.a)",
+        "`flatten(a.inner,b.inner)` state.b.inner = flatten(payload.a.inner)",
+        "**Ignoring the payload**",
+        "`flatten(-)` state.value = flatten(state.value)",
+        "`flatten(-,a.inner)` state.a.inner = flatten(state.a.inner)",
+        "`flatten(-,a,b)` state.b = flatten(state.a)"
+      ]
+    },
+    {
+      "name": "reverse",
+      "reff": "https://ramdajs.com/docs/#reverse",
+      "description": [
+        "Returns a new list or string with the elements or characters in reverse order."
+      ],
+      "schemas": [
+        "`reverse()` state.value = reverse(payload.value)",
+        "`reverse(a)` state.a = reverse(payload.a)",
+        "`reverse(a.inner,b.inner)` state.b.inner = reverse(payload.a.inner)",
+        "**Ignoring the payload**",
+        "`reverse(-)` state.value = reverse(state.value)",
+        "`reverse(-,a)` state.a = reverse(state.a)",
+        "`reverse(-,a.inner,b.inner)` state.b.inner = reverse(state.a.inner)"
+      ]
+    },
+    {
+      "name": "concat",
+      "reff": "https://ramdajs.com/docs/#concat",
+      "description": [
+        "Returns a new list or string with the elements or characters in concat order."
+      ],
+      "schemas": [
+        "`concat()` state.value = concat(payload.value, state.value)",
+        "`concat(a)` state.a = concat(payload.a,state.a)",
+        "`concat(a.inner,b)` state.b = concat(payload.a.inner,state.b)",
+        "`concat(a,b,c)` state.c = concat(payload.a,state.b)",
+        "**Ignoring the payload**",
+        "`concat(-)` state.value = concat(state.value, state.value)",
+        "`concat(-,a)` state.a = concat(state.a,state.value)",
+        "`concat(-,a.inner,b)` state.b = concat(state.a.inner,state.b)",
+        "`concat(-,a,b,c)` state.c = concat(state.a,state.b)"
+      ]
+    },
+    {
+      "name": "filter",
+      "description": [
+        "Combines ramda's [filter](https://ramdajs.com/docs/#filter) + [equals](https://ramdajs.com/docs/#equals)"
+      ],
+      "schemas": [
+        "`filter()` state.value = filter(payload.value, state.value)",
+        "`filter(a)` state.value = filter(payload.a,state.value)",
+        "`filter(a.inner,b.inner)` state.b.inner = filter(payload.a.inner,state.b.inner)",
+        "`filter(a,b,c)` state.c = filter(payload.a,state.b)",
+        "**Ignoring the payload**",
+        "`filter(-)` state.value = filter(state.value, state.value)",
+        "`filter(-,a)` state.value = filter(state.a,state.value)",
+        "`filter(-,a.inner,b.inner)` state.b.inner = filter(state.a.inner,state.b.inner)",
+        "`filter(-,a,b,c)` state.c = filter(state.a,state.b)"
+      ]
+    },
+    {
+      "name": "filterNot",
+      "description": [
+        "Combines ramda's [filter](https://ramdajs.com/docs/#filter) + [not](https://ramdajs.com/docs/#not) + [equals](https://ramdajs.com/docs/#equals)"
+      ],
+      "schemas": [
+        "`filterNot()` state.value = filterNot(payload.value, state.value)",
+        "`filterNot(a)` state.value = filterNot(payload.a,state.value)",
+        "`filterNot(a.inner,b.inner)` state.b.inner = filterNot(payload.a.inner,state.b.inner)",
+        "`filterNot(a,b,c)` state.c = filterNot(payload.a,state.b)",
+        "**Ignoring the payload**",
+        "`filterNot(-)` state.value = filterNot(state.value, state.value)",
+        "`filterNot(-,a)` state.value = filterNot(state.a,state.value)",
+        "`filterNot(-,a.inner,b.inner)` state.b.inner = filterNot(state.a.inner,state.b.inner)",
+        "`filterNot(-,a,b,c)` state.c = filterNot(state.a,state.b)"
+      ]
+    },
+    {
+      "name": "sort",
+      "description": [
+        "Standard `Array.sort`."
+      ],
+      "schemas": [
+        "`sort()` state.value = sort(payload.value)",
+        "`sort(a)` state.a = sort(payload.a)",
+        "`sort(a.inner,b)` state.b = sort(payload.a.inner)",
+        "**Ignoring the payload**",
+        "`sort(-)` state.value = sort(state.value)",
+        "`sort(-,a)` state.a = sort(state.a)",
+        "`sort(-,a.inner,b)` state.b = sort(state.a.inner)"
+      ]
+    }
+  ]
+}

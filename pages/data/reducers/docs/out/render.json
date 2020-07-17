@@ -1,0 +1,135 @@
+{
+  "description" : ["Modificam o elemento podendo gerar uma nova view."
+  ], 
+  "reducers": [
+    {
+      "name":"text",
+      "description": [
+        "Update *textContent* with specified state's value.",
+        "The state property that will be render is evaluated as template string. This allow you to use state's value inside your template content.",
+        "Consider the following **:state** for the schemas below:",
+        "`{value:'Hello ${state.firstName} ${state.lastName',firstName:'state',lastName:'pipe'}.`"
+      ],
+      "schemas": [
+        "`text()` node.textContent = eval(`state.value`)",
+        "`text(a)` node.textContent = eval(`state.a`)",
+        "`text(a.inner)` node.textContent = eval(`state.a.inner`)"
+      ]
+    },
+    {
+      "name":"template",
+      "description": [
+        "Update *innerHTML* with specified state's value (allow children!).",
+        "The state property that will be render is evaluated as template string. This allow you to use state's value inside your template.",
+        "This reducer will run a querySelector then evaluate the content so you can use your state data.",
+        "* tag id:",
+        "&lt;template id='minicart'&gt;",
+        "${state.items.map(item => \\`&lt;li&gt;${item}&lt;/li&gt;\\`).join(\"\")}",
+        "&lt;/template&gt;"
+      ],
+      "schemas": [
+        "`template()` node.innerHTML = eval(querySelector(state.value))",
+        "`template(value)` node.innerHTML = eval(querySelector(state.value))",
+        "`template(a.inner)` node.innerHTML = eval(querySelector(state.a.inner))"
+      ]
+      },{
+        "name":"prop",
+        "description": [
+          "Set a value as element property's, not attribute.",
+          "First argument (node prop name) is **required**"
+        ],
+        "schemas": [
+          "`prop()` node.value = state.value",
+          "`prop(value,a)` node.value = state.a",
+          "`prop(value,a.inner)` node.value = state.a.inner"
+        ]
+      },
+      {
+        "name":"appendChild",
+        "description": [
+          "Append the rendered [template](#template) on the target."
+        ],
+        "schemas": [
+          "`appendChild()` node.appendChild(querySelector(state.value))",
+          "`appendChild(value)` node.appendChild(querySelector(state.value))",
+          "`appendChild(a.inner)` node.appendChild(querySelector(state.a.inner))"
+        ]
+      },
+      {
+        "name":"prependChild",
+        "description": [
+          "Append the rendered [template](#template) on the target."
+        ],
+        "schemas": [
+          "`prependChild()` node.prepend(querySelector(state.value))",
+          "`prependChild(value)` node.prepend(querySelector(state.value))",
+          "`prependChild(a.inner)` node.prepend(querySelector(state.a.inner))"
+        ]
+      },
+      {
+        "name":"attrSet",
+        "description": [
+            "Runs `node.setAttribute()` with provided argument as prop name",
+            "First argument (node attr name) is **required**"
+        ],
+        "schemas": [
+            "`attrSet(a)` node.setAttribute(a, state.value)",
+            "`attrSet(a,c.inner)` node.setAttribute(a, state.c.inner)"
+        ]
+    },
+    {
+        "name":"attrRm",
+        "description": [
+            "Runs `node.removeAttribute()` with provided argument as prop name",
+            "First argument (node attr name) is **required**"
+        ],
+        "schemas": [
+            "`attrRm(style)` node.removeAttribute(style)"
+        ]
+    },
+    {
+        "name":"attrToggle",
+        "description": [
+            "Runs `attrRm` is attribute is found; otherwise `attrSet`",
+            "First argument (node attr name) is **required**"
+        ],
+        "schemas": [
+            "`attrToggle(style, css)`"
+        ]
+    },
+    {
+      "name":"classAdd",
+      "description": [
+          "Add the specified argument into node's classList"
+      ],
+      "schemas": [
+          "`classAdd()` node.classList.add(state.value)",
+          "`classAdd(a)` node.classList.add(state.a)",
+          "`classAdd(a.inner)` node.classList.add(state.a.inner)"
+      ]
+  },
+  {
+      "name":"classRm",
+      "description": [
+          "Remove the specified argument from node's classList"
+      ],
+      "schemas": [
+          "`classRm()` node.classList.remove(state.value)",
+          "`classRm(a)` node.classList.remove(state.a)",
+          "`classRm(a.inner)` node.classList.remove(state.a.inner)"
+      ]
+  },
+  {
+      "name":"classToggle",
+      "description": [
+          "If the mapped value is present on classList it will be removed; otherwise added."
+      ],
+      "schemas": [
+          "`classToggle()` node.classList.toggle(state.value)",
+          "`classToggle(a)` node.classList.toggle(state.a)",
+          "`classToggle(a.inner)` node.classList.toggle(state.a.inner)"
+      ]
+  }
+    ]
+  }
+  

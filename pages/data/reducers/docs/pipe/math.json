@@ -1,0 +1,185 @@
+{
+  "description": [
+    "Realizam operações matemáticas."
+  ],
+  "reducers": [
+    {
+      "name": "add",
+      "reff": "https://ramdajs.com/docs/#add",
+      "description": [
+        "Adds two values."
+      ],
+      "schemas": [
+        "`add()` state.value = add(payload.value, state.value)",
+        "`add(a)` state.value = add(payload.a, state.value)",
+        "`add(a,b)` state.b = add(payload.a, state.b)",
+        "`add(a.inner,b,c.result)` state.c.result = add(payload.a.inner, state.b)",
+        "**Ignoring the payload**",
+        "`add(-)` state.value = add(state.value, state.value)",
+        "`add(-,a)` state.value = add(state.a, state.value)",
+        "`add(-,a,b)` state.b = add(state.a, state.b)",
+        "`add(-,a.inner,b,c.result)` state.c.result = add(state.a.inner, state.b)"
+      ]
+    },
+    {
+      "name": "subtract",
+      "reff": "https://ramdajs.com/docs/#subtract",
+      "description": [
+        "Subtracts its second argument from its first argument."
+      ],
+      "schemas": [
+        "`subtract()` state.value = subtract(payload.value, state.value)",
+        "`subtract(a)` state.value = subtract(payload.a, state.value)",
+        "`subtract(a,b)` state.b = subtract(payload.a, state.b)",
+        "`subtract(a.inner,b,c.result)` state.c.result = subtract(payload.a.inner, state.b)",
+        "**Ignoring the payload**",
+        "`subtract(-)` state.value = subtract(state.value, state.value)",
+        "`subtract(-,a)` state.value = subtract(state.a, state.value)",
+        "`subtract(-,a,b)` state.b = subtract(state.a, state.b)",
+        "`subtract(-,a.inner,b,c.result)` state.c.result = subtract(state.a.inner, state.b)"
+      ]
+    },
+    {
+      "name": "inc",
+      "reff": "https://ramdajs.com/docs/#inc",
+      "description": [
+        "Increments its argument."
+      ],
+      "schemas": [
+        "`inc()` state.value = inc(payload.value)",
+        "`inc(a)` state.value = inc(payload.a)",
+        "`inc(a,b)` state.b = inc(payload.a)",
+        "`inc(a.inner,b.result)` state.b.result = inc(payload.a.inner)",
+        "**Ignoring the payload**",
+        "`inc(-)` state.value = inc(state.value)",
+        "`inc(-,a)` state.a = inc(state.a)",
+        "`inc(-,a.inner,b.inner)` state.b.inner = inc(state.a.inner)"
+      ]
+    },
+    {
+      "name": "dec",
+      "reff": "https://ramdajs.com/docs/#dec",
+      "description": [
+        "Decrements its argument."
+      ],
+      "schemas": [
+        "`inc()` state.value = inc(payload.value)",
+        "`inc(a)` state.value = inc(payload.a)",
+        "`inc(a,b)` state.b = inc(payload.a)",
+        "`inc(a.inner,b.result)` state.b.result = inc(payload.a.inner)",
+        "**Ignoring the payload**",
+        "`inc(-)` state.value = inc(state.value)",
+        "`inc(-,a)` state.a = inc(state.a)",
+        "`inc(-,a.inner,b.inner)` state.b.inner = inc(state.a.inner)"
+      ]
+    },
+    {
+      "name": "divide",
+      "reff": "https://ramdajs.com/docs/#divide",
+      "description": [
+        "Divides two numbers. Equivalent to `a / b.`"
+      ],
+      "schemas": [
+        "`divide()` state.value = divide(payload.value, state.value)",
+        "`divide(a)` state.value = divide(payload.a, state.value)",
+        "`divide(a,b)` state.b = divide(payload.a, state.b)",
+        "`divide(a.inner,b,c.result)` state.c.result = divide(payload.a.inner, state.b)",
+        "**Ignoring the payload**",
+        "`divide(-)` state.value = divide(state.value, state.value)",
+        "`divide(-,a)` state.value = divide(state.a, state.value)",
+        "`divide(-,a,b)` state.b = divide(state.a, state.b)",
+        "`divide(-,a.inner,b,c.result)` state.c.result = divide(state.a.inner, state.b)"
+      ]
+    },
+    {
+      "name": "multiply",
+      "reff": "https://ramdajs.com/docs/#multiply",
+      "description": [
+        "Multiplies two numbers. Equivalent to `a * b`"
+      ],
+      "schemas": [
+        "`multiply()` state.value = multiply(payload.value, state.value)",
+        "`multiply(a)` state.value = multiply(payload.a, state.value)",
+        "`multiply(a,b)` state.b = multiply(payload.a, state.b)",
+        "`multiply(a.inner,b,c.result)` state.c.result = multiply(payload.a.inner, state.b)",
+        "**Ignoring the payload**",
+        "`multiply(-)` state.value = multiply(state.value, state.value)",
+        "`multiply(-,a)` state.value = multiply(state.a, state.value)",
+        "`multiply(-,a,b)` state.b = multiply(state.a, state.b)",
+        "`multiply(-,a.inner,b,c.result)` state.c.result = multiply(state.a.inner, state.b)"
+      ]
+    },
+    {
+      "name": "max",
+      "reff": "https://ramdajs.com/docs/#max",
+      "description": [
+        "Returns the larger of its two arguments."
+      ],
+      "schemas": [
+        "`max()` state.value = max(payload.value, state.value)",
+        "`max(a)` state.value = max(payload.a, state.value)",
+        "`max(a,b)` state.b = max(payload.a, state.b)",
+        "`max(a.inner,b,c.result)` state.c.result = max(payload.a.inner, state.b)",
+        "**Ignoring the payload**",
+        "`max(-)` state.value = max(state.value, state.value)",
+        "`max(-,a)` state.value = max(state.a, state.value)",
+        "`max(-,a,b)` state.b = max(state.a, state.b)",
+        "`max(-,a.inner,b,c.result)` state.c.result = max(state.a.inner, state.b)"
+      ]
+    },
+    {
+      "name": "min",
+      "reff": "https://ramdajs.com/docs/#min",
+      "description": [
+        "Returns the smaller of its two arguments."
+      ],
+      "schemas": [
+        "`min()` state.value = min(payload.value, state.value)",
+        "`min(a)` state.value = min(payload.a, state.value)",
+        "`min(a,b)` state.b = min(payload.a, state.b)",
+        "`min(a.inner,b,c.result)` state.c.result = min(payload.a.inner, state.b)",
+        "**Ignoring the payload**",
+        "`min(-)` state.value = min(state.value, state.value)",
+        "`min(-,a)` state.value = min(state.a, state.value)",
+        "`min(-,a,b)` state.b = min(state.a, state.b)",
+        "`min(-,a.inner,b,c.result)` state.c.result = min(state.a.inner, state.b)"
+      ]
+    },
+    {
+      "name": "modulo",
+      "reff": "https://ramdajs.com/docs/#modulo",
+      "description": [
+        "Divides the first parameter by the second and returns the remainder. Note that this function preserves the JavaScript-style behavior for modulo."
+      ],
+      "schemas": [
+        "`modulo()` state.value = modulo(payload.value, state.value)",
+        "`modulo(a)` state.value = modulo(payload.a, state.value)",
+        "`modulo(a,b)` state.b = modulo(payload.a, state.b)",
+        "`modulo(a.inner,b,c.result)` state.c.result = modulo(payload.a.inner, state.b)",
+        "**Ignoring the payload**",
+        "`modulo(-)` state.value = modulo(state.value, state.value)",
+        "`modulo(-,a)` state.value = modulo(state.a, state.value)",
+        "`modulo(-,a,b)` state.b = modulo(state.a, state.b)",
+        "`modulo(-,a.inner,b,c.result)` state.c.result = modulo(state.a.inner, state.b)"
+      ]
+    },
+    {
+      "name": "negate",
+      "reff": "https://ramdajs.com/docs/#negate",
+      "description": [
+        "Negates its argument."
+      ],
+      "schemas": [
+        "`negate()` state.value = negate(payload.value)",
+        "`negate(a)` state.value = negate(payload.a)",
+        "`negate(a,b)` state.b = negate(payload.a)",
+        "`negate(a.inner,b.inner)` state.b.inner = negate(payload.a.inner)",
+        "**Ignoring the payload**",
+        "`negate(-,)` state.value = negate(state.value)",
+        "`negate(-,a)` state.a = negate(state.a)",
+        "`negate(-,a,b)` state.b = negate(state.a)",
+        "`negate(-,a.inner,b.inner)` state.b.inner = negate(state.a.inner)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "description": [
+    "Realizam operações em `Array` ou `String`."
+  ],
+  "reducers": [
+    {
+      "name": "takeLast",
+      "description": [
+        "See pipe [takeLast()](../pipe#takeLast)",
+        "Consider that **out.takeLast()** is the same as **pipe.takeLast(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "take",
+      "description": [
+        "See pipe [take()](../pipe#take)",
+        "Consider that **out.take()** is the same as **pipe.take(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "drop",
+      "description": [
+        "See pipe [drop()](../pipe#drop)",
+        "Consider that **out.drop()** is the same as **pipe.drop(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "dropLast",
+      "description": [
+        "See pipe [dropLast()](../pipe#dropLast)",
+        "Consider that **out.dropLast()** is the same as **pipe.dropLast(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "append",
+      "description": [
+        "See pipe [append()](../pipe#append)",
+        "Consider that **out.append()** is the same as **pipe.append(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "prepend",
+      "description": [
+        "See pipe [prepend()](../pipe#prepend)",
+        "Consider that **out.prepend()** is the same as **pipe.prepend(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "flatten",
+      "description": [
+        "See pipe [flatten()](../pipe#flatten)",
+        "Consider that **out.flatten()** is the same as **pipe.flatten(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "reverse",
+      "description": [
+        "See pipe [reverse()](../pipe#reverse)",
+        "Consider that **out.reverse()** is the same as **pipe.reverse(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "concat",
+      "description": [
+        "See pipe [concat()](../pipe#concat)",
+        "Consider that **out.concat()** is the same as **pipe.concat(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "filter",
+      "description": [
+        "See pipe [filter()](../pipe#filter)",
+        "Consider that **out.filter()** is the same as **pipe.filter(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "filterNot",
+      "description": [
+        "See pipe [filterNot()](../pipe#filterNot)",
+        "Consider that **out.filterNot()** is the same as **pipe.filterNot(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "sort",
+      "description": [
+        "See pipe [sort()](../pipe#sort)",
+        "Consider that **out.sort()** is the same as **pipe.sort(-)**"
+      ],
+      "schemas": []
+    }
+  ]
+}

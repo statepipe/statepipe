@@ -1,0 +1,244 @@
+{
+  "description": [
+    "Realizam operações lógicas.",
+    "Quando um reducer retorna `null` ele irá interromper a fila de execução e não produzirá mutation"
+  ],
+  "reducers": [
+    {
+      "name": "gt",
+      "reff": "https://ramdajs.com/docs/#gt",
+      "description": [
+        "Returns `true` if the first argument is greater than the second; `false` otherwise."
+      ],
+      "schemas": [
+        "`gt()` return gt(payload.value, state.value) ? state : null",
+        "`gt(a)` return gt(payload.a, state.value) ? state : null",
+        "`gt(a,b)` return gt(payload.a, state.b) ? state : null",
+        "`gt(a.inner,b)` return gt(payload.a.inner, state.b) ? state : null",
+        "**Ignoring the payload**",
+        "`gt(-)` return gt(state.value, state.value) ? state : null",
+        "`gt(-,a)` return gt(state.a, state.value) ? state : null",
+        "`gt(-,a,b)` return gt(state.a, state.b) ? state : null",
+        "`gt(-,a.inner,b)` return gt(state.a.inner, state.b) ? state : null"
+      ]
+    },
+    {
+      "name": "gte",
+      "reff": "https://ramdajs.com/docs/#gte",
+      "description": [
+        "Returns `true` if the first argument is greater than or equal to the second; `false` otherwise."
+      ],
+      "schemas": [
+        "`gte()` return gte(payload.value, state.value) ? state : null",
+        "`gte(a)` return gte(payload.a, state.value) ? state : null",
+        "`gte(a,b)` return gte(payload.a, state.b) ? state : null",
+        "`gte(a.inner,b)` return gte(payload.a.inner, state.b) ? state : null",
+        "**Ignoring the payload**",
+        "`gte(-)` return gte(state.value, state.value) ? state : null",
+        "`gte(-,a)` return gte(state.a, state.value) ? state : null",
+        "`gte(-,a,b)` return gte(state.a, state.b) ? state : null",
+        "`gte(-,a.inner,b)` return gte(state.a.inner, state.b) ? state : null"
+      ]
+    },
+    {
+      "name": "lt",
+      "reff": "https://ramdajs.com/docs/#lt",
+      "description": [
+        "Returns `true` if the first argument is less than the second; `false` otherwise."
+      ],
+      "schemas": [
+        "`lt()` return lt(payload.value, state.value) ? state : null",
+        "`lt(a)` return lt(payload.a, state.value) ? state : null",
+        "`lt(a,b)` return lt(payload.a, state.b) ? state : null",
+        "`lt(a.inner,b)` return lt(payload.a.inner, state.b) ? state : null",
+        "**Ignoring the payload**",
+        "`lt(-)` return lt(state.value, state.value) ? state : null",
+        "`lt(-,a)` return lt(state.a, state.value) ? state : null",
+        "`lt(-,a,b)` return lt(state.a, state.b) ? state : null",
+        "`lt(-,a.inner,b)` return lt(state.a.inner, state.b) ? state : null"
+      ]
+    },
+    {
+      "name": "lte",
+      "reff": "https://ramdajs.com/docs/#lte",
+      "description": [
+        "Returns `true` if the first argument is less than or equal to the second; `false` otherwise."
+      ],
+      "schemas": [
+        "`lte()` return lte(payload.value, state.value) ? state : null",
+        "`lte(a)` return lte(payload.a, state.value) ? state : null",
+        "`lte(a,b)` return lte(payload.a, state.b) ? state : null",
+        "`lte(a.inner,b)` return lte(payload.a.inner, state.b) ? state : null",
+        "**Ignoring the payload**",
+        "`lte(-)` return lte(state.value, state.value) ? state : null",
+        "`lte(-,a)` return lte(state.a, state.value) ? state : null",
+        "`lte(-,a,b)` return lte(state.a, state.b) ? state : null",
+        "`lte(-,a.inner,b)` return lte(state.a.inner, state.b) ? state : null"
+      ]
+    },
+    {
+      "name": "equals",
+      "reff": "https://ramdajs.com/docs/#equals",
+      "description": [
+        "Returns `true` if its arguments are equivalent, `false` otherwise. Handles cyclical data structures.."
+      ],
+      "schemas": [
+        "`equals()` return equals(payload.value, state.value) ? state : null",
+        "`equals(a)` return equals(payload.a, state.value) ? state : null",
+        "`equals(a,b)` return equals(payload.a, state.b) ? state : null",
+        "`equals(a.inner,b)` return equals(payload.a.inner, state.b) ? state : null",
+        "**Ignoring the payload**",
+        "`equals(-)` return equals(state.value, state.value) ? state : null",
+        "`equals(-,a)` return equals(state.a, state.value) ? state : null",
+        "`equals(-,a,b)` return equals(state.a, state.b) ? state : null",
+        "`equals(-,a.inner,b)` return equals(state.a.inner, state.b) ? state : null"
+      ]
+    },
+    {
+      "name": "notEquals",
+      "description": [
+        "Same as [not](https://ramdajs.com/docs/#not) + equals"
+      ],
+      "schemas": [
+        "`notEquals()` return notEquals(payload.value, state.value) ? state : null",
+        "`notEquals(a)` return notEquals(payload.a, state.value) ? state : null",
+        "`notEquals(a,b)` return notEquals(payload.a, state.b) ? state : null",
+        "`notEquals(a.inner,b)` return notEquals(payload.a.inner, state.b) ? state : null",
+        "**Ignoring the payload**",
+        "`notEquals(-)` return notEquals(state.value, state.value) ? state : null",
+        "`notEquals(-,a)` return notEquals(state.a, state.value) ? state : null",
+        "`notEquals(-,a,b)` return notEquals(state.a, state.b) ? state : null",
+        "`notEquals(-,a.inner,b)` return notEquals(state.a.inner, state.b) ? state : null"
+      ]
+    },
+    {
+      "name": "includes",
+      "reff": "https://ramdajs.com/docs/#includes",
+      "description": [
+        "Returns `true` if the specified value is equal, in R.equals terms, to at least one element of the given list; `false` otherwise. Works also with strings."
+      ],
+      "schemas": [
+        "`includes()` return includes(payload.value, state.value) ? state : null",
+        "`includes(a)` return includes(payload.a, state.value) ? state : null",
+        "`includes(a,b)` return includes(payload.a, state.b) ? state : null",
+        "`includes(a.inner,b)` return includes(payload.a.inner, state.b) ? state : null",
+        "**Ignoring the payload**",
+        "`includes(-)` return includes(state.value, state.value) ? state : null",
+        "`includes(-,a)` return includes(state.a, state.value) ? state : null",
+        "`includes(-,a,b)` return includes(state.a, state.b) ? state : null",
+        "`includes(-,a.inner,b)` return includes(state.a.inner, state.b) ? state : null"
+      ]
+    },
+    {
+      "name": "truthy",
+      "description": [
+        "Returns `true` if the specified value is not: undefined, 0, false, null; `false` otherwise"
+      ],
+      "schemas": [
+        "`truthy()` return truthy(payload.value) ? state : null",
+        "`truthy(a)` return truthy(payload.a) ? state : null",
+        "`truthy(a.inner)` return truthy(payload.a.inner) ? state : null",
+        "**Ignoring the payload**",
+        "`truthy(-)` return truthy(state.value) ? state : null",
+        "`truthy(-,a)` return truthy(state.a) ? state : null",
+        "`truthy(-,a.inner,b)` return truthy(state.a.inner) ? state : null"
+      ]
+    },
+    {
+      "name": "falsy",
+      "description": [
+        "Returns `true` if the specified value is: undefined, 0, false, null; `false` otherwise"
+      ],
+      "schemas": [
+        "`falsy()` return falsy(payload.value) ? state : null",
+        "`falsy(a)` return falsy(payload.a) ? state : null",
+        "`falsy(a.inner)` return falsy(payload.a.inner) ? state : null",
+        "**Ignoring the payload**",
+        "`falsy(-)` return falsy(state.value) ? state : null",
+        "`falsy(-,a)` return falsy(state.a) ? state : null",
+        "`falsy(-,a.inner,b)` return falsy(state.a.inner) ? state : null"
+      ]
+    },
+    {
+      "name": "odd",
+      "description": [
+        "Returns `true` if the specified value is: odd; `false` otherwise"
+      ],
+      "schemas": [
+        "`odd()` return odd(payload.value) ? state : null",
+        "`odd(a)` return odd(payload.a) ? state : null",
+        "`odd(a.inner)` return odd(payload.a.inner) ? state : null",
+        "**Ignoring the payload**",
+        "`odd(-)` return odd(state.value) ? state : null",
+        "`odd(-,a)` return odd(state.a) ? state : null",
+        "`odd(-,a.inner,b)` return odd(state.a.inner) ? state : null"
+      ]
+    },
+    {
+      "name": "even",
+      "description": [
+        "Returns `true` if the specified value is: even; `false` otherwise"
+      ],
+      "schemas": [
+        "`even()` return even(payload.value) ? state : null",
+        "`even(a)` return even(payload.a) ? state : null",
+        "`even(a.inner)` return even(payload.a.inner) ? state : null",
+        "**Ignoring the payload**",
+        "`even(-)` return even(state.value) ? state : null",
+        "`even(-,a)` return even(state.a) ? state : null",
+        "`even(-,a.inner,b)` return even(state.a.inner) ? state : null"
+      ]
+    },
+    {
+      "name": "positive",
+      "description": [
+        "Returns `true` if the specified value is: positive; `false` otherwise"
+      ],
+      "schemas": [
+        "`positive()` return positive(payload.value) ? state : null",
+        "`positive(a)` return positive(payload.a) ? state : null",
+        "`positive(a.inner)` return positive(payload.a.inner) ? state : null",
+        "**Ignoring the payload**",
+        "`positive(-)` return positive(state.value) ? state : null",
+        "`positive(-,a)` return positive(state.a) ? state : null",
+        "`positive(-,a.inner,b)` return positive(state.a.inner) ? state : null"
+      ]
+    },
+    {
+      "name": "negative",
+      "description": [
+        "Returns `true` if the specified value is: negative; `false` otherwise"
+      ],
+      "schemas": [
+        "`negative()` return negative(payload.value) ? state : null",
+        "`negative(a)` return negative(payload.a) ? state : null",
+        "`negative(a.inner)` return negative(payload.a.inner) ? state : null",
+        "**Ignoring the payload**",
+        "`negative(-)` return negative(state.value) ? state : null",
+        "`negative(-,a)` return negative(state.a) ? state : null",
+        "`negative(-,a.inner,b)` return negative(state.a.inner) ? state : null"
+      ]
+    },
+    {
+      "name": "from",
+      "description": [
+        "Used to test *from(action,node,origin)*",
+        "**action** is the action name",
+        "**node** is the component that captured the action",
+        "**origin** is the target who created the action"
+      ],
+      "schemas": [
+        "`from(ping)` return action === ping ? state : null",
+        "`from(*)` return state",
+        "`from(*,$self)` return node === <component> ? state : null",
+        "`from(*,$others)` return node !== <component> ? state : null",
+        "`from(*,button.-on)` return querySelectorAll(button.-on).includes(node) ? state : null",
+        "`from(*,*)` return state",
+        "`from(*,*,$self)` return node.statepipe === origin.statepipe ? state : null",
+        "`from(*,*,$others)` return node.statepipe === origin.statepipe ? state : null",
+        "`from(*,*,header)` return origin.statepipe === header ? state : null",
+        "`from(*,*,*)` return state"
+      ]
+    }
+  ]
+}

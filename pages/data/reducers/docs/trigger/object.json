@@ -1,0 +1,39 @@
+{
+  "description": [
+    "Realizam operações de Object."
+  ],
+  "reducers": [
+    {
+      "name": "pick",
+      "description": [
+        "See pipe [pick()](../pipe#pick)",
+        "Consider that **trigger.pick()** is the same as **pipe.pick(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "pickAll",
+      "description": [
+        "See pipe [pickAll()](../pipe#pickAll)",
+        "Consider that **trigger.pickAll()** is the same as **pipe.pickAll(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "not",
+      "description": [
+        "See pipe [not()](../pipe#not)",
+        "Consider that **trigger.not()** is the same as **pipe.not(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "set",
+      "description": [
+        "See pipe [not()](../pipe#not)",
+        "Consider that **trigger.not()** is the same as **pipe.not(-)**"
+      ],
+      "schemas": []
+    }
+  ]
+}

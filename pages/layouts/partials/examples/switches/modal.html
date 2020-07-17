@@ -1,0 +1,54 @@
+<style>
+    .modal div span{
+        font-size: 100px;
+        line-height: 1;
+    }
+    .modal div button{
+        margin-top: 2rem;
+        width: 50%;
+    }
+    .modal div.-open {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .modal div{
+        display: none;
+        border: 5px solid darkgray;
+        border-radius: 30px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        text-align: center;
+        width: max(90%,20vw);
+        height: 50vh;
+        background-color: whitesmoke;
+        transform: translate(-50%, -80%);
+        z-index: 100;
+    }
+</style>
+<div class="modal" :statepipe="modal">
+    <div 
+    class=""
+    :state='{"open":false,"value":"-open"}'
+    :pipe="from:openmodal|set:value:open,closemodal|set:value:open"
+    :out="truthy:open|classAdd,falsy:open|classRm">
+        <span>🍎</span>
+        <button
+        :state='{"value":false}'
+        :trigger="closemodal@click|pick"
+        >close</button>
+    </div>
+    <button
+    :state='{"value":true}'
+    :trigger="openmodal@click|pick"
+    >🍎 free to click</button>
+    <br>
+    <button
+    :state='{"value":true,"disable":"disabled","status":false}'
+    :trigger="openmodal@click|pick"
+    :pipe="from:openmodal|set:value:status,closemodal|set:value:status"
+    :out="truthy:status|attrSet:disabled:disable,falsy:status|attrRm:disabled:disable"
+    >🍎 disable when opened</button>
+</div>

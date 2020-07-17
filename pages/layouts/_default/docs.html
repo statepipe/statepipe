@@ -1,0 +1,47 @@
+{{define "body"}}
+{{ $nodash := replaceRE "/$" ""  .File.Dir }}
+{{ $type := index (last 1 (split $nodash "/")) 0}}
+{{ $docs := index $.Site.Data.reducers.docs $type}}
+{{$list := sort .Params.docs}}
+{{$listTotal := sub (len $list) 1}}
+<main class="-docs":statepipe="docs">
+    <aside style="padding: 0">
+        <dl>
+            {{range $list}}
+            <dt><a href="#{{.}}">{{.}}</a> <small style="font-weight:lighter">({{(index $docs .).reducers | len}})</small></dt>
+            {{range sort (index $docs .).reducers "name" "asc" }}
+            <dd><a href="#{{.name}}">{{.name | markdownify}}</a></dd>
+            {{end}}
+            {{end}}
+        </dl>
+    </aside>
+    <section>
+    {{.Content}}
+    
+    {{range $i,$reducerName := $list}}
+        <h3 id="{{$reducerName}}"><a href="#{{$reducerName}}">{{$reducerName}}</a></h3>
+        {{ range (index $docs $reducerName).description}}
+            <p>{{. | markdownify}}</p>
+        {{end}}
+        {{$terms := sort (index $docs $reducerName).reducers "name" "asc"}}
+        {{$total := sub (len $terms) 1}}
+        {{range $index, $val := $terms}}
+            <h4 id="{{.name}}">
+                <a style="color:darkblue;font-size: 90%;font-weight: normal;" href="#{{.name}}">{{.name}}</a>
+                {{if $val.reff}}
+                <small style="font-size: 50%;font-weight: lighter;">
+                    (ramda: <a href="{{$val.reff}}" target="_blank" rel="noopenner">{{$val.name}}</a>)
+                </small>
+                {{end}}
+            </h4>
+            {{range $val.description}}<p>{{markdownify .}}</p>{{end}}
+            <span class="-schemas">
+            {{range $val.schemas}}{{markdownify .}}<br>{{end}}
+            </span>
+            {{if gt $total $index }}<hr>{{end}}
+        {{end}}
+        {{if gt $listTotal $i }}<hr>{{end}}
+    {{end}}
+    </section>
+</main>
+{{end}}

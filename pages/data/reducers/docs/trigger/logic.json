@@ -1,0 +1,112 @@
+{
+  "description": [
+    "Realizam operações lógicas.",
+    "Quando um reducer retorna `null` ele irá interromper a fila de execução e não produzirá mutation"
+  ],
+  "reducers": [
+    {
+      "name": "gt",
+      "description": [
+        "See pipe [gt()](../pipe#gt)",
+        "Consider that **trigger.gt()** is the same as **pipe.gt(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "gte",
+      "description": [
+        "See pipe [gte()](../pipe#gte)",
+        "Consider that **trigger.gte()** is the same as **pipe.gte(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "lt",
+      "description": [
+        "See pipe [lt()](../pipe#lt)",
+        "Consider that **trigger.lt()** is the same as **pipe.lt(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "lte",
+      "description": [
+        "See pipe [lte()](../pipe#lte)",
+        "Consider that **trigger.lte()** is the same as **pipe.lte(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "equals",
+      "description": [
+        "See pipe [equals()](../pipe#equals)",
+        "Consider that **trigger.equals()** is the same as **pipe.equals(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "notEquals",
+      "description": [
+        "See pipe [notEquals()](../pipe#notEquals)",
+        "Consider that **trigger.notEquals()** is the same as **pipe.notEquals(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "includes",
+      "description": [
+        "See pipe [includes()](../pipe#includes)",
+        "Consider that **trigger.includes()** is the same as **pipe.includes(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "truthy",
+      "description": [
+        "See pipe [truthy()](../pipe#truthy)",
+        "Consider that **trigger.truthy()** is the same as **pipe.truthy(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "falsy",
+      "description": [
+        "See pipe [falsy()](../pipe#falsy)",
+        "Consider that **trigger.falsy()** is the same as **pipe.falsy(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "odd",
+      "description": [
+        "See pipe [odd()](../pipe#odd)",
+        "Consider that **trigger.odd()** is the same as **pipe.odd(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "even",
+      "description": [
+        "See pipe [even()](../pipe#even)",
+        "Consider that **trigger.even()** is the same as **pipe.even(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "positive",
+      "description": [
+        "See pipe [positive()](../pipe#positive)",
+        "Consider that **trigger.positive()** is the same as **pipe.positive(-)**"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "negative",
+      "description": [
+        "See pipe [negative()](../pipe#negative)",
+        "Consider that **trigger.negative()** is the same as **pipe.negative(-)**"
+      ],
+      "schemas": []
+    }
+  ]
+}

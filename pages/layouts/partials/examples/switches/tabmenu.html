@@ -1,0 +1,77 @@
+<style>
+.tab {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    width: 100px;
+    padding: 1rem 0;
+}
+.tab a {
+    text-decoration: none;
+    font-size: 0.8em;
+}
+.tab.selected a {
+    font-size: 1.2em;
+}
+.tab.selected {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom-color: transparent;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+.tabmenu {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 320px;
+    overflow: hidden;
+    margin-bottom: 2em;
+}
+.tabs {
+    flex:1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 65px;
+}
+.tabcontent {
+    flex:1;
+    display: inline-table;
+    height: 70px;
+    overflow: hidden;
+}
+.content {
+    width: 300px;
+    position: absolute;
+    padding:0.5rem;
+    display: none;
+    background-color: white;
+    text-align: left;
+}
+.content.selected {
+    display: block;
+}
+</style>
+
+<div class="tabmenu" :statepipe="tabmenu">
+    <div class="tabs">
+    {{range $i,$v := split "🍰/🍔/🍺" "/"}}
+    <div class="tab {{if eq $i 0}}selected{{end}}"
+    :state='{"value":"{{$v}}", "active":{{if eq $i 0}}"{{$v}}"{{else}}null{{end}}, "state":"selected"}'
+    :trigger="changetab@click|eventFn:preventDefault|pick"
+    :pipe="from:changetab|set:value:active"
+    :out="equals:value:active|classAdd:state,notEquals:value:active|classRm:state">
+        <a href="#{{$v}}">{{$v}}</a>
+    </div>
+    {{end}}
+    </div>
+    <div class="tabcontent">
+    {{range $i,$v := split "🍰/🍔/🍺" "/"}}
+    <div 
+    :state='{"value":"{{$v}}", "active":{{if eq $i 0}}"{{$v}}"{{else}}null{{end}}, "state":"selected"}'
+    :pipe="from:changetab|set:value:active"
+    :out="equals:value:active|classAdd:state,notEquals:value:active|classRm:state"
+    class="content {{if eq $i 0}}selected{{end}}">
+    {{ range (seq 50)}}{{$v}}{{ end }}
+    </div>
+    {{end}}
+    </div>
+</div>

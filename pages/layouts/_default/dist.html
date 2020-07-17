@@ -1,0 +1,66 @@
+{{define "body"}}
+<style>
+    li small {
+        font-size: 70%;
+    }
+</style>
+<main>
+{{.Content}}
+    {{$resources := .Page.Resources}}
+    {{with .Params.versions}}
+    <ul>
+        {{range $i, $v := sort . "version" "desc" }}
+        
+        {{with $resources.GetMatch (printf "statepipe.**%s.js" $v.version)}}
+        {{$gzn := printf "%s.gz" .Name}}
+        {{$slim := printf "statepipe.slim.%s.js" $v.version}}
+        {{$slimgz := printf "statepipe.slim.%s.js.gz" $v.version}}
+        {{$sizeInBytes := len .Content }}
+        <li :statepipe="{{$v}}">
+            <strong>{{$v.version}}</strong> - <a href="{{.Permalink}}">{{.Permalink}}</a> <br>
+            <button
+            style="font-size: 60%;margin:5px 0"
+            :state='{"value":false, "show":"- hide","hide":"+ more"}'
+            :trigger="show@click|not|pick"
+            :pipe="from:show:$self|pick"
+            :out="truthy|text:show,falsy|text:hide"
+            >+ more</button>
+            <aside
+                style="display:none"
+                :state='{"show":"display:block;","hide":"display:none;"}'
+                :pipe="from:show|pick"
+                :out="truthy|attrSet:style:show,falsy|attrSet:style:hide">
+                <ul style="margin-bottom:1rem;">
+                    <li>
+                        <strong>Full</strong> (core + stores):<br>
+                        <a href="{{.Permalink}}">{{.Permalink}}</a>
+                        {{with $resources.GetMatch $gzn}}
+                        {{$sizeInBytes := len .Content }}
+                        <small style="vertical-align: top;">(~{{div $sizeInBytes 1000}}kb gz)</small>
+                        {{end}} 
+                    </li>
+                    <li>
+                        {{with $resources.GetMatch $slim}}
+                        <strong>Slim</strong> (only core): <br>
+                        <a href="{{.Permalink}}">{{.Permalink}}</a>
+                        {{with $resources.GetMatch $slimgz}}
+                            {{$sizeInBytes := len .Content }}
+                            <small style="vertical-align: top;">(~{{div $sizeInBytes 1000}}kb gz)</small>
+                            {{end}}
+                        {{end}} 
+                    </li>
+                </ul>                
+                <p>Store reducers:</p>
+                <ul>
+                    <li><strong>trigger</strong> ({{len $v.trigger}}): {{range $x,$fn := $v.trigger}}{{if gt $x 0}}, {{end}}{{$fn}}{{end}}<br></li>
+                    <li><strong>pipe</strong> ({{len $v.pipe}}): {{range $x,$fn := $v.pipe}}{{if gt $x 0}}, {{end}}{{$fn}}{{end}}<br></li>
+                    <li><strong>out</strong> ({{len $v.out}}): {{range $x,$fn := $v.out}}{{if gt $x 0}}, {{end}}{{$fn}}{{end}}<br></li>
+                </ul>
+            </aside>
+            </li>
+            {{end}}
+        {{end}}
+    </ul>
+    {{end}}
+</main>
+{{end}}

@@ -1,0 +1,73 @@
+
+<style>
+    .ctx {
+        text-align:center;
+        border:1px solid;
+        padding:1em;
+    }
+    .ctx[\:statepipe=fruits-0] {
+        border-color:orange;
+        display:inline-block;
+    }
+    .ctx[\:statepipe=fruits-1] {
+        border-color:red;
+    }
+    .ctx[\:statepipe=fruits-2] {
+        border-color:green;
+    }
+
+    .ctx[\:statepipe=drinks-0] {
+        border-color:purple;
+        display:inline-block;
+    }
+    .ctx[\:statepipe=drinks-1] {
+        border-color:magenta;
+    }
+    .ctx[\:statepipe=drinks-2] {
+        border-color:cyan;
+    }
+</style>
+
+<p>
+    Todos botões disparam a mesma ação: <strong>add</strong>.
+    <br>
+    No exemplo abaixo podemos ver como é possivel isolar contextos quando necessário e como filtrar suas origens.
+</p>
+
+<div class="ctx" :statepipe="fruits-0">
+    <mark>Context: fruits-0</mark>
+    <p>
+        <span>$self:
+            <strong :state='{"value":0}' :pipe="from:add:*:$self|inc:-" :out="text">0</strong>
+        </span> | 
+        <span>$others:
+            <strong :state='{"value":0}' :pipe="from:add:*:$others|inc:-" :out="text">0</strong>
+        </span> | <span>all:
+            <strong :state='{"value":0}' :pipe="from:add:*|inc:-" :out="text">0</strong>
+        </span>
+    </p>
+    <button :state='{"value":"🍊","count":0,"txt":"${state.value} (${state.count})"}' :trigger="add@click|pickAll" :pipe="from:*:$self|inc:count:count" :out="text:txt">🍊</button>
+    <div class="ctx" :statepipe="fruits-1">
+        <mark>Context: fruits-1</mark>
+        <p>
+            <span>$self:
+                <strong :state='{"value":0}' :pipe="from:add:*:$self|inc:-" :out="text">0</strong>
+            </span> | 
+            <span>$others:
+                <strong :state='{"value":0}' :pipe="from:add:*:$others|inc:-" :out="text">0</strong>
+            </span> | <span>all:
+            <strong :state='{"value":0}' :pipe="from:add:*|inc:-" :out="text">0</strong>
+        </span>
+        </p>
+        <button :state='{"value":"🍎","count":0,"txt":"${state.value} (${state.count})"}' :trigger="add@click|pickAll" :pipe="from:*:$self|inc:count:count" :out="text:txt">🍎</button>
+        <div class="ctx" :statepipe="fruits-2">
+            <mark>Context: fruits-2</mark>
+            <p>
+                <span>$self:
+                    <strong :state='{"value":0}' :pipe="from:add:*:$self|inc:-" :out="text">0</strong>
+                </span>
+            </p>
+            <button :state='{"value":"🥑","count":0,"txt":"${state.value} (${state.count})"}' :trigger="add@click|pickAll" :pipe="from:*:$self|inc:count:count" :out="text:txt">🥑</button>
+        </div>
+    </div>
+</div>

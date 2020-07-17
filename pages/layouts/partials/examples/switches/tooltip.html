@@ -1,0 +1,46 @@
+<style>
+    .tooltip a{
+        display: inline-block;
+        width:1rem;
+        font-weight: bolder;
+        color: darkorange;
+        height: 1rem;
+        border: 2px solid darkorange;
+        border-radius: 1rem;
+        padding:0.5rem;
+        position: relative;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 1em;
+        margin-top: -3px;
+        text-decoration: none;
+    }
+    .tooltip mark {
+        display: none;
+    }
+    .tooltip a.-opened {
+        background-color: darkorange;
+        color:white
+    }
+    .tooltip mark.-active {
+    display: inline;
+    }
+    </style>
+    <form class="tooltip" :statepipe="tooltip">
+        <label for="ccv">CCV</label>
+        <input 
+        :state='{"value": false}'
+        :trigger="tooltip@focus|pick"
+        autocomplete="off" type="text" size="1" maxlength="3" minlength="3" required id="ccv">
+        <a href="#tooltip-ccv"
+        :state='{"value":false,"style":"-opened"}'
+        :trigger="tooltip@click|eventFn:preventDefault|not|pickAll"
+        :pipe="set"
+        :out="truthy|classAdd:style,falsy|classRm:style"
+         >?</a>
+         <mark
+         :state='{"value":false,"style":"-active"}'
+         :pipe="set"
+         :out="truthy|classAdd:style,falsy|classRm:style"
+         >Lorem ipsu.</mark>
+    </form>

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}	],
+	"settings": {
+		"files.exclude": {
+			".nyc_output/": true,
+			"node_modules/": true,
+			"pages/public": true,
+			"pages/resources/": true
+		}
+	}
+}
