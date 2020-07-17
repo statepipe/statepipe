@@ -1,5 +1,5 @@
-name: Ava Test
-on: pull_request
+name: Javascript tests
+on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -7,9 +7,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Install packages
+    - name: Setup Node
       uses: actions/setup-node@v1
     - run: npm ci
-    - run: npm run test
-      env:
-        CI: true
+    - run: npm run lint
+    - run: npm test
