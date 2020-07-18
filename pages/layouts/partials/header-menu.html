@@ -65,7 +65,7 @@ action="/"
     name="sitemap"
     style="margin-top:10px;max-width: 300px;"
     :state="{}"
-    :trigger="goto@mouseup|eventPick:target.value">
+    :trigger="goto@change|eventPick:target.value">
         <option value="">📚 menu</option>
         {{range sort $.Site.Menus.main "Name"}}
             {{$name := .Name}}
@@ -73,13 +73,13 @@ action="/"
             {{$rel := ($.Site.GetPage .URL).RelPermalink}}
             <optgroup label="{{$pre}} {{$name}}">
                 <option value="{{.URL}}">
-                    {{if eq $current (print .URL "/")}}• {{else}}↪ {{end}}index
+                    {{if eq $current (print .URL "/")}}• {{else}}{{end}}index
                 </option>
                 {{with $.Site.GetPage .URL}}
                     {{range sort .Pages "Weight" "desc"}}
                         {{if eq .Kind "page"}}
                         <option value="{{.RelPermalink}}">
-                            {{if eq $current .RelPermalink}}• {{else}}↪ {{end}}{{.Name | lower}}
+                            {{if eq $current .RelPermalink}}• {{else}}{{end}}{{.Name | lower}}
                         </option>
                         {{end}}
                     {{end}}
