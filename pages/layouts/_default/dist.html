@@ -8,7 +8,7 @@
 {{.Content}}
     {{$resources := .Page.Resources}}
     {{with .Params.versions}}
-    <ul>
+    
         {{range $i, $v := sort . "version" "desc" }}
         
         {{with $resources.GetMatch (printf "statepipe.**%s.js" $v.version)}}
@@ -16,51 +16,61 @@
         {{$slim := printf "statepipe.slim.%s.js" $v.version}}
         {{$slimgz := printf "statepipe.slim.%s.js.gz" $v.version}}
         {{$sizeInBytes := len .Content }}
-        <li :statepipe="{{$v}}">
-            <strong>{{$v.version}}</strong> - <a href="{{.Permalink}}">{{.Permalink}}</a> <br>
+        <section :statepipe="{{$v}}" style="margin:1rem">
+            <h1 style="display: inline-block;font-size: 1.2rem;">🚀 {{$v.version}}</h1>
             <button
-            style="font-size: 60%;margin:5px 0"
+            style="font-size: 60%;margin:5px 0;vertical-align: top;"
             :state='{"value":false, "show":"- hide","hide":"+ more"}'
             :trigger="show@click|not|pick"
             :pipe="from:show:$self|pick"
             :out="truthy|text:show,falsy|text:hide"
-            >+ more</button>
+            >+ more</button> <br>
+            <a href="{{.Permalink}}">{{.Permalink}}</a> 
+            <br>
             <aside
                 style="display:none"
                 :state='{"show":"display:block;","hide":"display:none;"}'
                 :pipe="from:show|pick"
                 :out="truthy|attrSet:style:show,falsy|attrSet:style:hide">
-                <ul style="margin-bottom:1rem;">
-                    <li>
-                        <strong>Full</strong> (core + stores):<br>
-                        <a href="{{.Permalink}}">{{.Permalink}}</a>
-                        {{with $resources.GetMatch $gzn}}
+                <br>
+                <p>
+                    <strong>Full</strong>: core + stores
+                    {{with $resources.GetMatch $gzn}}
+                    {{$sizeInBytes := len .Content }}
+                    <small style="vertical-align: top;">(~{{div $sizeInBytes 1000}}kb gz)</small>
+                    <br>
+                    {{end}}     
+                    <a href="{{.Permalink}}">{{.Permalink}}</a>
+                </p>
+                <p>
+                    {{with $resources.GetMatch $slim}}
+                    <strong>Slim</strong> only core
+                    {{with $resources.GetMatch $slimgz}}
                         {{$sizeInBytes := len .Content }}
                         <small style="vertical-align: top;">(~{{div $sizeInBytes 1000}}kb gz)</small>
-                        {{end}} 
-                    </li>
-                    <li>
-                        {{with $resources.GetMatch $slim}}
-                        <strong>Slim</strong> (only core): <br>
-                        <a href="{{.Permalink}}">{{.Permalink}}</a>
-                        {{with $resources.GetMatch $slimgz}}
-                            {{$sizeInBytes := len .Content }}
-                            <small style="vertical-align: top;">(~{{div $sizeInBytes 1000}}kb gz)</small>
-                            {{end}}
-                        {{end}} 
-                    </li>
-                </ul>                
-                <p>Store reducers:</p>
+                    {{end}}
+                    {{end}} 
+                    <br>
+                    <a href="{{.Permalink}}">{{.Permalink}}</a>
+                </p>
+                {{with $v.changelog}}
+                <h3>Change log:</h3>
                 <ul>
-                    <li><strong>trigger</strong> ({{len $v.trigger}}): {{range $x,$fn := $v.trigger}}{{if gt $x 0}}, {{end}}{{$fn}}{{end}}<br></li>
-                    <li><strong>pipe</strong> ({{len $v.pipe}}): {{range $x,$fn := $v.pipe}}{{if gt $x 0}}, {{end}}{{$fn}}{{end}}<br></li>
-                    <li><strong>out</strong> ({{len $v.out}}): {{range $x,$fn := $v.out}}{{if gt $x 0}}, {{end}}{{$fn}}{{end}}<br></li>
+                    {{range .}}
+                    <li>{{. | markdownify}}</li>
+                    {{end}}
+                </ul>
+                {{end}}
+                <h3>Built in reducers:</h3>
+                <ul>
+                    <li><strong>trigger</strong> ({{len $v.trigger}}): {{range $x,$fn := $v.trigger}}{{if gt $x 0}}, {{end}}{{$fn}}{{end}}.<br></li>
+                    <li><strong>pipe</strong> ({{len $v.pipe}}): {{range $x,$fn := $v.pipe}}{{if gt $x 0}}, {{end}}{{$fn}}{{end}}.<br></li>
+                    <li><strong>out</strong> ({{len $v.out}}): {{range $x,$fn := $v.out}}{{if gt $x 0}}, {{end}}{{$fn}}{{end}}.<br></li>
                 </ul>
             </aside>
-            </li>
+            </section>
             {{end}}
         {{end}}
-    </ul>
     {{end}}
 </main>
 {{end}}
