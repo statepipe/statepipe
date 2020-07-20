@@ -4,13 +4,36 @@
 {{ $docs := index $.Site.Data.reducers.docs $type}}
 {{$list := sort .Params.docs}}
 {{$listTotal := sub (len $list) 1}}
-<main class="-docs":statepipe="docs">
-    <aside style="padding: 0">
+<main class="-docs" :statepipe="docs">
+    <span 
+    :state='{"value":true}'
+    :trigger='openfilter@click|pick'
+    class="mobile filters">🔍</span>
+    <aside
+    :state='{"value":false,"open":"opened"}'
+    :pipe="from:openfilter|pick,from:closefilter|pick"
+    :out="truthy|classAdd:open,falsy|classRm:open"
+    >
+    <span
+    style="text-align: right;line-height: 0;padding:0"
+    :state='{"value":false}'
+    :trigger='closefilter@click|pick'
+    class="mobile">X</span>
         <dl>
             {{range $list}}
-            <dt><a href="#{{.}}">{{.}}</a> <small style="font-weight:lighter">({{(index $docs .).reducers | len}})</small></dt>
+            <dt>
+                <a
+                :state='{"value":false}'
+                :trigger="closefilter@click|pick"
+                 href="#{{.}}">{{.}}</a> <small style="font-weight:lighter">({{(index $docs .).reducers | len}})</small>
+            </dt>
             {{range sort (index $docs .).reducers "name" "asc" }}
-            <dd><a href="#{{.name}}">{{.name | markdownify}}</a></dd>
+            <dd>
+                <a
+                :state='{"value":false}'
+                :trigger="closefilter@click|pick"
+                href="#{{.name}}">{{.name | markdownify}}</a>
+            </dd>
             {{end}}
             {{end}}
         </dl>

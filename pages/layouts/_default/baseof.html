@@ -38,7 +38,7 @@
           {{ partial "header-menu" .}}
       </header>
 
-      <nav style="padding:0.5rem 0 0 0.3rem;margin:0">
+      <nav class="breadcrumb">
       {{$.Scratch.Set "url" ""}}
       {{$d := split (replaceRE "^/|/$" "" .Page.RelPermalink) "/"}}
       {{$t := sub (len $d) 1}}

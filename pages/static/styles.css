@@ -85,37 +85,6 @@ blockquote:before {
   display:block
 }
 
-/*large screen*/
-@media (min-width: 850px) {
-  .-wrapper {
-    width: 100%;
-  }
-
-  .mobile {
-    display:none
-  }
-
-  .desktop {
-    display: block;
-  }
-
-  main {
-    padding: 0 2rem;
-  }
-  .-example-wrapper {
-    margin: 2rem
-  }
-  code {
-    font-size: 1em;
-    color:darkmagenta;
-    padding: 0.25rem;
-  }
-  header {
-    font-size: 100%;
-    flex-direction: column;
-    height: auto;
-  }
-}
 
 /* 
 Docs 
@@ -127,12 +96,47 @@ Docs
 }
 
 .-docs aside {
-  flex:1;
-  margin: 0;
-  margin-right: 1rem;
   background-color: lightyellow;
-  padding:0;
-  max-width: max(150px,10%);
+  padding:1rem;
+  max-width:90vw;
+  height: 100vh;
+  overflow: scroll;
+  top:0;
+  left:0;
+  position: fixed;
+  transform: translateX(-100vw);
+  transition: transform 0.2s;
+  transition-timing-function: ease-out;
+}
+
+.-docs aside.opened {
+  transform: translateX(0);
+}
+
+.breadcrumb{
+  padding:0.5rem 0 0 0.3rem;
+  margin:0
+}
+
+.docs .breadcrumb {
+  padding:0.5rem 0 0 1rem;
+  margin:0
+}
+
+.-docs .filters{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  position: fixed;
+  width: 1.8rem;
+  height:2rem;
+  top:16.5vh;
+  left:0;
+  font-size: 0.8em;
+  background-color: wheat;
+  transform: translateX(0);
 }
 
 .-docs aside dl {
@@ -154,14 +158,13 @@ color:black;
 .-docs aside dt:not(:first-child){
   margin-top:1rem;
 }
-
-
 .-docs section {
   flex:1;
   vertical-align: top;
   margin: 0;
   border: 0;
   padding: 0;
+
 }
 
 .-docs section h1,
@@ -208,4 +211,49 @@ nav.continue {
 nav.continue a.button {
   display: inline-block;
   font-size: 120%;
+}
+
+
+/*large screen*/
+@media (min-width: 850px) {
+  .-wrapper {
+    width: 100%;
+  }
+
+  .mobile {
+    display:none
+  }
+
+  .desktop {
+    display: block;
+  }
+
+  main {
+    padding: 0 2rem;
+  }
+  .-example-wrapper {
+    margin: 2rem
+  }
+  code {
+    font-size: 1em;
+    color:darkmagenta;
+    padding: 0.25rem;
+  }
+  header {
+    font-size: 100%;
+    flex-direction: column;
+    height: auto;
+  }
+  .-docs section {
+    padding-left:0;
+  }
+  .-docs aside {
+    flex:1;
+    margin: 0;
+    margin-right: 1rem;
+    background-color: lightyellow;
+    padding:0;
+    max-width: max(150px,10%);
+    position: unset;
+  }
 }
