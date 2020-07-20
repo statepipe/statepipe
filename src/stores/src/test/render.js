@@ -143,6 +143,9 @@ test('classAdd' , t => {
 
   store.classAdd("foo.bar")(state, testNode)
   t.deepEqual(true, testNode.classList.contains("close"))
+
+  store.classAdd("foo.fooo")(state, testNode)
+  t.deepEqual(false, testNode.classList.contains("fooo"))
 })
 
 test('classRm' , t => {
@@ -158,6 +161,9 @@ test('classRm' , t => {
   t.deepEqual(false, testNode.classList.contains("open"))
 
   store.classRm("foo.bar")(state, testNode)
+  t.deepEqual(false, testNode.classList.contains("close"))
+
+  store.classRm("foo.undefined")(state, testNode)
   t.deepEqual(false, testNode.classList.contains("close"))
 })
 

@@ -136,6 +136,10 @@ const fnClass = fn => prop => (state, node) => {
     utils.warn(`:statepipe ${node.statepipe} / ${node.nodeName} error evaluating ${fn} with state`, state);
     utils.log(err);
   }
+
+  if (newValue === undefined){
+    return state;
+  }
   
   if (fn === "add" 
   && not(node.classList.contains(newValue))) {
