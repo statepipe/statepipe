@@ -1,6 +1,6 @@
 {
     "description" : [
-      "Realizam operações no `event` enviado elemento quando um trigger é disparado."
+      "Works on Event"
     ], 
     "reducers": [
         {

@@ -1,6 +1,6 @@
 ---
 title: "output"
-description: O objetivo de um :out é produzir mudanças no componente (atributo, css, textContent, children etc)
+description: The objective of the :out is to produce changes at the element level (css, text, new nodes).
 weigth: 5
 tags:
     - out
@@ -9,16 +9,18 @@ tags:
 
 {{% hlink h2 "Output" %}}
 
-* **Atributo**: <mark>:out</mark>
-* **Objetivo**: produzir mudanças no componente (atributo, css, textContent, children etc)
-* * **Store** : `$statepipeStores.out`
+* **Attribute Name**: <mark>:out</mark>
+* **Objective**: produce changes at the element level (css, text, new nodes)
+* **Store** : `$statepipeStores.out`
 * **Reducer Context**: `(state, node)`
 * **Reducers Docs**: [out]({{< relref "/docs/out" >}})
 
-Possuem uma classe unica de reducers, [render]({{< relref "/docs/out#render" >}}). Eles podem modificar um elemento de várias formas: textContent, innerHTML, setAttrivute, class etc.
+They have an unique class of reducers called [render]({{< relref "/docs/out#render" >}}).
 
-Por padrão, sempre que o output gerar novos nós ([template]({{< relref "/docs/out#template" >}}), [appendChild]({{< relref "/docs/out#appendChild" >}}) etc) esses elementos serão lidos pelo context (wrapper :statepipe ao qual o compomente pertence) e serializados como novos compomentes, caso possuam os atributos :trigger, :pipe ou :out.
+These reducers can change the element in many different ways: textContent, innerHTML, setAttribute, class , and etc.
 
-> Veja o comportamento de templates gerando novos compomentes no exemplo da [todo-list]({{< relref "/examples/todo-list" >}}).
+Another feature is that - by default - new nodes from innerHTML changes ([template]({{< relref "/docs/out#template" >}}), [appendChild]({{< relref "/docs/out#appendChild" >}}) etc) will be serialized by statepipe work with the others from that context!
+
+Check this behaviorat [todo-list]({{< relref "/examples/todo-list" >}}) example!
 
 {{% continue "/docs/out" %}}

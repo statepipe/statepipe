@@ -1,11 +1,11 @@
 ---
-title: switches
-description: Lista de exemplos usando *switches de state* para manipular atributos, css e texto.
+title: basic
+description: a list of very basic, and most used, components.
 ---
 
-{{% hlink h2 "Switches" %}}
+{{% hlink h2 "Basic" %}}
 
-Grande parte das interfaces mais usadas se baseam em mecanismos simples de *switch*, onde apenas alternamos um valor baseado em um *state* que só pode ter 2 valores: active/-, open/-, selected/- etc.
+Following s very basic examples of components we usually see everywhere and how we could create them using only the statepipe script on the page.
 
 {{% hlink h3 "Tab menu" %}}
 

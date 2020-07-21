@@ -1,6 +1,6 @@
 ---
 title: workflow
-description: Workflow de mutations de um trigger até um output.
+description: All the mutation flow from a trigger trough an output
 weight: 2
 tags:
   - workflow
@@ -11,62 +11,63 @@ tags:
 
 {{% hlink h2 Workflow %}}
 
-A statepipe observa e reaje à **mutations dos atributos** <mark>:action</mark> e <mark>:state</mark>.
+The **statepipe** listens and reacts to mutation events that happen into specific wrappers (defined by <mark>:statepipe</mark> attribute - which is your **component context**).
+
+The attributes are <mark>:state</mark> and <mark>:action</mark>
 
 {{% hlink h3 "1- Action" %}}
 			
-Uma *action* é o início do workflow de um componente statepipe.
+**Action** is the beginning of the workflow.
 
-Somente [triggers]({{< ref "/core/triggers" >}}) podem gerar actions!
+They will only be dispatched by [triggers]({{< ref "/core/triggers" >}}).
 
-**Toda action carrega com ela um payloads**!
+**Every action carries a *payload* after them!**
 
-Um <mark>:trigger</mark> é definido pelo atributo `:trigger=""` direto no elemento.
+It is defined by the attribute `:trigger=""`.
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <button :state='{"value":0}' :trigger="hit@click|inc">click</button>
 {{< /highlight >}}
 			
-Payloads são `Objects` gerados pelos [reducers]({{< ref "/core/reducers" >}}) definidos pelo trigger.
+Payloads are `Objects` produced by [functional reducers]({{< ref "/core/reducers" >}}) defined by the <mark>:trigger</mark>.
 
-Em :trigger=`hit@click|inc` temos 2 reducers:
+Above we have 2 reducers - they are split by `|`
 
-O primeiro <mark>hit@click</mark> irá apenas observar o evento de click do elemento para disparar a action **hit** quando clicado.
+`hit@click|inc` 
 
-O segundo reducer [inc]({{< ref "/docs/trigger#inc" >}}) irá incrementar o valor `state.value` (definido pelo atributo `:state`) e envia-lo como payload.
+The first (<mark>hit@click</mark>) will observe the `click` event to dispatch the **hit** action.
+
+The former ([inc]({{< ref "/docs/trigger#inc" >}})) will increment `state.value` (the state is defined by the attributed`:state={"value":100}`) and send the result of all reducers as the payload to that action.
 
 {{% hlink h3 "2- Capture" %}}
 
-Actions podem ser capturadas por [pipes]({{< ref "/core/pipes" >}})
+Actions can be captured by [pipes]({{< ref "/core/pipes" >}})
 
-Um <mark>:pipe</mark> é definido pelo atributo `:pipe=""` direto no elemento.
+They are defined by the attribute <mark>:pipe</mark>.
 
-Os pipes podem produzir um novo state **processando o payloads com o próprio state** através dos reducers definidos para ele.
-
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <span :state='{"value":0}' :pipe="from:hit|add"></span>
 {{< /highlight >}}
 
-Quando o resultado dos reducers de um pipe produzem um novo state, ele será gravado no atributo `:state`.
+Pipes can **produce a new state** by the process of passing payload + the current state trough [functional reducers]({{< ref "/core/reducers" >}}) that will update the current state.
+
+When the incoming result of the reducers is different than the actual state the <mark>:state</mark> will updated.
 
 {{% hlink h3 "3- Output" %}}
 
-Sempre que uma mudança no `:state` de um compomente é capturada podemos produzir um [output]({{< ref "/core/output" >}}) no elmento.
+When the `:state`  changes we can produce a new [output]({{< ref "/core/output" >}}).
 
-Um <mark>:out</mark> é definido pelo atributo `:out="text"` direto no elemento.
+The output is defined by the attribute <mark>:out</mark>.
 
-{{< highlight html "style=github">}}
-<span
-  :state='{"value":0}'
-  :pipe="from:hit|add"
-  :out="text"></span>
+{{< highlight html "style=pygments">}}
+<span :out="text"></span>
 {{< /highlight >}}
 
-Todo :out **precisa ter um [pipe]({{< ref "/core/pipes" >}})**! 
+**Every :out need a [pipe]({{< ref "/core/pipes" >}})!**
 
 Sem isso a mudança de state não seria observada por ninguém!
 
-Exemplo completo:
+The whole workflow can be osbserved here (use the inspector to see the attributes changing)
 
 <div :statepipe="workflow">
 <button :state='{"value":0}' :trigger="hit@click|inc">click</button> - <span

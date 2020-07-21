@@ -1,7 +1,7 @@
 {
   "description": [
-    "Realizam operações lógicas.",
-    "Quando um reducer retorna `null` ele irá interromper a fila de execução e não produzirá mutation"
+    "Runs logic operation.",
+    "When the result is `null` the next reducer will not be called."
   ],
   "reducers": [
     {

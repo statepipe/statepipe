@@ -1,13 +1,15 @@
 ---
 title: custom reducers
-Description: Documentação sobre como criar custom reducers para seu projeto.
+Description: How to apply custom reducers.
 ---
 
 {{% hlink h2 "Custom Reducers" %}}
 
-A forma mais simples de criar reducers é injeta-lo (ou o script que os contém) na página **antes** do script da statepipe:
+The easy way is to load/inject your reducers before loading statepipe on your page.
 
-{{< highlight html "style=github">}}
+Make sure to merge existent reducers on the page before setting new ones!
+
+{{< highlight html "style=pygments">}}
 <body>
     ...
     ...
@@ -34,6 +36,3 @@ A forma mais simples de criar reducers é injeta-lo (ou o script que os contém)
     <script src='statepipe.js' defer></script>
 </body>
 {{< /highlight >}}
-
-Agora a statepipe ja pode contar com um 3 novos reducer.
-Assim que ele carregar irá fazer o merge da store que ja vem com ela e os definidos manualmente.

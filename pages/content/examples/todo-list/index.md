@@ -1,13 +1,13 @@
 ---
 title: todo list
-description: exemplo reproduzindo todomvc via statepipe
+description: the statepipe way for todomvc.com
 ---
 
 {{% hlink h2 "todo list" %}}
 
-<a href="http://todomvc.com/" target="_blank" >todomvc.com</a> é um acervo que mostra como resolver o mesmo problema (Todo List) em diferentes frameworks.
+<a href="http://todomvc.com/" target="_blank" >todomvc.com</a> is a hub of many different frameworks solvind the same problem: a todo list.
 
-Esse exemplo foi inspirado nesse projeto.
+The following example is the how we can get that problem solved with only built-in reducers.
 
 <small>
 

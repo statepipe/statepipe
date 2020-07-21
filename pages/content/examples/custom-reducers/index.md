@@ -1,11 +1,13 @@
 ---
 title: custom reducers
-description: definindo e consumindo custom reducers.
+description: defining and using custom reducers
 ---
 
-## Integração com Handlebars
+## Custom Reducers
 
-Faz render de um "tab menu" via custom output usando handlebars para gerar novos elementos integrados à statepipe.
+This example will render a "tab menu" via custom output using Handlebars as template engine.
+
+See that Handlebars will create new elements ready for statepipe!
 
 <small>
 

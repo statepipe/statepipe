@@ -1,6 +1,6 @@
 {
   "description": [
-    "Realizam operações matemáticas."
+    "Basic Math."
   ],
   "reducers": [
     {
