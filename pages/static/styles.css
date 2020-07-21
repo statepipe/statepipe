@@ -17,7 +17,6 @@ input[type=submit] {
 *:focus,
 a:focus{
   outline: none;
-
 }
 
 .-wrapper {
@@ -81,10 +80,9 @@ blockquote:before {
   display: none;
 }
 
-.mobile {
+.mobile{
   display:block
 }
-
 
 /* 
 Docs 
@@ -123,7 +121,7 @@ Docs
   margin:0
 }
 
-.-docs .filters{
+.mobile.filters {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -220,7 +218,8 @@ nav.continue a.button {
     width: 100%;
   }
 
-  .mobile {
+  .mobile,
+  .mobile.filters {
     display:none
   }
 
@@ -255,5 +254,8 @@ nav.continue a.button {
     padding:0;
     max-width: max(150px,10%);
     position: unset;
+    transform: none;
+    height: auto;
+    overflow: auto;
   }
 }

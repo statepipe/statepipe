@@ -1,6 +1,6 @@
 ---
 title: :out
-description: Lista de todos os reducers disponíveis para :out
+description: all reducers for :out
 layout: docs
 weight: 2
 docs:
@@ -72,12 +72,12 @@ tags:
     - text
 ---
 
-## Reducers para :out
+## Reducers for :out
 
-Lista de reducers disponíveis em `$statepipeStores.out`
+All reducers at `$statepipeStores.out`
 
-👉  Mais detalhes sobre [out aqui]({{<ref "/core/output" >}}).
+👉  Read more about [:out here]({{<ref "/core/output" >}}).
 
-> A maioria dos reducers consomem internamente os reducers de [pick()](../pipe), já que esses permitem - na grande maioria das vezes - operar apenas com o state e nao com payload + state.
+> Most of the reducers used the same ones defined for [pipe()](../pipe). They allow you - most of the time - to work with only the state (ignoring the payload) so it works for :out and :trigger as well.
 
 ---

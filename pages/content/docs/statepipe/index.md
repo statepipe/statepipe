@@ -1,6 +1,6 @@
 ---
 title: :statepipe
-description: setup e inicialização da statepipe
+description: starting statepipe
 weight: 5
 tags: 
     - statepipe
@@ -9,32 +9,29 @@ tags:
 
 ## :statepipe api
 
-O objetivo principal da statepipe é que seja possível fazer tudo somente nos atributos html. 
+The target of statepipe is that everything should be done at the html as attributes.
 
-Uma vez que ela é carregada na página algumas variáveis globais são criadas:
+As soon as the script is loaded on the page a few global variables:
 
 * **$statepipe(wrapper, stores)** `Function`.
 
-    * `wrapper` é qualquer elemento html. A statepipe irá percorrer todos elementos buscando pelo atributo `:statepipe="name"` para definir um **context**. Com o context definido ela irá procurar por :trigger, :pipe e :out para criar os componentes
+    * `wrapper` any html element on the page. From wrapper in, statepipe will search for `:statepipe="name"` to define a new **context** and start looking into that contenxt for :trigger, :pipe and :out to create the components.
     
-    * `stores` Object com `trigger, pipe e out` + reducers.
-
-> Para sobrepor qualquer regra abaixo, defina os valores **antes** de carregar o script da statepipe.
+    * `stores` Object with `trigger, pipe e out` + reducers.
 
 * **$statepipeLog**: `Boolean` (default `false`).
   
-    Define se a statepipe irá gerar logs no console.
+    Show logs for everything.
 
 * **$statepipeAutoStart** `Boolean` (default `true`)
 
-    Define se a statepipe irá serializar `document.body` assim que for carregada na página.
+    Will start looking into `document.body` as soon as it loads on the page.
  
 * **$statepipeStores** `Object`.
   
-    Deve possuir as properties `trigger, pipe e out` e dentro delas os reducers que serão usados. Essa é **store default** usada pela statepipe quando inciada via **$statepipeAutoStart**.
+    An object with the properties: `trigger, pipe and out`. These props must map the reducers that will want to use. This store is the **default location** used by statepipe when **$statepipeAutoStart=true**.
 
-
- 👉 Lista de reducers disponíveis:
+###  👉 All reducers:
 
 * $statepipeStores.[trigger]({{<ref "/docs/trigger" >}})
 * $statepipeStores.[pipes]({{<ref "/docs/pipe" >}})

@@ -1,6 +1,6 @@
 ---
 title: :pipe
-description: Lista de todos os reducers disponíveis para :pipe
+description: all reducers for :pipe
 layout: docs
 weight: 2
 docs:
@@ -60,10 +60,11 @@ tags:
     - set
 ---
 
-## Reducers para :pipe
+## Reducers for :pipe
 
-Lista de reducers disponíveis em `$statepipeStores.pipe`
+All reducers at `$statepipeStores.pipe`
 
-👉 Mais detalhes sobre [pipes aqui]({{<ref "/core/pipes" >}}).
+👉  Read more about [:pipe here]({{<ref "/core/pipes" >}}).
 
 ---
+

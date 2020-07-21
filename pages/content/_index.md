@@ -1,37 +1,37 @@
 ---
 title: statepipe
-description: ferramenta escrita em javascript para componentização rápida com baixo acoplamento e zero setup.
+description: It is a javascript tool designed for fast prototyping and zero setup!
 layout: single
 tags:
  - home
  - statepipe
 ---
 
-> **statepipe** é uma ferramenta escrita em javascript para componentização rápida, baixo acoplamento e zero setup!
+> **statepipe** is a javascript tool designed for fast prototyping and zero setup!
 
-{{% hlink h2 Objetivos %}}
+{{% hlink h2 Objectives %}}
 
-* Simplificar a componentização apenas modificando atributos direto no html;
+* Fast prototyping only setting inline attributes at the element to define a state's flow that can produce outputs;
 					
-* Diminuir/eliminar processo de build de javascript;
+* Lower Down/Remove *building javascript* (npm stuff) process;
 
-* Estimular criação de componentes de responsabilidade única e baseados no próprio *state*;
+* Components of unique responsibility and with *shallow states*;
 
-* Ser simples de extender e se conectar com frameworks do mercado;
+* Ease to scale and detach because work with functional reducers;
+
+* Ease to plug and interact with other market's frameworks;
 
 {{% hlink h2 "Mutation Observer" %}}
 
-O core da ferramenta se basea no {{% ablank "Mutation Observer" "https://caniuse.com/#feat=mutationobserver"%}}.
+The core of statepipe is based on {{% ablank "Mutation Observer" "https://caniuse.com/#feat=mutationobserver"%}} feature.
 
-Essa feature é usada como mecanismo de **transporte de actions, payloads e states**. 
+This feature will be used in a way that when excepted attributes get mutations this will be captured to produce **actions, states, and payloads**.
 
-Isso significa que qualquer script da página pode interagir com a **statepipe**!
+{{% hlink h2 "All inline" %}}
 
-{{% hlink h2 "Tudo inline" %}}
+The main idea of statepipe is to prototype **functional components right through the html**.
 
-A ideia principal da statepipe é conseguir **definir compentes simples e funcionais direto no html**.
-
-Exemplo: 
+See:
 <div :statepipe="sample-button">
 <button
     :state='{"value":0,"tpl":"hits: ${state.value}"}'
