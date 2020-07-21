@@ -11,7 +11,7 @@ tags:
 
 {{% hlink h2 Objectives %}}
 
-* Fast prototyping only setting inline attributes at the element to define a state's flow that can produce outputs;
+* Fast prototyping via html attributes;
 					
 * Lower Down/Remove *building javascript* (npm stuff) process;
 
