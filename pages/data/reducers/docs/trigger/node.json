@@ -1,6 +1,6 @@
 {
   "description": [
-    "Realizam operações no elemento do compomente (node)."
+    "Works with only the actual node element."
   ],
   "reducers": [
     {

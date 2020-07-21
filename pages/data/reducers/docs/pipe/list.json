@@ -1,6 +1,6 @@
 {
   "description": [
-    "Realizam operações em `Array` ou `String`."
+    "Work with `Array` and `String`."
   ],
   "reducers": [
     {

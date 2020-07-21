@@ -1,12 +1,12 @@
 ---
 title: install
-Description: Documentação sobre como carregar a statepipe na sua pagina e iniciar componentes
+Description: How to start using statepipe.
 weight: 5
 ---
 
 {{% hlink h2 "Instalação" %}}
 
-Crie seus componentes marcando o html.
+Create your context and define your components on the html:
 
 {{< highlight html "style=github">}}
 <body>
@@ -23,19 +23,22 @@ Crie seus componentes marcando o html.
 </body>
 {{< /highlight >}}
 
-Carregue o script no final da página:
+Load the [script]({{<ref "/dist" >}}):
 
 {{< highlight html "style=github">}}
 <body>
     ...
     ...
     ...
-    <script src='tbd/statepipe.js' defer></script>
+    <script src='statepipe.js' defer></script>
 </body>
 {{< /highlight >}}
 
-Pronto!
+Done!
 
-> Veja todas as versões em [dist]({{<ref "/dist">}})
+> Check all available versions at [dist]({{<ref "/dist">}}) page.
+
+Go visit the [examples]({{<ref "/examples">}}) to understand better how to start.
+
 
 {{% continue "/setup/debug" %}}

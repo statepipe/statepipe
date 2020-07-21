@@ -1,13 +1,13 @@
 ---
 title: filters and contexts
-description: Exemplos de como filtrar ações para produzir pipes mais eficientes
+description: using the reducer *from* to understand better how context works.
 ---
 
 {{% hlink h2 "Filters and Contexts" %}}
 
-É comum se deparar com problemas onde algum outro componente dispara uma ação que você acreditava que só um determinado componente deveria disparar.
+If you find yourself trying to understand the origin of an action, you are looking for the reducer [from]({{< relref "/docs/pipe#from" >}}).
 
-O reducer [from]({{< relref "/docs/pipe#from" >}}) consegue filtrar ações e suas origens de várias formas.
+Check how to filter whatever you want at pipe level.
 
 <small>
 

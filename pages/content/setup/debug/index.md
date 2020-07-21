@@ -1,16 +1,17 @@
 ---
 title: debug
-description: várias formas de debug
+description: how to debug
 weight: 2
 ---
 
 {{% hlink h2 "Debug" %}}
 
-Existem algumas formas para fazer debug:
+There many ways to debug the flow.
 
-{{% hlink h3 "$statepipeLog" %}}
+{{% hlink h3 "Logging with $statepipeLog" %}}
 
-A statepipe pode logar tudo o que acontece, para ativar esse recurso:
+Turn it on by `$statepipeLog=true` before your statepipe.js script.
+
 
 {{< highlight html "style=github">}}
 <body>
@@ -24,19 +25,17 @@ A statepipe pode logar tudo o que acontece, para ativar esse recurso:
 </body>
 {{< /highlight >}}
 
-> Deixe o console do browser aberto nessa página para ver o logs em ação! Use os filtros para facilitar a visualização.
+> It logs a lot! Use the console's filter!
 
-{{% hlink h3 "$statepipeStores" %}}
+{{% hlink h3 "Breakpoints $statepipeStores" %}}
 
-Uma variável global chamada `$statepipeStores` armazena todas os reducers usados por <mark>:trigger, :pipe e :out</mark>. 
-
-Aplique um **breakpoint** no reducer que você gostaria de inspecionar!
+Set a breakpoint at the reducer you want to debug. `$statepipeStores` is the hub of all reducers!
 
 {{% hlink h3 "Mocking" %}}
 
-Por que a statepipe observa mutations é muito simples produzir um <mark>:action</mark> ou uma mudança de <mark>:state</mark> para emular um ações e pipes.
+Change an attribute by yourself! Because statepipe listen to attribute mutations do the changes you need and check the behavior.
 
-Considere o compomente:
+Consider the following:
 
 {{< highlight html "style=github">}}
 <button
@@ -47,23 +46,19 @@ Considere o compomente:
 >hits: 0</button>
 {{< /highlight >}}
 
-{{% hlink h4 "> Mocking trigger" %}}
+{{% hlink h4 "Mocking a trigger" %}}
 
-Para um trigger ser é preciso que o elemento dispare o evento esperado.
-
-Se o trigger esta ouvindo **click**, selecione o elemento pelo inspector do browser, vá no console e digite
+If the trigger is listening for a **click**, select the elemento with the inspector and type on console:
 
 `$0.click()`
 
-> O `$0` nos consoles dos navegarores representam o elemento selecionado!
+{{% hlink h4 "Mocking action" %}}
 
-{{% hlink h4 "> Mocking action" %}}
+To test you pipe, you need to mock an action.
 
-Emulando uma action é possivel fazer o debug do <mark>:pipe</mark>.
+**Start by the payload**.
 
-**Primeiro defina o payload!**
-
-Para isso, usando o inspector do browser, selecione o compomente e defina um novo atributo (`addAttribute`) chamado <mark>:payload</mark>:
+Set a new attribute called <mark>:payload</mark> with a valid string json object. (use `JSON.stringify({your object})`)
 
 {{< highlight html "style=github">}}
 <button
@@ -75,9 +70,9 @@ Para isso, usando o inspector do browser, selecione o compomente e defina um nov
 >hits: 0</button>
 {{< /highlight >}}
 
-**Agora defina uma action**.
+**Now, set the action!**
 
-Para isso, usando o inspector do browser, selecione o compomente e defina um novo atributo (`addAttribute`) chamado <mark>:action</mark> com o valor que seu <mark>:pipe</mark> espera.
+Set a new attribute called <mark>:action</mark> with the value your <mark>:pipe</mark> expects.
 
 {{< highlight html "style=github">}}
 <button
@@ -90,12 +85,8 @@ Para isso, usando o inspector do browser, selecione o compomente e defina um nov
 >hits: 0</button>
 {{< /highlight >}}
 
-Essa ação irá gerar a mutation que a statepipe precisa para passar pelos reducers do <mark>:pipe</mark>
+{{% hlink h4 "Mocking state change" %}}
 
-{{% hlink h4 "> Mocking state change" %}}
-
-Emulando uma mudança de <mark>:state</mark> é possivel fazer o debug do <mark>:out</mark>.
-
-Para isso, usando o inspector do browser, selecione o compomente atualize (`addAttribute`) a *property* <mark>:state</mark> com o **novo valor** (Precisa ser uma string de JSON valida).
+Set a new attribute called <mark>:state</mark> with a valid string json object. (use `JSON.stringify({your object})`)
 
 {{% continue "/setup/custom-reducers" %}}

@@ -1,12 +1,13 @@
 ---
 title: Exemples
+description: A list of components we usually see out there using only statepipe.
 tags:
     - examples
 ---
 
 ## Exemplos de uso
 
-Use o *inspector* do browser enquanto testa os compomentes para entender as mutações.
+For all the following examples you better open the inspector of your browser to understand what is going on down there with the attributes and mutations.
 
-Veja [aqui]({{<ref "/setup/debug">}}) mais detalhes sobre debug.
+Check [here]({{<ref "/setup/debug">}}) how to debug!
 

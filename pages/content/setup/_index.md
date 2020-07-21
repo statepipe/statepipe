@@ -1,10 +1,10 @@
 ---
 title: setup
-Description: Tudo o que você precisa saber para colocar a statepipe no seu projeto.
+Description: Everything you need to place statepipe on your page and start prototyping.
 tags:
     - setup
 ---
 
 {{% hlink h2 "Setup" %}}
 
-Tudo o que você precisa saber para colocar a statepipe no seu projeto.
+Everything you need to place statepipe on your page and start prototyping.
