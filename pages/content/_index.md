@@ -40,7 +40,7 @@ See:
     :out="text:tpl"
 >hits: 0</button>
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments" >}}
 <button
     :state='{"value":0,"tpl":"hits: ${state.value}"}'
     :trigger="hit@click|inc"

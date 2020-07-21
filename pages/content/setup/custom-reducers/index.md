@@ -9,7 +9,7 @@ The easy way is to load/inject your reducers before loading statepipe on your pa
 
 Make sure to merge existent reducers on the page before setting new ones!
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <body>
     ...
     ...

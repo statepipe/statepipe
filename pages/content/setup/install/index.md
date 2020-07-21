@@ -8,7 +8,7 @@ weight: 5
 
 Create your context and define your components on the html:
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <body>
 <header :statepipe="header">
     <button :trigger="..."></button>
@@ -25,7 +25,7 @@ Create your context and define your components on the html:
 
 Load the [script]({{<ref "/dist" >}}):
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <body>
     ...
     ...

@@ -13,7 +13,7 @@ There many ways to debug the flow.
 Turn it on by `$statepipeLog=true` before your statepipe.js script.
 
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <body>
     ...
     ...
@@ -37,7 +37,7 @@ Change an attribute by yourself! Because statepipe listen to attribute mutations
 
 Consider the following:
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <button
     :state='{"value":0,"tpl":"hits: ${state.value}"}'
     :trigger="hit@click|pick:value"
@@ -60,7 +60,7 @@ To test you pipe, you need to mock an action.
 
 Set a new attribute called <mark>:payload</mark> with a valid string json object. (use `JSON.stringify({your object})`)
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <button
     :state='{"value":0,"tpl":"hits: ${state.value}"}'
     :trigger="hit@click|pick:value"
@@ -74,7 +74,7 @@ Set a new attribute called <mark>:payload</mark> with a valid string json object
 
 Set a new attribute called <mark>:action</mark> with the value your <mark>:pipe</mark> expects.
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <button
     :state='{"value":0,"tpl":"hits: ${state.value}"}'
     :trigger="hit@click|pick:value"

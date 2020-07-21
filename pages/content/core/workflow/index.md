@@ -25,7 +25,7 @@ They will only be dispatched by [triggers]({{< ref "/core/triggers" >}}).
 
 It is defined by the attribute `:trigger=""`.
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <button :state='{"value":0}' :trigger="hit@click|inc">click</button>
 {{< /highlight >}}
 			
@@ -45,7 +45,7 @@ Actions can be captured by [pipes]({{< ref "/core/pipes" >}})
 
 They are defined by the attribute <mark>:pipe</mark>.
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <span :state='{"value":0}' :pipe="from:hit|add"></span>
 {{< /highlight >}}
 
@@ -59,7 +59,7 @@ When the `:state`  changes we can produce a new [output]({{< ref "/core/output" 
 
 The output is defined by the attribute <mark>:out</mark>.
 
-{{< highlight html "style=github">}}
+{{< highlight html "style=pygments">}}
 <span :out="text"></span>
 {{< /highlight >}}
 
