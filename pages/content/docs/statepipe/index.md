@@ -1,7 +1,7 @@
 ---
 title: :statepipe
-description: starting statepipe
-weight: 5
+description: The statepipe api.
+weight: 1
 tags: 
     - statepipe
     - docs

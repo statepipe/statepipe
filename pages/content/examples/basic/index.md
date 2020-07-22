@@ -1,6 +1,6 @@
 ---
-title: basic
-description: a list of very basic, and most used, components.
+title: Basic
+description: A list of very basic, and most used, components.
 ---
 
 {{% hlink h2 "Basic" %}}

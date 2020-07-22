@@ -1,6 +1,10 @@
 ---
-title: custom reducers
-Description: How to apply custom reducers.
+title: Custom Reducers
+description: Injecting custom reducers on $statepipeStores
+weight: 5
+tags:
+    - setup
+    - custom reducers
 ---
 
 {{% hlink h2 "Custom Reducers" %}}
@@ -33,6 +37,6 @@ Make sure to merge existent reducers on the page before setting new ones!
         })
         window.$statepipeStores = stores;
     </script>
-    <script src='statepipe.js' defer></script>
+    <script src='statepipe.js' async></script>
 </body>
 {{< /highlight >}}

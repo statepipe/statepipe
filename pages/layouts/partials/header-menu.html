@@ -38,7 +38,7 @@ class="desktop"
                 {{if eq $current (print .URL "/")}}• {{else}}↪ {{end}}index
             </option>
             {{with $.Site.GetPage .URL}}
-            {{range sort .Pages "Weight" "desc"}}
+            {{range sort .Pages "Weight" "asc"}}
                 {{if eq .Kind "page"}}
                 <option value="{{.RelPermalink}}">
                     {{if eq $current .RelPermalink}}• {{else}}↪ {{end}}{{.Name | lower}}
@@ -76,7 +76,7 @@ action="/"
                     {{if eq $current (print .URL "/")}}• {{else}}{{end}}index
                 </option>
                 {{with $.Site.GetPage .URL}}
-                    {{range sort .Pages "Weight" "desc"}}
+                    {{range sort .Pages "Weight" "asc"}}
                         {{if eq .Kind "page"}}
                         <option value="{{.RelPermalink}}">
                             {{if eq $current .RelPermalink}}• {{else}}{{end}}{{.Name | lower}}

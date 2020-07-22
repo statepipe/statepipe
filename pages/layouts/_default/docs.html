@@ -25,7 +25,7 @@
                 <a
                 :state='{"value":false}'
                 :trigger="closefilter@click|pick"
-                 href="#{{.}}">{{.}}</a> <small style="font-weight:lighter">({{(index $docs .).reducers | len}})</small>
+                 href="#{{.}}">{{.}}</a> <small style="font-weight:normal">({{(index $docs .).reducers | len}})</small>
             </dt>
             {{range sort (index $docs .).reducers "name" "asc" }}
             <dd>

@@ -1,6 +1,6 @@
 ---
-title: filters and contexts
-description: using the reducer *from* to understand better how context works.
+title: Filter and Context
+description: Using the reducer *from* to understand better how context works and how to manage to filter them properly.
 ---
 
 {{% hlink h2 "Filters and Contexts" %}}

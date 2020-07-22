@@ -1,8 +1,8 @@
 ---
 title: :out
-description: all reducers for :out
+description: All reducers for outputs.
 layout: docs
-weight: 2
+weight: 4
 docs:
     - render
     - list
