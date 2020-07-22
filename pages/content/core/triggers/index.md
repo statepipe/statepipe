@@ -1,8 +1,7 @@
 ---
-title: "triggers"
+title: Triggers
 description: The objective of the :trigger is to produce an action.
-
-weigth: 3
+weight: 3
 tags:
    - trigger
    - action

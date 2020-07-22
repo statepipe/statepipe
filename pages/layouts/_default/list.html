@@ -6,7 +6,7 @@
 <aside style="padding: 0 2rem">
     <h3 >Related content:</h3>
     <ul style="margin:0;">
-    {{range sort .Pages "Weight" "desc"}}
+    {{range sort .Pages "Weight" "asc"}}
         <li style="list-style-type: none;margin:1rem 0">
             👉 <a href="{{.Permalink}}">{{.Title}}</a>
             <br>

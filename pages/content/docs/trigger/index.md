@@ -1,8 +1,8 @@
 ---
 title: :trigger
-description: all reducers for :trigger
+description: All reducers for triggers.
 layout: docs
-weight: 3
+weight: 2
 docs:
     - event
     - list

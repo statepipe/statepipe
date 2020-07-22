@@ -1,11 +1,11 @@
 ---
-title: custom reducers
-description: defining and using custom reducers
+title: Custom Reducers
+description: Using Handlebars as custom reducer.
 ---
 
 ## Custom Reducers
 
-This example will render a "tab menu" via custom output using Handlebars as template engine.
+This example will render a "tab menu" via custom output using **Handlebars** as template engine.
 
 See that Handlebars will create new elements ready for statepipe!
 

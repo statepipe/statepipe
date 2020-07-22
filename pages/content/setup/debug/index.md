@@ -1,7 +1,10 @@
 ---
-title: debug
-description: how to debug
+title: Debug
+description: How to debug statepipe.
 weight: 2
+tags: 
+    - setup
+    - degug
 ---
 
 {{% hlink h2 "Debug" %}}
@@ -21,7 +24,7 @@ Turn it on by `$statepipeLog=true` before your statepipe.js script.
     <script>
         $statepipeLog = true;
     </script>
-    <script src='statepipe.js' defer></script>
+    <script src='statepipe.js' async></script>
 </body>
 {{< /highlight >}}
 

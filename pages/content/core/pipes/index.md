@@ -1,7 +1,7 @@
 ---
-title: "pipe"
+title: Pipe
 description: The objective of the :pipe is to produce new states
-weigth: 4
+weight: 4
 tags:
     - pipe
 ---

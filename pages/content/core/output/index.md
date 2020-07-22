@@ -1,7 +1,7 @@
 ---
-title: "output"
+title: Output
 description: The objective of the :out is to produce changes at the element level (css, text, new nodes).
-weigth: 5
+weight: 5
 tags:
     - out
     - output

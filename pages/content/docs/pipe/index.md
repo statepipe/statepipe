@@ -1,8 +1,8 @@
 ---
 title: :pipe
-description: all reducers for :pipe
+description: All reducers for pipes.
 layout: docs
-weight: 2
+weight: 3
 docs:
     - list
     - logic

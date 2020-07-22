@@ -1,6 +1,6 @@
 ---
-title: dist
-description: all distributed versions
+title: Distributed Versions
+description: All statepipe versions and reports.
 layout: dist
 tags:
     - dist

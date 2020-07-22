@@ -1,6 +1,6 @@
 ---
-title: todo list
-description: the statepipe way for todomvc.com
+title: To-do list
+description: The statepipe way for todomvc.com
 ---
 
 {{% hlink h2 "todo list" %}}

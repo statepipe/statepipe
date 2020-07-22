@@ -5,9 +5,9 @@ tags:
     - examples
 ---
 
-## Exemplos de uso
+## Real world samples
 
-For all the following examples you better open the inspector of your browser to understand what is going on down there with the attributes and mutations.
+For all the following examples its recommended opening the browser's inspector to understand in deep what is happening to the attributes and its mutations when you interact with the components.
 
-Check [here]({{<ref "/setup/debug">}}) how to debug!
+> Check how to [debug]({{<ref "/setup/debug">}})!
 

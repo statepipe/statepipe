@@ -1,7 +1,10 @@
 ---
-title: install
+title: Install
 Description: How to start using statepipe.
-weight: 5
+weight: 1
+tags:
+    - setup
+    - install
 ---
 
 {{% hlink h2 "Instalação" %}}
@@ -30,7 +33,7 @@ Load the [script]({{<ref "/dist" >}}):
     ...
     ...
     ...
-    <script src='statepipe.js' defer></script>
+    <script src='statepipe.js' async></script>
 </body>
 {{< /highlight >}}
 

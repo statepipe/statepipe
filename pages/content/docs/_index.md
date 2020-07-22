@@ -1,7 +1,8 @@
 ---
-title: docs
-description: all built-in reducers you find at statepipe.
+title: Docs
+description: Docs for all built-in reducers you find at statepipe.
 layout: list
+weight: 2
 tags:
     - docs
 ---

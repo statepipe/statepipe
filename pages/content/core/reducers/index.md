@@ -1,8 +1,8 @@
 ---
-title: reducers
+title: Reducers
 description: Reducers are the heart of the statepipe. They handle payload and state using functional reducers to produce component changes.
 layout: single
-weight: 1
+weight: 2
 tags:
     - reducers
     - trigger
@@ -15,7 +15,6 @@ tags:
 From the moment an action is created by a trigger to the moment an output is produced, state and payload have to be passed by reducers to produce changes.
 
 Most of the built-in reducers available at statepipe script use {{% ablank "ramda" "https://ramdajs.com/" %}} as a framework to achieve functional reducers.
-
 
 Each phase of the [workflow]({{< ref "/core/workflow" >}}) have access to a different list of reducers - all placed into the **main store** called `$statepipeStores`
 

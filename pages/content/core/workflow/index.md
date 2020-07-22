@@ -1,7 +1,7 @@
 ---
-title: workflow
+title: Workflow
 description: All the mutation flow from a trigger trough an output
-weight: 2
+weight: 1
 tags:
   - workflow
   - action

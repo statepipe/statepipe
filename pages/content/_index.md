@@ -1,9 +1,8 @@
 ---
 title: statepipe
-description: It is a javascript tool designed for fast prototyping and zero setup!
+description: A javascript tool designed for fast prototyping and zero setup!
 layout: single
 tags:
- - home
  - statepipe
 ---
 
