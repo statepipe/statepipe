@@ -72,7 +72,41 @@ test('resolve payload for every block', t => {
     t.is(JSON.stringify({value:"passB"}), schema.node.getAttribute(utils.PAYLOAD_ATTR))
 })
 
-test.skip('multi trigger handle event type', t => {
+test('multi actions handle reducer by event type', t => {
+  let currentAction;
+  const store = {
+      [utils.TRIGGER_STORE] : {
+          "pass": (prop) => {
+              return (payload, event, node) => {
+                  t.pass()
+                  return {value:prop}
+              }
+          }
+      }
+  }
+  const model = contexts.withChildren([
+      contexts.element(utils.TRIGGER_ATTR
+          ,"go@click|pass:click|pass:click,go@click|pass:click,go@change|pass:change,ping@loren|pass:ping")
+  ]);
+  const ctx = statepipe(model.wrapper,store)
+  const schema = ctx[model.name].components[0]
+  //global.$statepipeLog = true
+  initTrigger(schema)
+  currentAction = "go";
+  let trigger = handleTrigger(schema, currentAction)
+
+  t.plan(11)
+  trigger({type:"click"}) // should pass 3 tests
+  t.is("go", schema.node.getAttribute(utils.ACTION_ATTR))
+  t.is(JSON.stringify({value:"click"}), schema.node.getAttribute(utils.PAYLOAD_ATTR))
+
+  trigger({type:"change"}) // should pass 1 test
+  t.is("go", schema.node.getAttribute(utils.ACTION_ATTR))
+  t.is(JSON.stringify({value:"change"}), schema.node.getAttribute(utils.PAYLOAD_ATTR))
+
+  trigger({type:"loren"}) // should pass 1 test
+  t.is("ping", schema.node.getAttribute(utils.ACTION_ATTR))
+  t.is(JSON.stringify({value:"ping"}), schema.node.getAttribute(utils.PAYLOAD_ATTR))
 })
 
 test('missing state', t => {
