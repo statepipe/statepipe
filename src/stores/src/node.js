@@ -40,7 +40,24 @@ const runNodeFn = (...args) =>  (state, node) => {
   return state;
 };
 
+const addProp = (propName, map) => (state, node) => {
+  map = map || "value";
+  if (not(testArgs(state,node))
+  || not(utils.validateProp(propName))
+  || not(utils.validateProp(map))
+  ) {
+    return state;
+  }
+  
+  const value = view(lensPath(map.split(".")), state);
+  if (value !== undefined) {
+    node[propName] = value;
+  }
+  return state;
+};
+
 export default {
   nodePick: pickPropFromNode,
-  nodeFn: runNodeFn
+  nodeFn: runNodeFn,
+  nodeProp: addProp,
 };

@@ -1,6 +1,6 @@
 {
   "description": [
-    "Works with only the actual node element."
+    "Run reducer over the node element."
   ],
   "reducers": [
     {
@@ -14,6 +14,13 @@
       "name": "nodeFn",
       "description": [
         "Same as pipe [nodeFn()](../pipe#nodeFn)"
+      ],
+      "schemas": []
+    },
+    {
+      "name": "nodeProp",
+      "description": [
+        "Same as pipe [nodeProp()](../pipe#nodeProp)"
       ],
       "schemas": []
     }

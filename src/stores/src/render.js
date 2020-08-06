@@ -57,29 +57,6 @@ const getTemplate = (name, state, node) => {
   return null;
 };
 
-const getRenderedText = (prop, state) => {
-  prop = prop || "value";
-  const value = view(lensPath(prop.split(".")), state);
-  if (value === undefined) return null;
-  return unescape(eval('`'+value.toString()+'`')).trim();
-};
-
-const addProp = (propName, propLens) => (state, node) => {
-  propLens = propLens || "value";
-  if (not(validateStateNode(state,node))
-  || not(utils.validateProp(propName))
-  || not(utils.validateProp(propLens))
-  ) {
-    return state;
-  }
-
-  const value = view(lensPath(propLens.split(".")), state);
-  if (value !== undefined) {
-    node[propName] = value;
-  }
-  return state;
-};
-
 const fnAttr = fn => (attrName, attrValue) => (state, node) => {
 
   if (not(validateStateNode(state,node))
@@ -165,7 +142,9 @@ const textContent = prop => (state, node) => {
   }
 
   try {
-    const text = getRenderedText(prop, state);
+    const value = view(lensPath(prop.split(".")), state);
+    if (typeof value != "string") return null;
+    const text =  unescape(eval('`'+value.toString()+'`')).trim();
     if (text) node.textContent = text;
   } catch(err){
     utils.log(`:statepipe ${node.statepipe}/ ${node.nodeName} error evaluating ${prop} with state`, state);
@@ -200,7 +179,6 @@ export default {
   classAdd: fnClass("add"),
   classRm: fnClass("remove"),
   classToggle: fnClass("toggle"),
-  prop: addProp,
   text: textContent,
   template: innerHTML,
   appendChild: (prop) => (state, node) => appendPrepend("appendChild", prop, state, node),

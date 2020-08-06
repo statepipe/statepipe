@@ -5,25 +5,6 @@ import node from "~/test-utils/mock-node"
 //global.$statepipeLog =  true
 global.document = node({})
 
-const defaultObject = {
-  value: 10,
-  foo: {bar: "loren"}
-}
-const empty = {}
-
-
-test('prop' , t => {
-  let ele = node({})
-  const st = {value:"foo",a:{b:"inner"}}
-  t.deepEqual(st, store.prop()(st,ele))
-  t.deepEqual(st, store.prop("newprop")(st,ele))
-  t.is(ele.newprop, "foo")
-  t.deepEqual(st, store.prop("newprop","a.b")(st,ele))
-  t.is(ele.newprop, "inner")
-  t.deepEqual(st, store.prop("newprop","a.c")(st,ele))
-  t.is(ele.newprop, "inner")
-})
-
 test('template' , t => {
 
   let ele = node({})

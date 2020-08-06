@@ -32,17 +32,6 @@
         "`template(value)` node.innerHTML = eval(querySelector(state.value))",
         "`template(a.inner)` node.innerHTML = eval(querySelector(state.a.inner))"
       ]
-      },{
-        "name":"prop",
-        "description": [
-          "Set a value as element property's, not attribute.",
-          "First argument (node prop name) is **required**"
-        ],
-        "schemas": [
-          "`prop()` node.value = state.value",
-          "`prop(value,a)` node.value = state.a",
-          "`prop(value,a.inner)` node.value = state.a.inner"
-        ]
       },
       {
         "name":"appendChild",

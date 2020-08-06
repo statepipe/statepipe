@@ -1,6 +1,6 @@
 {
   "description": [
-    "Works with only the actual node element."
+    "Run reducer over the node element."
   ],
   "reducers": [
     {
@@ -21,6 +21,18 @@
       "schemas": [
         "`nodeFn(blur)` node.blur(); return state",
         "`nodeFn(blur,reset)` node.blur();node.reset(); return state"
+      ]
+    },
+    {
+      "name":"nodeProp",
+      "description": [
+        "Set a value as property. (node.prop = value)",
+        "First argument (node prop name) is **required**"
+      ],
+      "schemas": [
+        "`nodeProp()` node.value = state.value",
+        "`nodeProp(value,a)` node.value = state.a",
+        "`nodeProp(value,a.inner)` node.value = state.a.inner"
       ]
     }
   ]
