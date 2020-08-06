@@ -23,10 +23,8 @@ const getPayload = (schema, event) => (acc, reducer) => {
   return acc;
 };
 
-export default (schema, action) => {
-  if (!utils.validateState(schema)
-    || !utils.validateNode(schema.node)
-    || !utils.validateProp(action)){
+export default (schema) => {
+  if (!utils.validateState(schema)|| !utils.validateNode(schema.node)){
     return null;
   }
   return event => {
@@ -41,34 +39,32 @@ export default (schema, action) => {
 
     const resolveTrigger = (block, value) => {
       if (utils.validateState(value)&& Object.keys(value).length) {
-        utils.log(`:statepipe ${schema.wrapper}: ${schema.type}/ ${schema.node.nodeName} (${block}) ∴ action=${action} payload`, value);
+        utils.log(`:statepipe ${schema.wrapper}: ${schema.type}/ ${schema.node.nodeName} (${block.index}) ∴ action=${block.action} payload`, value);
         schema.node.setAttribute(utils.PAYLOAD_ATTR, JSON.stringify(value));
-        schema.node.setAttribute(utils.ACTION_ATTR, action);
+        schema.node.setAttribute(utils.ACTION_ATTR, block.action);
       } else {
-        utils.log(`:statepipe ${schema.wrapper}: ${schema.type}/ ${schema.node.nodeName} (${block}) ∴ action ${action} wont be fired!`);
+        utils.log(`:statepipe ${schema.wrapper}: ${schema.type}/ ${schema.node.nodeName} (${block.index}) ∴ action ${block.action} wont be fired!`);
       }
     };
 
-    let index;
+    let index, resolveBlock;
     const payload = schema.reducers
-      .filter(item => utils.validateProp(action) && action === item.action)
       .filter(item => item.event === (event || {}).type && item.event !== undefined)
-      .reduce((acc, reducer) => {
-        if (index !== reducer.index){
+      .reduce((acc, block) => {
+        if (index !== block.index){
           if (index !== undefined){
             //resolve prev blocks action
-            resolveTrigger(index, acc);
+            resolveTrigger(block, acc);
           }
-          index = reducer.index;
+          index = block.index;
+          resolveBlock = block;
           acc = oldstate;
         }
-        return getPayload(schema, event)(acc, reducer);
+        return getPayload(schema, event)(acc, block);
       }, oldstate);
       
-      if (schema.reducers.length){
-        //resolve last blocks action
-        const lastIndex = schema.reducers[schema.reducers.length-1].index;
-        resolveTrigger(lastIndex, payload);
+      if (resolveBlock){
+        resolveTrigger(resolveBlock, payload);
       }
     
     return schema;

@@ -19,9 +19,6 @@ test('statepipe invalid start', t => {
   t.is(null, statepipe({},{}));
 });
 
-test.skip('always return instances', t => {
-})
-
 test('statepipe empty wrapper', t => {
   window.setAttribute(utils.STATEPIPE_ATTR, "empty-wrapper");
   t.deepEqual({}, statepipe(window,{}));

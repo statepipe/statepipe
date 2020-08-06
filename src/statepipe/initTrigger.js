@@ -10,7 +10,6 @@ export default (blob) => {
             
           const actionAndHandler = schema.fn.split("@");
             const action = actionAndHandler[0];
-            
             let eventHandler = actionAndHandler[1];
 
             if (utils.validateProp(action) && utils.validateProp(eventHandler)) {
@@ -41,13 +40,13 @@ export default (blob) => {
                   break;
                 }
                 if (target && typeof target.addEventListener === "function"){
-                  utils.log(`:statepipe ${blob.wrapper}: ${blob.type}/ ${blob.node.nodeName} (${schema.index}) bind ${matches[1]} "${eventHandler}" to action: ${action}`);
-                  target.addEventListener(eventHandler, handleTrigger(blob, action));
+                  utils.log(`:statepipe ${blob.wrapper}: ${blob.type}/ ${blob.node.nodeName} (${schema.index}) bind ${matches[1]} "${eventHandler}"`);
+                  target.addEventListener(eventHandler, handleTrigger(blob));
                 }
               }
               else {
-                utils.log(`:statepipe ${blob.wrapper}: ${blob.type}/ ${blob.node.nodeName} (${schema.index}) bind "${eventHandler}" to action: ${action}`);
-                blob.node.addEventListener(eventHandler, handleTrigger(blob, action));
+                utils.log(`:statepipe ${blob.wrapper}: ${blob.type}/ ${blob.node.nodeName} (${schema.index}) bind "${eventHandler}"`);
+                blob.node.addEventListener(eventHandler, handleTrigger(blob));
               }
               return null;
             }
