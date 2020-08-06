@@ -83,6 +83,19 @@ test('pipe:includes/ ignore payload' , t => {
   t.deepEqual(state, pipes.includes("-","a.b","c.d")(payload,state))
 })
 
+test('pipe:notIncludes/ payload + state' , t => {
+  t.is(null, pipes.notIncludes("a.b","c.d")({a:{b:"a"}},{c:{d:"abc"}}))
+  t.is(null, pipes.notIncludes("a.b","c.d")({a:{b:10}},{c:{d:[10,1,2,3]}}))
+  t.deepEqual({c:{d:"a"}}, pipes.notIncludes("a.b","c.d")({a:{b:10}},{c:{d:"a"}}))
+})
+
+test('pipe:notIncludes/ ignore payload' , t => {
+  const payload = {error :true}
+  const state = {a:{b:"a"},c:{d:"casa"},e:"b"}
+  t.is(null, pipes.notIncludes("-","a.b","c.d")(payload,state))
+  t.deepEqual(state, pipes.notIncludes("-","a.b","e")(payload, state))
+})
+
 test('pipe:equals/ payload + state' , t => {
   t.is(null, pipes.equals("a.b","c.d")({a:{b:10}},{c:{d:1}}))
   t.deepEqual({c:{d:10}}, pipes.equals("a.b","c.d")({a:{b:10}},{c:{d:10}}))
