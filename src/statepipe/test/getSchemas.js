@@ -10,9 +10,6 @@ test('invalid store', t => {
   t.is("function", typeof getSchemas({}))
 })
 
-test.skip('testar blocl trigger por tipo de bind', t => {
-})
-
 test('invalid args', t => {
   const schema = getSchemas({});
 
@@ -132,89 +129,101 @@ test('trigger action name and action special chars', t => {
   t.deepEqual(["a","b"], res.reducers[0].args)
 })
 
+test('handle multi action', t => {
+  const schema = getSchemas({});
+  let multiaction = {
+    type:utils.TRIGGER_STORE,
+    node:node({[utils.TRIGGER_ATTR]:"ping@click|pick|set,pong@change|not"})
+  };
+
+  let res = schema(multiaction)
+
+  t.is(true, Array.isArray(res.reducers))
+  t.is(5, res.reducers.length)
+  t.is("ping", res.reducers[0].action)
+  t.is("ping", res.reducers[0].action)
+  t.is("ping", res.reducers[1].action)
+  t.is("ping", res.reducers[2].action)
+  t.is("pong", res.reducers[3].action)
+  t.is("pong", res.reducers[4].action)
+})
+
 test('multi reducers', t => {
   let schema = getSchemas({});
   let multiReducerOut = {
     type:utils.PIPE_STORE,
     node:node({
-      [utils.PIPE_ATTR]:"text:value,template:1:2:3,render",
+      [utils.PIPE_ATTR]:"text:value|pick|not,template:1:2:3|set,render",
     })
   };
   let res = schema(multiReducerOut)
   
   t.is(true, Array.isArray(res.reducers))
   //assert 1st
-  t.is(3, res.reducers.length)
+  t.is(6, res.reducers.length)
   t.is("text", res.reducers[0].fn)
   t.is(0, res.reducers[0].index)
-  t.is(1, res.reducers[0].args.length)
   t.deepEqual(["value"], res.reducers[0].args)
-  //assert 2nd
-  t.is("template", res.reducers[1].fn)
-  t.is(1, res.reducers[1].index)
-  t.is(3, res.reducers[1].args.length)
-  t.deepEqual(["1","2","3"], res.reducers[1].args)
-  //assert 3rd
-  t.is("render", res.reducers[2].fn)
+  //
+  t.is("pick", res.reducers[1].fn)
+  t.is(0, res.reducers[1].index)
+  t.is(0, res.reducers[1].args.length)
+  //
+  t.is("not", res.reducers[2].fn)
+  t.is(0, res.reducers[2].index)
   t.is(0, res.reducers[2].args.length)
-  t.deepEqual([], res.reducers[2].args)
-  t.is(2, res.reducers[2].index)
-
+  
+  //assert 2nd
+  t.is("template", res.reducers[3].fn)
+  t.is(1, res.reducers[3].index)
+  t.deepEqual(["1","2","3"], res.reducers[3].args)
+  //
+  t.is("set", res.reducers[4].fn)
+  t.is(1, res.reducers[4].index)
+  t.is(0, res.reducers[4].args.length)
+  
+  //assert 3rd
+  t.is("render", res.reducers[5].fn)
+  t.is(0, res.reducers[5].args.length)
+  t.is(2, res.reducers[5].index)
 
   schema = getSchemas({});
   multiReducerOut = {
     type:utils.OUT_STORE,
     node:node({
-      [utils.OUT_ATTR]:"text:value,template:1:2:3,render",
+      [utils.OUT_ATTR]:"text:value,template:1:2:3",
     })
   };
   res = schema(multiReducerOut)
   
   t.is(true, Array.isArray(res.reducers))
   //assert 1st
-  t.is(3, res.reducers.length)
+  t.is(2, res.reducers.length)
   t.is(0, res.reducers[0].index)
   t.is("text", res.reducers[0].fn)
-  t.is(1, res.reducers[0].args.length)
   t.deepEqual(["value"], res.reducers[0].args)
   //assert 2nd
   t.is("template", res.reducers[1].fn)
   t.is(1, res.reducers[1].index)
-  t.is(3, res.reducers[1].args.length)
   t.deepEqual(["1","2","3"], res.reducers[1].args)
-  //assert 3rd
-  t.is("render", res.reducers[2].fn)
-  t.is(2, res.reducers[2].index)
-  t.is(0, res.reducers[2].args.length)
-  t.deepEqual([], res.reducers[2].args)
 
   schema = getSchemas({});
   multiReducerOut = {
-    type:utils.PIPE_STORE,
+    type:utils.TRIGGER_STORE,
     node:node({
-      [utils.PIPE_ATTR]:"text:value,template:1:2:3,render",
+      [utils.TRIGGER_ATTR]:"ping@click:value,pong@change",
     })
   };
   res = schema(multiReducerOut)
   
   t.is(true, Array.isArray(res.reducers))
   //assert 1st
-  t.is(3, res.reducers.length)
-  t.is("text", res.reducers[0].fn)
+  t.is(2, res.reducers.length)
+  t.is("ping@click", res.reducers[0].fn)
   t.is(0, res.reducers[0].index)
-  t.is(1, res.reducers[0].args.length)
   t.deepEqual(["value"], res.reducers[0].args)
   //assert 2nd
-  t.is("template", res.reducers[1].fn)
-  t.is(3, res.reducers[1].args.length)
-  t.is(1, res.reducers[1].index)
-  t.deepEqual(["1","2","3"], res.reducers[1].args)
-  //assert 3rd
-  t.is("render", res.reducers[2].fn)
-  t.is(0, res.reducers[2].args.length)
-  t.deepEqual([], res.reducers[2].args)
-  t.is(2, res.reducers[2].index)
-
+  t.is("pong@change", res.reducers[1].fn)
 })
 
 test('reducers arg allow whitespace', t => {
@@ -306,3 +315,4 @@ test('multiline strings', t => {
   t.is("addClass", res.reducers[2].fn)
   t.is(4, res.reducers[2].args.length)
 })
+
