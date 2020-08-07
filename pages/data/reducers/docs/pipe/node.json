@@ -14,13 +14,21 @@
       ]
     },
     {
-      "name": "nodeFn",
+      "name": "fnRun",
       "description": [
-        "Run all arguments as node function."
+        "Call functions on different target.",
+        "The access to **event** works only for trigger!"
       ],
       "schemas": [
-        "`nodeFn(blur)` node.blur(); return state",
-        "`nodeFn(blur,reset)` node.blur();node.reset(); return state"
+        "`fnRun(self,ping)` node.ping(); return state",
+        "`fnRun(event,ping)` event.ping(); return state",
+        "`fnRun(ctx,ping)` ctx.ping(); return state",
+        "// ctx is the component wrapper",
+        "`fnRun(doc,ping)` document.ping(); return state",
+        "`fnRun(docElm,ping)` document.documentElement.ping(); return state",
+        "`fnRun(body,ping)` document.body.ping(); return state",
+        "`fnRun(win,ping)` window.ping(); return state",
+        "`fnRun(history,ping)` history.ping(); return state"
       ]
     },
     {

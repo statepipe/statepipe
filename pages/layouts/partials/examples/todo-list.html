@@ -51,7 +51,7 @@
  :statepipe="todo-row${state.count}"
  :state='{"rm":"rm","style": "-completed"}'
  :pipe="from:*|set:$action:action|pickAll"
- :out="equals:action:rm|nodeFn:remove,
+ :out="equals:action:rm|fnRun:self:remove,
  truthy:checked|classAdd:style,
  falsy:checked|classRm:style"
  >
@@ -76,7 +76,7 @@
  :state='{}'
  :trigger="void@submit|eventFn:preventDefault"
  :pipe="from:void|pickAll"
- :out="nodeFn:focus">
+ :out="fnRun:self:focus">
     <input 
         type="text"
         :state='{"enter":13,"empty":""}'

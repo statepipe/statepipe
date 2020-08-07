@@ -15,7 +15,7 @@ The following example is the how we can get that problem solved with only built-
 
 {{% reducer-docs "trigger" "nodePick,eventPick,pickAll,equals,truthy" %}}
 {{% reducer-docs "pipe" "from,pickAll,pick,inc,dec,truthy,falsy" %}}
-{{% reducer-docs "out" "equals,nodeFn,truthy,classAdd,falsy,classRm,prop,attrSet" %}}
+{{% reducer-docs "out" "equals,fnRun,truthy,classAdd,falsy,classRm,prop,attrSet" %}}
 
 </small>
 

@@ -11,9 +11,9 @@
       "schemas": []
     },
     {
-      "name": "nodeFn",
+      "name": "fnRun",
       "description": [
-        "Same as pipe [nodeFn()](../pipe#nodeFn)"
+        "Same as pipe [fnRun()](../pipe#fnRun)"
       ],
       "schemas": []
     },

@@ -53,7 +53,7 @@ tags:
     - multiply
     - negate
     - subtract
-    - nodeFn
+    - fnRun
     - nodePick
     - not
     - pick

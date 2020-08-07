@@ -173,12 +173,12 @@ The function returned by [1st phase](#1st-parameter-definition) will be called w
 
 Consider the following:
 
-:out="<mark>nodeFn:blur</mark>|<mark style="background-color:cyan">text</mark>"
+:out="<mark>fnRun:self:blur</mark>|<mark style="background-color:cyan">text</mark>"
 
-* **nodeFn:blur** 
+* **fnRun:self:blur** 
 
   ```
-  const fn = nodeFn("blur");
+  const fn = fnRun("self","blur");
   fn(state,node) // node.blur();
   return state;
   ```
