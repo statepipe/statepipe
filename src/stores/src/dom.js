@@ -54,6 +54,31 @@ const fnRun = (targetName, ...args) =>  (state, event, node, wrapper) => {
   return state;
 };
 
+const fnGet = (targetName, fnName, targetProp) =>  (state, event, node, wrapper) => {
+  targetProp = targetProp || "value";
+  
+  if (not( utils.validateProp(targetName)
+    || utils.validateProp(fnName)
+    || utils.validateProp(targetProp)
+    || utils.validateState(state))
+    ) {
+    return state;
+  }
+
+  const target = resolveTarget(targetName, event, node, wrapper);
+  if (not(target)){
+    return state;
+  }
+
+  const fn = view(lensPath(fnName.split(".")), target);
+  if (typeof fn === "function"){
+    const result = fn();
+    state = set(lensPath(targetProp.split(".")), result, state);
+  }
+
+  return state;
+};
+
 const addProp = (propName, map) => (state, node) => {
   map = map || "value";
   if (not(testArgs(state,node))
@@ -71,7 +96,8 @@ const addProp = (propName, map) => (state, node) => {
 };
 
 export default {
-  nodePick: pickPropFromNode,
   fnRun: fnRun,
+  fnGet: fnGet,
+  nodePick: pickPropFromNode,
   nodeProp: addProp,
 };
