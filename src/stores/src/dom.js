@@ -53,7 +53,7 @@ const fnRun = (targetName, ...args) =>  (state, event, node, wrapper) => {
   return state;
 };
 
-const fnGet = (targetName, fnName, targetProp) =>  (state, event, node, wrapper) => {
+const fnGet = (targetName, fnName, targetProp) => (state, event, node, wrapper) => {
   targetProp = targetProp || "value";
 
   if (not( utils.validateProp(targetName)
@@ -78,19 +78,35 @@ const fnGet = (targetName, fnName, targetProp) =>  (state, event, node, wrapper)
   return state;
 };
 
-const addProp = (propName, map) => (state, node) => {
-  map = map || "value";
-  if (not(testArgs(state,node))
-  || not(utils.validateProp(propName))
-  || not(utils.validateProp(map))
-  ) {
+const propSet = (targetName, propName, valueMap) => (state, event, node, wrapper) => {
+  propName = propName || "value";
+  valueMap = valueMap || "value";
+
+  if (not(utils.validateProp(targetName)
+    || utils.validateProp(propName)
+    || utils.validateProp(valueMap)
+    || utils.validateState(state))) {
     return state;
   }
-  
-  const value = view(lensPath(map.split(".")), state);
-  if (value !== undefined) {
-    node[propName] = value;
+
+  const target = resolveTarget(targetName, event, node, wrapper);
+  if (not(target)){
+    return state;
   }
+
+  const targetValue = view(lensPath(valueMap.split(".")), state);
+  if (!targetValue){
+    return state;
+  }
+
+  propName
+    .split(".")
+    .reduce((acc, path, index, arr) => {
+      const eol = index === arr.length -1;
+      acc[path] = eol ? targetValue : {};
+      return acc[path];
+    }, target);
+  
   return state;
 };
 
@@ -98,5 +114,5 @@ export default {
   fnRun,
   fnGet,
   propPick,
-  nodeProp: addProp,
+  propSet,
 };

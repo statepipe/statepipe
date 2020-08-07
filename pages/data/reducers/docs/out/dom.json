@@ -4,9 +4,9 @@
   ],
   "reducers": [
     {
-      "name": "nodePick",
+      "name": "propPick",
       "description": [
-        "Same as [pipe nodePick()](../pipe#nodePick)"
+        "Same as [pipe propPick()](../pipe#propPick)"
       ],
       "schemas": []
     },
@@ -18,9 +18,9 @@
       "schemas": []
     },
     {
-      "name": "nodeProp",
+      "name": "propSet",
       "description": [
-        "Same as [pipe nodeProp()](../pipe#nodeProp)"
+        "Same as [pipe propSet()](../pipe#propSet)"
       ],
       "schemas": []
     }

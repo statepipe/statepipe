@@ -3,11 +3,6 @@ import dom from "../dom";
 import mockNode from "~/test-utils/mock-node"
 import { merge } from "ramda";
 
-test('propPick/ missing args' , t => {
-  t.is(undefined,dom.propPick()());
-  t.is(undefined,dom.propPick("a")())
-  t.deepEqual({pass:true},dom.fnRun("a","b")({pass:true}))
-})
 
 test('propPick/ context args: event, node, ctx' , t => {
   const state = {a:true}
@@ -44,10 +39,49 @@ test('propPick/ globals: doc, docElm, body, win, history' , t => {
   delete global.history;
 })
 
-test('fnRun/ missing args' , t => {
-  t.is(undefined,dom.fnRun()());
-  t.is(undefined,dom.fnRun("a","b")())
-  t.deepEqual({pass:true},dom.fnRun("a","b")({pass:true}))
+test('propSet/ context args: event, node, ctx' , t => {
+  const state = {value:"propSet",a:{b:true}}
+  const tester = {value:"pass",a:{b:"ok"}}
+  const event = tester
+  const node = mockNode(tester)
+  const ctx = mockNode(tester)
+
+  dom.propSet("event")(state, event)
+  t.deepEqual(state.value, event.value)
+  dom.propSet("event","a.b")(state, event)
+  t.deepEqual(state.value, event.a.b)
+  dom.propSet("event","a.b","a.b")(state, event)
+  t.deepEqual(state.a.b, event.a.b)
+  dom.propSet("self","a.b","a.b")(state, null, node)
+  t.deepEqual(state.a.b, node.a.b)
+  dom.propSet("ctx","a.b","a.b")(state, null, null, ctx)
+  t.deepEqual(state.a.b, ctx.a.b)
+})
+
+test('propSet/ globals: doc, docElm, body, win, history' , t => {
+  const state = {a:{b:true}}
+  const tester = {value:false}
+  
+  global.document = mockNode(tester)
+  global.document.documentElement = mockNode(tester)
+  global.document.body = mockNode(tester)
+  global.window = mockNode(tester)
+  global.history = mockNode(tester)
+
+  dom.propSet("doc","a.b","a.b")(state)
+  t.deepEqual(state.a.b, global.document.a.b)
+  dom.propSet("docElm","a.b","a.b")(state)
+  t.deepEqual(state.a.b, global.document.documentElement.a.b)
+  dom.propSet("body","a.b","a.b")(state)
+  t.deepEqual(state.a.b, global.document.body.a.b)
+  dom.propSet("win","a.b","a.b")(state)
+  t.deepEqual(state.a.b, global.window.a.b)
+  dom.propSet("history","a.b","a.b")(state)
+  t.deepEqual(state.a.b, global.history.a.b)
+
+  delete global.document;
+  delete global.window;
+  delete global.history;
 })
 
 test('fnRun/ context args: event, node, ctx' , t => {
@@ -86,24 +120,6 @@ test('fnRun/ globals: doc, docElm, body, win, history' , t => {
   delete global.document;
   delete global.window;
   delete global.history;
-})
-
-test.skip('nodeProp' , t => {
-  let ele = mockNode({})
-  const st = {value:"foo",a:{b:"inner"}}
-  t.deepEqual(st, dom.nodeProp()(st,ele))
-  t.deepEqual(st, dom.nodeProp("newprop")(st,ele))
-  t.is(ele.newprop, "foo")
-  t.deepEqual(st, dom.nodeProp("newprop","a.b")(st,ele))
-  t.is(ele.newprop, "inner")
-})
-
-test('fnGet/ missing args' , t => {
-  t.is(undefined,dom.fnGet()());
-  t.is(undefined,dom.fnGet("a")())
-  t.is(undefined,dom.fnGet("a","b")())
-  t.is(undefined,dom.fnGet("a","b","c")())
-  t.deepEqual({},dom.fnGet("a","b","c")({}))
 })
 
 test('fnGet/ context args: event, node, ctx', t => {

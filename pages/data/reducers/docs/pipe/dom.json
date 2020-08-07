@@ -4,13 +4,13 @@
   ],
   "reducers": [
     {
-      "name": "nodePick",
+      "name": "propPick",
       "description": [
         "Run [pick](#pick) over node element."
       ],
       "schemas": [
-        "`nodePick()` state = merge(state, pick([value], node))",
-        "`nodePick(a,b)` state = merge(state, pick([a,b], node)"
+        "`propPick()` state = merge(state, pick([value], node))",
+        "`propPick(a,b)` state = merge(state, pick([a,b], node)"
       ]
     },
     {
@@ -32,15 +32,15 @@
       ]
     },
     {
-      "name":"nodeProp",
+      "name":"propSet",
       "description": [
         "Set a value as property. (node.prop = value)",
         "First argument (node prop name) is **required**"
       ],
       "schemas": [
-        "`nodeProp()` node.value = state.value",
-        "`nodeProp(value,a)` node.value = state.a",
-        "`nodeProp(value,a.inner)` node.value = state.a.inner"
+        "`propSet()` node.value = state.value",
+        "`propSet(value,a)` node.value = state.a",
+        "`propSet(value,a.inner)` node.value = state.a.inner"
       ]
     }
   ]
