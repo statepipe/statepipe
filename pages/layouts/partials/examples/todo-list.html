@@ -58,7 +58,7 @@
     <label>
         <input type="checkbox"
         :state='{}'
-        :trigger="check@click|nodePick:checked"></input>
+        :trigger="check@click|propPick:self:checked"></input>
         ${state.value}
     </label>
     <a href="#"
@@ -81,7 +81,7 @@
         type="text"
         :state='{"enter":13,"empty":""}'
         :pipe="from:*:$self|pickAll"
-        :trigger='add@keydown|eventPick:keyCode|equals:keyCode:enter|nodePick:value|truthy|pick'
+        :trigger='add@keydown|eventPick:keyCode|equals:keyCode:enter|propPick:self:value|truthy|pick'
         :out="prop:value:empty"
         placeholder="What needs to be done?" />
     <span style="display:block;width:100%;text-align:right"
@@ -96,7 +96,7 @@
             <input id="all"
             value="all"
             :state='{}'
-            :trigger="filter@click|nodePick"
+            :trigger="filter@click|propPick:self"
             type="radio"
             checked="checked"
             name="filter"></input>
@@ -106,7 +106,7 @@
             <input id="active"
             value="active"
             :state='{}'
-            :trigger="filter@click|nodePick"
+            :trigger="filter@click|propPick:self"
             type="radio"
             name="filter"></input>
             active
@@ -115,7 +115,7 @@
             <input id="completed"
             value="completed"
             :state='{}'
-            :trigger="filter@click|nodePick"
+            :trigger="filter@click|propPick:self"
             type="radio"
             name="filter"></input>
             completed

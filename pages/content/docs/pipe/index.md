@@ -53,7 +53,7 @@ tags:
     - negate
     - subtract
     - fnRun
-    - nodePick
+    - propPick
     - not
     - pick
     - pickAll

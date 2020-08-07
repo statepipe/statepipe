@@ -16,24 +16,23 @@ const resolveTarget = (value, event, node, ctx) => {
   return null;
 };
 
-const pickPropFromNode = (...args) => (state, node) => {
-  if (not(testArgs(state,node))){
+const propPick = (targetName, ...args) => (state, event, node, wrapper) => {
+  if (not(utils.validateProp(targetName)
+    || args.length)) {
     return state;
   }
-
-  if (not(args.length)) {
-    args = ["value"];
+  const target = resolveTarget(targetName, event, node, wrapper);
+  if (not(target)){
+    return state;
   }
-
-  return Array.from(args)
-    .reduce((acc, propPath) => {
-      const path = lensPath(propPath.split("."));
-      const value = view(path, node);
-      if (value !== undefined) {
-        acc = set(path, value, acc);
-      }
-      return acc;
-    },{...state});
+  return args.reduce((acc, fnName) => {
+    const lens = lensPath(fnName.split("."));
+    const value = view(lens, target);
+    if (value !== undefined){
+      acc = set(lens, value, acc);
+    }
+    return acc;
+  }, state);
 };
 
 const fnRun = (targetName, ...args) =>  (state, event, node, wrapper) => {
@@ -56,7 +55,7 @@ const fnRun = (targetName, ...args) =>  (state, event, node, wrapper) => {
 
 const fnGet = (targetName, fnName, targetProp) =>  (state, event, node, wrapper) => {
   targetProp = targetProp || "value";
-  
+
   if (not( utils.validateProp(targetName)
     || utils.validateProp(fnName)
     || utils.validateProp(targetProp)
@@ -96,8 +95,8 @@ const addProp = (propName, map) => (state, node) => {
 };
 
 export default {
-  fnRun: fnRun,
-  fnGet: fnGet,
-  nodePick: pickPropFromNode,
+  fnRun,
+  fnGet,
+  propPick,
   nodeProp: addProp,
 };

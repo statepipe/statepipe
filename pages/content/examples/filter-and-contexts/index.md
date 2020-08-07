@@ -13,7 +13,7 @@ Check how to filter whatever you want at pipe level.
 
 **Reducers**
 
-{{% reducer-docs "trigger" "nodePick" %}}
+{{% reducer-docs "trigger" "propPick" %}}
 {{% reducer-docs "pipe" "from,inc" %}}
 {{% reducer-docs "out" "text" %}}
 

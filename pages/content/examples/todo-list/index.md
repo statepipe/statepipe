@@ -13,7 +13,7 @@ The following example is the how we can get that problem solved with only built-
 
 **Reducers**
 
-{{% reducer-docs "trigger" "nodePick,eventPick,pickAll,equals,truthy" %}}
+{{% reducer-docs "trigger" "propPick,eventPick,pickAll,equals,truthy" %}}
 {{% reducer-docs "pipe" "from,pickAll,pick,inc,dec,truthy,falsy" %}}
 {{% reducer-docs "out" "equals,fnRun,truthy,classAdd,falsy,classRm,prop,attrSet" %}}
 

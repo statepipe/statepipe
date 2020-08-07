@@ -105,7 +105,7 @@ The function returned by [1st phase](#1st-parameter-definition) will be called w
 
 Consider the following
 
-trigger="<mark>eventFn:preventDefault</mark>|<mark style="background-color:cyan">dec:total</mark>|<mark style="background-color:lightgreen">nodePick</mark>"
+trigger="<mark>eventFn:preventDefault</mark>|<mark style="background-color:cyan">dec:total</mark>|<mark style="background-color:lightgreen">propPick</mark>"
 
 Means that:
 
@@ -124,10 +124,10 @@ Means that:
     return state;
     ```
 
-* **nodePick** 
+* **propPick** 
 
     ```
-    const fn = nodePick();
+    const fn = propPick();
     fn(state,event,node) // state.value = node.value;
     return state;
     ```
