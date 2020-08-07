@@ -1,6 +1,5 @@
 //general
-import node from "../src/node";
-import event from "../src/event";
+import dom from "../src/dom";
 
 //from pipe
 import object from "../pipes/object";
@@ -14,23 +13,24 @@ const pipeIgnorePayload = fn => (...args) => state => {
 };
 
 const stateAndNode = fn => (...args) =>
-   (state,event,node) => fn(...args)(state, node);
+   (state, event, node) => fn(...args)(state, node);
   
-let api = [object ,math ,logic ,list].reduce((api, reducer)=>{
-  api = Object.keys(reducer).reduce((acc,fn)=>{
-    acc[fn] = pipeIgnorePayload(reducer[fn]);
-    return acc;
-  },api);
-  return api;
-},{});
+let api = [object, math, logic, list]
+  .reduce((api, reducer)=>{
+    api = Object.keys(reducer).reduce((acc,fn) => {
+      acc[fn] = pipeIgnorePayload(reducer[fn]);
+      return acc;
+    },api);
+    return api;
+  },{});
 
 //only for pipes
 delete api.from;
 
-//inject node
-api = Object.keys(node)
-  .reduce((acc,fn)=>{
-    acc[fn] = stateAndNode(node[fn]);
+//fix params for dom reducers
+api = Object.keys(dom)
+  .reduce((acc,fn) => {
+    acc[fn] = stateAndNode(dom[fn]);
     return acc;
 }, api);
 

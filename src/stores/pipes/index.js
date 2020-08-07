@@ -2,14 +2,15 @@ import math from "./math";
 import object from "./object";
 import logic from "./logic";
 import list from "./list";
-import node from "../src/node";
+import dom from "../src/dom";
 
-const stateAndNode = fn => (...args) => (payload,state,node) => fn(...args)(state,node);
+const stateAndNode = fn => (...args) =>
+   (payload, state, node) => fn(...args)(state,node);
 
 //inject node
-const api = Object.keys(node)
+const api = Object.keys(dom)
   .reduce((acc,fn)=>{
-    acc[fn] = stateAndNode(node[fn]);
+    acc[fn] = stateAndNode(dom[fn]);
     return acc;
 }, {});
 

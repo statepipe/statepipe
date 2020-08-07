@@ -3,8 +3,7 @@ import math from "../math"
 import object from "../object"
 import list from "../list"
 import logic from "../logic"
-import node from "../node"
-import event from "../event"
+import dom from "../dom"
 import render from "../render"
 
 const unexpectedParams = (testRunner, rdcr ) => {
@@ -72,18 +71,10 @@ Object
   })
 
 Object
-  .keys(event)
+  .keys(dom)
   .forEach(fn => {
-    test(`stores:src/ event testUnexpectedParams ${fn}` , t => {
-      ignoreStateType(t,event[fn])
-    })
-  })
-
-Object
-  .keys(node)
-  .forEach(fn => {
-    test(`stores:src/ node testUnexpectedParams ${fn}` , t => {
-      ignoreStateType(t,node[fn])
+    test(`stores:src/ dom testUnexpectedParams ${fn}` , t => {
+      ignoreStateType(t,dom[fn])
     })
   })
 
