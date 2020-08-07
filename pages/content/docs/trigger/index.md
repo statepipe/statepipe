@@ -4,11 +4,10 @@ description: All reducers for triggers.
 layout: docs
 weight: 2
 docs:
-    - event
     - list
     - logic
     - math
-    - node
+    - dom
     - object
 tags:
     - docs

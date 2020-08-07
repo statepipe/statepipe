@@ -8,7 +8,7 @@ docs:
     - logic
     - math
     - object
-    - node
+    - dom
 tags: 
     - docs
     - list
