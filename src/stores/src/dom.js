@@ -4,6 +4,18 @@ import utils from "~/src/statepipe/utils";
 const testArgs = (state, node) => utils.validateState(state)
   && utils.validateState(node);
 
+const resolveTarget = (value, event, node, ctx) => {
+  if (value === "event") return event;
+  if (value === "self") return node;
+  if (value === "ctx") return ctx;
+  if (value === "doc")  return document;
+  if (value === "docElm")  return document.documentElement;
+  if (value === "body")  return document.body;
+  if (value === "win")  return window;
+  if (value === "history")  return history;
+  return null;
+};
+
 const pickPropFromNode = (...args) => (state, node) => {
   if (not(testArgs(state,node))){
     return state;
@@ -24,19 +36,21 @@ const pickPropFromNode = (...args) => (state, node) => {
     },{...state});
 };
 
-const runNodeFn = (...args) =>  (state, node) => {
-
-  if (not(testArgs(state,node))){
+const fnRun = (targetName, ...args) =>  (state, event, node, wrapper) => {
+  if (not(utils.validateProp(targetName)
+    || args.length)) {
     return state;
   }
-
-  args.forEach(fName => {
-     if (utils.validateProp(fName)
-     && typeof node[fName] === "function"){
-        node[fName]();
+  const target = resolveTarget(targetName, event, node, wrapper);
+  if (not(target)){
+    return state;
+  }
+  args.forEach(fnName => {
+    const fn = view(lensPath(fnName.split(".")), target);
+    if (typeof fn === "function"){
+      fn();
     }
   });
-  
   return state;
 };
 
@@ -58,6 +72,6 @@ const addProp = (propName, map) => (state, node) => {
 
 export default {
   nodePick: pickPropFromNode,
-  nodeFn: runNodeFn,
+  fnRun: fnRun,
   nodeProp: addProp,
 };
