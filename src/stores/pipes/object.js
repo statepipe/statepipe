@@ -1,4 +1,4 @@
-import object from "../src/object";
+import object from "../src/state/object";
 
 export default {
   pick: (...args) => (payload, state) => {

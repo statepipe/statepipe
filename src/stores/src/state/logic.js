@@ -23,9 +23,7 @@ const fnLogic = logic => (propA, propB) => (payload, state) => {
   const vA = view(lensPath(propA.split(".")), payload);
   const vB = view(lensPath(propB.split(".")), state);
 
-  return vA !== undefined && vB !== undefined
-    ? (logic(vA, vB) ? state : null)
-    : null;
+  return vA !== undefined ? (logic(vA, vB) ? state : null) : null;
 };
 
 
@@ -122,11 +120,11 @@ export default {
   notEquals : fnLogic((a,b)=> a !== undefined && b !== undefined && a !== b),
   includes : fnLogic(includes),
   notIncludes : (...args) => (payload, state) => fnLogic(includes)(...args)(payload, state) === state ? null : state,
-  truthy: fnTruthy,
-  falsy: a => (payload, state) => fnTruthy(a)(payload, state) === state ? null : state,
-  odd: fnLogic( a => not(isNaN(a)) ? a % 2 !== 0 : false),
+  odd: fnLogic(a => not(isNaN(a)) ? a % 2 !== 0 : false),
   even: fnLogic(a => not(isNaN(a)) ? a % 2 === 0 : false),
   positive : fnLogic(a => not(isNaN(a)) ? a >= 0 : false),
   negative: fnLogic(a => not(isNaN(a)) ? a < 0 : false),
+  truthy: fnTruthy,
+  falsy: a => (payload, state) => fnTruthy(a)(payload, state) === state ? null : state,
   from: fromFilter
 };

@@ -1,5 +1,5 @@
 
-import math from "../src/math";
+import math from "../src/state/math";
 import ignorePayload from "./ignorePayload";
 
 const persistA = fn => (a,b,c,d) => (payload,state,action,node,ctx) => {

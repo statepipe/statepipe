@@ -1,4 +1,4 @@
-import logic from "../src/logic";
+import logic from "../src/state/logic";
 import ignorePayload from "./ignorePayload";
 
 export default Object

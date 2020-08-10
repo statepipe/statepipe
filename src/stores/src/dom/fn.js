@@ -1,6 +1,6 @@
 import utils from "~/src/statepipe/utils";
 import {not, lensPath, set, view} from 'ramda';
-import resolveTarget from "./resolveTarget";
+import resolveTarget from "./_resolveTarget";
 
 const fnRun = (targetName, ...args) =>  (state, event, node, wrapper) => {
   if (not(utils.validateProp(targetName)

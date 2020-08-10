@@ -1,7 +1,7 @@
-import math from "./math";
-import object from "./object";
-import logic from "./logic";
-import list from "./list";
+import math from "./state/math";
+import object from "./state/object";
+import logic from "./state/logic";
+import list from "./state/list";
 import dom from "../src/dom";
 
 const stateAndNode = fn => (...args) =>
