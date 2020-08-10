@@ -2,7 +2,6 @@ import test from "ava"
 import store from "../render"
 import node from "~/test-utils/mock-node"
 
-//global.$statepipeLog =  true
 global.document = node({})
 
 test('template' , t => {

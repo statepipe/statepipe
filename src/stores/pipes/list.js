@@ -1,5 +1,5 @@
 import list from "../src/state/list";
-import ignorePayload from "./ignorePayload";
+import ignorePayload from "./_ignorePayload";
 
 const persistA = fn => (a,b,c,d) => (payload,state) => {
   if (a === "-"){

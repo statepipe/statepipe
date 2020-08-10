@@ -1,6 +1,15 @@
 import test from "ava"
 import reducers from "../list"
 import {merge} from "ramda"
+import {unexpectedParams} from "~/test-utils/test-reducer-args"
+
+Object
+  .keys(reducers)
+  .forEach(fn => {
+    test(`list testUnexpectedParams ${fn}` , t => {
+      unexpectedParams(t, reducers[fn])
+    })
+  })
 
 test('take' , t => {
   const payload  = {"value": [1,2,3,4,5],a:{b:[10,9,8]},c:"123",d:true}

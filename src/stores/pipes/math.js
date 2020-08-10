@@ -1,6 +1,6 @@
 
 import math from "../src/state/math";
-import ignorePayload from "./ignorePayload";
+import ignorePayload from "./_ignorePayload";
 
 const persistA = fn => (a,b,c,d) => (payload,state,action,node,ctx) => {
   if (a === "-"){

@@ -1,6 +1,15 @@
 import {merge} from "ramda"
 import test from "ava"
 import reducers from "../math"
+import {unexpectedParams} from "~/test-utils/test-reducer-args"
+
+Object
+  .keys(reducers)
+  .forEach(fn => {
+    test(`math testUnexpectedParams ${fn}` , t => {
+      unexpectedParams(t, reducers[fn])
+    })
+  })
 
 test('add' , t => {
   const state = {value:7, a:{b:2}, c:"12.3", d:true}

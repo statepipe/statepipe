@@ -1,5 +1,5 @@
 import logic from "../src/state/logic";
-import ignorePayload from "./ignorePayload";
+import ignorePayload from "./_ignorePayload";
 
 export default Object
   .keys(logic)
