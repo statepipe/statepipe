@@ -17,8 +17,8 @@ export default {
   multiply : ignorePayload(math.multiply),
   max : ignorePayload(math.max),
   min : ignorePayload(math.min),
+  modulo: ignorePayload(math.modulo),
   dec : persistA(math.dec),
   inc : persistA(math.inc),
-  negate : persistA(math.negate),
-  modulo: ignorePayload(math.modulo)
+  negate : persistA(math.negate)
 };
