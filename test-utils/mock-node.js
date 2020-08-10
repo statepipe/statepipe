@@ -46,9 +46,10 @@ const get = (n) => {
     setAttribute: (name,value) => n[name] = value,
     appendChild: () => {return true},
     prepend: () => {return true},
-    removeAttribute: name => n[name] = null,
+    removeAttribute: name => delete n[name],
     getAttribute: (name) => n[name],
     getAttributeNames: () => Object.keys(n),
+    hasAttribute: (name) => Object.keys(n).filter(n => n === name).length !== 0,
     toString: () => JSON.stringify(n),
     nodeName: "DIV",
     ...n

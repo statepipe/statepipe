@@ -24,7 +24,7 @@ test('template' , t => {
   global.document.setQueryResult([])
 })
 
-test('appendChild,prependChild' , t => {
+test('appendChild and prependChild' , t => {
   
   global.document.setQueryResult([])
   
@@ -75,40 +75,6 @@ test('text' , t => {
   t.deepEqual("empty", ele.textContent)
 })
 
-
-test('attrSet' , t => {
-  let n = node()
-  store.attrSet("foo")({"value":1},n)
-  t.is("1",n.getAttribute("foo"))
-
-  n = node()
-  store.attrSet("foo","a.b")({"a":{b:1}},n)
-  t.is("1",n.getAttribute("foo"))
-
-  n = node()
-  store.attrSet("foo","a.c")({"a":{b:1}},n)
-  t.is(undefined,n.getAttribute("foo"))
-
-  n = node()
-  store.attrSet("foo","a")({"a":"a=${state.value}",value:"loren"},n)
-  t.is("a=loren",n.getAttribute("foo"))
-})
-
-test('attrRm' , t => {
-  let n = node()
-  n.setAttribute("foo","bar")
-  store.attrRm("foo")({"value":1},n)
-  t.is(null,n.getAttribute("foo"))
-})
-
-test('attrToggle' , t => {
-  let n = node()
-  n.setAttribute("foo","bar")
-  store.attrToggle("foo")({"value":"bar"},n)
-  t.is(null,n.getAttribute("foo"))
-  store.attrToggle("foo")({"value":"bar"},n)
-  t.is("bar",n.getAttribute("foo"))
-})
 
 test('classAdd' , t => {
   const state = {

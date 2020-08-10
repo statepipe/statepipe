@@ -57,47 +57,6 @@ const getTemplate = (name, state, node) => {
   return null;
 };
 
-const fnAttr = fn => (attrName, attrValue) => (state, node) => {
-
-  if (not(validateStateNode(state,node))
-  || not(utils.validateProp(attrName))){
-    return state;
-  }
-  attrValue = attrValue || "value";
-  
-  let newValue = view(lensPath(attrValue.split(".")), state);
-
-  if (newValue !== undefined){
-    try {
-      newValue = eval('`'+newValue+'`');
-    } catch (err) {
-      newValue = undefined;
-      utils.warn(`:statepipe ${node.statepipe} / ${node.nodeName} error evaluating ${attrValue} with state`, state);
-      utils.log(err);
-    }
-  }
-
-  if (undefined === newValue) {
-    return state;
-  }
-
-  if (fn == "set" && node.getAttribute(attrName) !== newValue) {
-    node.setAttribute(attrName, newValue);
-  }
-  else if (fn == "remove" && node.getAttribute(attrName)) {
-    node.removeAttribute(attrName);
-  }
-  else if (fn === "toggle") {
-    if (node.getAttribute(attrName) === newValue){
-      node.removeAttribute(attrName);
-    } else {
-      node.setAttribute(attrName, newValue);
-    }
-  }
-  return state;
-};
-
-
 const fnClass = fn => prop => (state, node) => {
   prop = prop || "value";
   
@@ -173,9 +132,6 @@ const innerHTML = name => (state, node) => {
 };
 
 export default {
-  attrSet: fnAttr("set"),
-  attrRm: fnAttr("remove"),
-  attrToggle: fnAttr("toggle"),
   classAdd: fnClass("add"),
   classRm: fnClass("remove"),
   classToggle: fnClass("toggle"),
