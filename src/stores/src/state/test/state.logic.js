@@ -5,7 +5,7 @@ import node from "~/test-utils/mock-node";
 Object
   .keys(reducers)
   .forEach(fn => {
-    test.skip(`logic testUnexpectedParams ${fn}` , t => {
+    test(`logic testUnexpectedParams ${fn}` , t => {
       const rdcr = reducers[fn];
       t.is("function", typeof rdcr());
       t.is("function", typeof rdcr("value"));
