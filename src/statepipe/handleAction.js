@@ -62,7 +62,14 @@ export default (action, payload, origin) => {
         if (utils.validateState(acc)){
           const fn = reducer.run.apply(reducer, reducer.args);
           if (typeof fn === "function"){
-            acc = fn(payload, acc, action, schema.node, origin);
+            acc = fn({
+              action,
+              payload,
+              state:acc,
+              node: schema.node,
+              origin:origin,
+              wrapper:schema.wrapper,
+            });
             utils.log(`${prefix} (${reducer.index}) > ${reducer.fn}(${(reducer.args||[]).join(",")}) payload`,payload,"state",acc,"action: "+action);
           } else {
             utils.log(`${prefix} (${reducer.index}) > ${reducer.fn}(${(reducer.args||[]).join(",")}) reducer is not a function!`,acc);

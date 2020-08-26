@@ -107,7 +107,6 @@ export const queryComponents = (node, statepipeInstance) => {
         return schema;
       })
       .map(schema => {
-        schema.parent = statepipeInstance;
         schema.node.statepipe = statepipeInstance;
         schema.wrapper = node;
         return schema;
