@@ -1,12 +1,11 @@
-import utils from "./utils";
+import utils, {queryComponents} from "./utils";
 import getSchemas from "./getSchemas";
 import initTrigger from "./initTrigger";
 import handleMutation from "./handleMutation";
 
 const instances = {};
 
-const getComponents = (wrapper, name, stores) =>  utils
-  .queryComponents(wrapper, name)
+const getComponents = (wrapper, name, stores) =>  queryComponents(wrapper, name)
   .filter(item => item)
   .map(getSchemas(stores))
   .map(initTrigger)
