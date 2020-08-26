@@ -139,8 +139,8 @@ test(`attributeName: ${utils.ACTION_ATTR}`, t => {
     let ctx;
     const sp = statepipe(config.wrapper, {
         [utils.PIPE_STORE]:{
-            set: (...args) => {
-                return (payload, state, self, target) => {
+            set: () => {
+                return ({payload}) => {
                     t.is(payload.value,"payload")
                     return {pass:true}
                 }
@@ -179,7 +179,7 @@ test(`attributeName: ${utils.STATE_ATTR}`, t => {
             text: (...args) => {
                 t.is("value",args[0])
                 t.is("foo",args[1])
-                return (state, node) => {
+                return ({state, node}) => {
                     t.is("text", state.value)
                     t.is(n1, node)
                     return {value:args[1]}
@@ -187,7 +187,7 @@ test(`attributeName: ${utils.STATE_ATTR}`, t => {
             },
             pass: (val) => {
                 t.is("foo",val)
-                return (state, node) => {
+                return ({state, node}) => {
                     t.is(val, state.value)
                     t.is(n1, node)
                     return {value:val}
@@ -196,14 +196,14 @@ test(`attributeName: ${utils.STATE_ATTR}`, t => {
             mult: (value) => {
                 t.is(true,typeof value === "string")
                 t.is(true, !!value.match(/a|b|c/))
-                return (state,node) => {
+                return ({node}) => {
                     t.is(n1, node)
                     return {multi:value}
                 }
             },
             render: (arg) => {
                 t.is(arg,"template")
-                return (state, node) => {
+                return ({state, node}) => {
                     t.is("render", state.value)
                     t.is(node,n2)
                     return {pass:true}
