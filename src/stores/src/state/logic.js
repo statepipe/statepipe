@@ -7,7 +7,7 @@ const _value = "value";
 const validateState = value => is(Object,value) && not(is(Array,value));
 const validateProp = value => is(String, value) && value.length > 0;
 
-const fnLogic = logic => (propA, propB) => (payload, state) => {
+const fnLogic = logic => (propA, propB) => ({payload, state}) => {
   
   propA = propA || _value;
   propB = propB || _value;
@@ -27,7 +27,7 @@ const fnLogic = logic => (propA, propB) => (payload, state) => {
 };
 
 
-const fnTruthy = (propA,propB) => (payload, state) => {
+const fnTruthy = (propA,propB) => ({payload, state}) => {
   propA = propA || _value;
   propB = propB || _value;
 
@@ -53,14 +53,14 @@ const fromFilter = (pAction, pSelf, pCtx) => {
   pSelf = pSelf || "*";
   pCtx = pCtx || "*";
 
-  return (payload, state, action, self, origin) => {
+  return ({state, action, node, origin}) => {
 
     if (not(validateState(state))
     || not(is(String,pAction))
     || not(is(String,pSelf))
     || not(is(String,pCtx))
     || not(action)
-    || not(self)
+    || not(node)
     || not(origin)) {
       return state;
     }
@@ -70,10 +70,10 @@ const fromFilter = (pAction, pSelf, pCtx) => {
     }
 
     if (pSelf != "*"){
-      if (pSelf === "$self" && self != origin){
+      if (pSelf === "$self" && node != origin){
         return null;
       }
-      else if (pSelf === "$others" && self === origin){
+      else if (pSelf === "$others" && node === origin){
         return null;
       }
       else if (not(pSelf.match(/^\$(self|others)$/))) {
@@ -92,13 +92,13 @@ const fromFilter = (pAction, pSelf, pCtx) => {
     }
 
     if (pCtx != "*") {
-      if (not(self.statepipe) || not(origin.statepipe)) {
+      if (not(node.statepipe) || not(origin.statepipe)) {
         return null;
       }
-      else if (pCtx === "$self" && self.statepipe != origin.statepipe) {
+      else if (pCtx === "$self" && node.statepipe != origin.statepipe) {
         return null;
       }
-      else if (pCtx === "$others" && self.statepipe === origin.statepipe) {
+      else if (pCtx === "$others" && node.statepipe === origin.statepipe) {
         return null;
       }
       else if (not(pCtx.match(/^\$(self|others)$/))
@@ -111,20 +111,36 @@ const fromFilter = (pAction, pSelf, pCtx) => {
   };
 };
 
+const _gt = fnLogic(gt);
+const _gte = fnLogic(gte);
+const _lt = fnLogic(lt);
+const _lte = fnLogic(lte);
+const _equals = fnLogic(equals);
+const _notEquals = fnLogic((a,b)=> a !== undefined && b !== undefined && a !== b);
+const _includes = fnLogic(includes);
+const _notIncludes = (...args) => ({payload, state}) => fnLogic(includes)(...args)({payload, state}) === state ? null : state;
+const _odd = fnLogic(a => not(isNaN(a)) ? a % 2 !== 0 : false);
+const _even = fnLogic(a => not(isNaN(a)) ? a % 2 === 0 : false);
+const _positive = fnLogic(a => not(isNaN(a)) ? a >= 0 : false);
+const _negative = fnLogic(a => not(isNaN(a)) ? a < 0 : false);
+const _truthy = fnTruthy;
+const _falsy = a => ({payload, state}) => fnTruthy(a)({payload, state}) === state ? null : state;
+const _from = fromFilter;
+
 export default {
-  gt : fnLogic(gt),
-  gte : fnLogic(gte),
-  lt : fnLogic(lt),
-  lte : fnLogic(lte),
-  equals : fnLogic(equals),
-  notEquals : fnLogic((a,b)=> a !== undefined && b !== undefined && a !== b),
-  includes : fnLogic(includes),
-  notIncludes : (...args) => (payload, state) => fnLogic(includes)(...args)(payload, state) === state ? null : state,
-  odd: fnLogic(a => not(isNaN(a)) ? a % 2 !== 0 : false),
-  even: fnLogic(a => not(isNaN(a)) ? a % 2 === 0 : false),
-  positive : fnLogic(a => not(isNaN(a)) ? a >= 0 : false),
-  negative: fnLogic(a => not(isNaN(a)) ? a < 0 : false),
-  truthy: fnTruthy,
-  falsy: a => (payload, state) => fnTruthy(a)(payload, state) === state ? null : state,
-  from: fromFilter
+  gt: _gt,
+  gte: _gte,
+  lt: _lt,
+  lte: _lte,
+  equals: _equals,
+  notEquals: _notEquals,
+  includes: _includes,
+  notIncludes: _notIncludes,
+  odd: _odd,
+  even: _even,
+  positive: _positive,
+  negative: _negative,
+  truthy: _truthy,
+  falsy: _falsy,
+  from: _from,
 };

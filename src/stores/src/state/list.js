@@ -129,21 +129,30 @@ const fnSort =(pA, pB) => ({payload, state}) => {
     : state;
 };
 
+const _take = fnList(take);
+const _takeLast = fnList(takeLast);
+const _drop = fnList(drop);
+const _dropLast = fnList(dropLast);
+const _append = fnAppPrepp(append);
+const _prepend = fnAppPrepp(prepend);
+const _reverse = fnRevFlat(reverse);
+const _flatten = fnRevFlat(flatten);
+const _concat = fnConcat;
+const _sort = fnSort;
+const _filter = fnFilter(equals);
+const _filterNot = fnFilter(curry((compare, val) => compose(not,equals(compare))(val)));
+
 export default {
-  take: fnList(take),
-  takeLast: fnList(takeLast),
-  drop: fnList(drop),
-  dropLast: fnList(dropLast),
-
-  append: fnAppPrepp(append),
-  prepend: fnAppPrepp(prepend),
-
-  reverse: fnRevFlat(reverse),
-  flatten: fnRevFlat(flatten),
-  
-  concat: fnConcat,
-  sort: fnSort,
-
-  filter: fnFilter(equals),
-  filterNot: fnFilter(curry((compare, val) => compose(not,equals(compare))(val))),
+  take : _take,
+  takeLast : _takeLast,
+  drop : _drop,
+  dropLast : _dropLast,
+  append : _append,
+  prepend : _prepend,
+  reverse : _reverse,
+  flatten : _flatten,
+  concat : _concat,
+  sort : _sort,
+  filter : _filter,
+  filterNot : _filterNot,
 };
