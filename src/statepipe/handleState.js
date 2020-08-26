@@ -29,7 +29,11 @@ export default schema => {
                 if (acc && utils.validateState(acc)) {
                     const fn = reducer.run.apply(reducer, reducer.args);
                     if (typeof fn === "function"){
-                        acc = fn(acc, schema.node);
+                        acc = fn({
+                          state: acc,
+                          node: schema.node,
+                          wrapper: schema.node,
+                        });
                         utils.log(`${logPrefix} (${reducer.index}) ∴ ${reducer.fn}(${(reducer.args||[]).join(",")}) state:`,acc);
                     } else {
                         utils.log(`${logPrefix} (${reducer.index}) > ${reducer.fn}(${(reducer.args||[]).join(",")}) reducer is not a function!`,acc);

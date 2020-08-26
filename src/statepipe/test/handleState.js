@@ -1,14 +1,13 @@
 import test from "ava";
 import statepipe from "../index";
 import utils from "../utils";
-import node from "~/test-utils/mock-node";
 import handleState from '../handleState';
 import window from "~/test-utils/mock-window";
 import contexts from "~/test-utils/mock-context";
 
 global.MutationObserver = window.MutationObserver
 
-test('arguments', t => {
+test('handleState/ arguments', t => {
     t.is("function", typeof handleState) 
     t.is(null, handleState()) 
     t.is(null, handleState(1)) 
@@ -16,7 +15,33 @@ test('arguments', t => {
     t.is(null, handleState(function(){})) 
 })
 
-test('produce output', t => {
+test('handleState/ args and context', t => {
+  //global.$statepipeLog = true;
+  const config = contexts.simple();
+  let ctx;
+  
+  const sp = statepipe(config.wrapper, {
+      [utils.OUT_STORE]:{
+          text: (value) => {
+              t.is("value", value);
+              return (context) => {
+                  t.is(true, utils.validateState(context.state))
+                  t.is(context.node, ctx.components[0].node)
+                  t.is(context.wrapper, ctx.components[0].wrapper)
+                  return {value:value}
+              }
+          }
+      }
+  });
+  ctx = sp[config.name];
+
+  t.plan(5)
+  handleState(ctx.components[0])
+  t.is(JSON.stringify({value:"sample"}),
+    ctx.components[0].node.getAttribute(utils.STATE_ATTR))
+})
+
+test('handleState/ produce output', t => {
     //global.$statepipeLog = true;
     const config = contexts.simple();
     let ctx;
@@ -25,7 +50,7 @@ test('produce output', t => {
         [utils.OUT_STORE]:{
             text: (value) => {
                 t.is("value", value);
-                return (state, node) => {
+                return ({state, node}) => {
                     t.is(true, utils.validateState(state))
                     t.is(true, node === ctx.wrapper)
                     return {value:value}
@@ -41,7 +66,7 @@ test('produce output', t => {
       ctx.components[0].node.getAttribute(utils.STATE_ATTR))
 })
 
-test('missing store reducer', t => {
+test('handleState/ missing store reducer', t => {
     const config = contexts.withChildren([
         contexts.element(utils.OUT_ATTR, "set:foo|error|pass:true"),
       ]);
@@ -50,14 +75,14 @@ test('missing store reducer', t => {
       const sp = statepipe(config.wrapper, {
           [utils.OUT_STORE]:{
               set: value => {
-                  return (state) => {
+                  return ({state}) => {
                       t.is(true, state.value)
                       t.pass()
                       return {value:value}
                   }
               },
               pass: (value) => {
-                return (state) => {
+                return ({state}) => {
                     t.is("foo", state.value)
                     t.pass()
                     return {value:value}
@@ -74,7 +99,7 @@ test('missing store reducer', t => {
         ctx.components[0].node.getAttribute(utils.STATE_ATTR))
 })
 
-test('malformed state', t => {
+test('handleState/ malformed state', t => {
     //global.$statepipeLog = true;
     const config = contexts.simple();
     let ctx;
@@ -83,7 +108,7 @@ test('malformed state', t => {
         [utils.OUT_STORE]:{
             text: (value) => {
                 t.fail()
-                return (state, node) => {
+                return () => {
                     t.fail()
                     return {value:value}
                 }
@@ -106,7 +131,7 @@ test('malformed state', t => {
     t.is("[]",ctx.components[0].node.getAttribute(utils.STATE_ATTR))
 })
 
-test('handle reducer error', t => {
+test('handleState/ handle reducer error', t => {
     const config = contexts.withChildren([
         contexts.element(utils.OUT_ATTR,"text:pass|fail")
     ]);
@@ -116,14 +141,14 @@ test('handle reducer error', t => {
         [utils.OUT_STORE]:{
             text: (value) => {
                 t.is("pass", value);
-                return (state, node) => {
+                return ({state, node}) => {
                     t.is(true, node === ctx.components[0].node)
                     return {value:value}
                 }
             },
-            fail: (value) => {
+            fail: () => {
                 t.pass()
-                return (state) => {
+                return ({state}) => {
                     t.is("pass",state.value)
                     throw new Error("wont pass")
                 }
@@ -136,7 +161,7 @@ test('handle reducer error', t => {
     handleState(ctx.components[0])
 })
 
-test('handle malformed reducer function', t => {
+test('handleState/ handle malformed reducer function', t => {
     const config = contexts.withChildren([
         contexts.element(utils.OUT_ATTR,"text:pass")
     ]);
@@ -156,7 +181,7 @@ test('handle malformed reducer function', t => {
     handleState(ctx.components[0])
 })
 
-test('preserve state btw reducers', t => {
+test('handleState/ preserve state btw reducers', t => {
     const config = contexts.withChildren([
         contexts.element(utils.OUT_ATTR,"text:pass|break|render")
     ]);
@@ -170,16 +195,16 @@ test('preserve state btw reducers', t => {
                     return {value:value}
                 }
             },
-            break: (value) => {
+            break: () => {
                 t.pass()
-                return (state) => {
+                return ({state}) => {
                     t.is("pass", state.value);
                     return null
                 }
             },
-            render: (value) => {
+            render: () => {
                 t.fail()
-                return (state) => {
+                return () => {
                     t.fail()
                     return null
                 }
@@ -192,7 +217,7 @@ test('preserve state btw reducers', t => {
     handleState(ctx.components[0])  
 })
 
-test('preserve state btw blocks', t => {
+test('handleState/ preserve state btw blocks', t => {
     const config = contexts.withChildren([
         contexts.element(utils.OUT_ATTR,"text:pass,break,render")
     ]);
@@ -201,21 +226,21 @@ test('preserve state btw blocks', t => {
         [utils.OUT_STORE]:{
             text: (value) => {
                 t.is("pass", value);
-                return (state) => {
+                return ({state}) => {
                     t.is(true, state.value);
                     return {value:value}
                 }
             },
             break: (value) => {
                 t.is(undefined, value)
-                return (state) => {
+                return ({state}) => {
                     t.is(true, state.value);
                     return null
                 }
             },
-            render: (value) => {
+            render: () => {
                 t.pass()
-                return (state) => {
+                return ({state}) => {
                     t.is(true, state.value)
                     return null
                 }
