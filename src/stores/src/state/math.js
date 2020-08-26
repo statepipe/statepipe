@@ -14,7 +14,7 @@ const checkData = (payload, state) => is(Object, payload)
 
 const checkProp = a => is(String, a) && !!a.length;
 
-const math = fn => (pA, pB, pC) => (payload, state) => {
+const math = fn => (pA, pB, pC) => ({payload, state}) => {
 
   pA = pA || "value";
   pB = pB || "value";

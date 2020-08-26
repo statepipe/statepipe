@@ -9,7 +9,7 @@ const testProp = prop => prop === undefined || is(String, prop);
 const testPayloadAndState = (payload, state) => testObject(payload) && testObject(state);
 
 export default {
-  pick: (...args) => (payload, state) => {
+  pick: (...args) => ({payload, state}) => {
 
     if (not(testPayloadAndState(payload, state))) {
       return state;
@@ -31,7 +31,7 @@ export default {
     return state;
   },
 
-  pickAll: prop => (payload, state) => {
+  pickAll: prop => ({payload, state}) => {
     if (prop === "-"){
       payload = state;
     }
@@ -44,7 +44,7 @@ export default {
         };
   },
 
-  set: (propA, propB) => (payload, state, action) => {
+  set: (propA, propB) => ({payload, state, action}) => {
     
     propA = propA || _defaultProp;
     propB = propB || _defaultProp;
@@ -69,7 +69,7 @@ export default {
     return set(lensPath(propB.split(".")), val, state);
   },
 
-  not: (propA, propB) => (payload, state) => {
+  not: (propA, propB) => ({payload, state}) => {
     
     propA = propA || _defaultProp;
     propB = propB || _defaultProp;
