@@ -1,78 +1,77 @@
-const STATEPIPE_ATTR = ":statepipe";
-const STATE_ATTR = ":state";
-const PIPE_ATTR = ":pipe";
-const TRIGGER_ATTR = ":trigger";
-const OUT_ATTR = ":out";
-const PAYLOAD_ATTR = ":payload";
-const ACTION_ATTR = ":action";
+export const STATEPIPE_ATTR = ":statepipe";
+export const STATE_ATTR = ":state";
+export const PIPE_ATTR = ":pipe";
+export const TRIGGER_ATTR = ":trigger";
+export const OUT_ATTR = ":out";
+export const PAYLOAD_ATTR = ":payload";
+export const ACTION_ATTR = ":action";
 
-const OUT_STORE = "out";
-const PIPE_STORE = "pipe";
-const TRIGGER_STORE = "trigger";
+export const OUT_STORE = "out";
+export const PIPE_STORE = "pipe";
+export const TRIGGER_STORE = "trigger";
 
-const QUERY_COMPONENTS = `[\\${TRIGGER_ATTR}],[\\${PIPE_ATTR}],[\\${OUT_ATTR}]`;
-const QUERY_STATEPIPE = `[\\${STATEPIPE_ATTR}]`;
-const COMPONENT_ATTR_LIST = [OUT_ATTR,PIPE_ATTR,TRIGGER_ATTR];
+export const QUERY_COMPONENTS = `[\\${TRIGGER_ATTR}],[\\${PIPE_ATTR}],[\\${OUT_ATTR}]`;
+export const QUERY_STATEPIPE = `[\\${STATEPIPE_ATTR}]`;
+export const COMPONENT_ATTR_LIST = [OUT_ATTR,PIPE_ATTR,TRIGGER_ATTR];
 
-const ALIAS_STORES = {
+export const ALIAS_STORES = {
   [PIPE_ATTR]:PIPE_STORE,
   [OUT_ATTR]:OUT_STORE,
   [TRIGGER_ATTR]:TRIGGER_STORE
 };
 
-const ALIAS_ATTR = {
+export const ALIAS_ATTR = {
   [PIPE_STORE]:PIPE_ATTR,
   [OUT_STORE]:OUT_ATTR,
   [TRIGGER_STORE]:TRIGGER_ATTR
 };
 
-const validateProp = prop => !!(typeof prop === "string" && prop.trim().length > 0);
-const validateState = state => !!(!!state && typeof state === "object" && Array.isArray(state) === false);
-const validateNode = node => !!(validateState(node) && !!node.parentNode && node.nodeName && typeof node.addEventListener === "function" && typeof node.setAttribute === "function");
-const validateStoreAttrName = attr => !!([TRIGGER_STORE, OUT_STORE, PIPE_STORE].indexOf(attr) !== -1);
+export const validateProp = prop => !!(typeof prop === "string" && prop.trim().length > 0);
+export const validateState = state => !!(!!state && typeof state === "object" && Array.isArray(state) === false);
+export const validateNode = node => !!(validateState(node) && !!node.parentNode && node.nodeName && typeof node.addEventListener === "function" && typeof node.setAttribute === "function");
+export const validateStoreAttrName = attr => !!([TRIGGER_STORE, OUT_STORE, PIPE_STORE].indexOf(attr) !== -1);
 
-const log = (...args) => {
+export const log = (...args) => {
   if (global.$statepipeLog) {
     console.log.call(console.log, ...args);
   }  
 };
 
-const warn = (...args) => {
+export const warn = (...args) => {
   if (global.$statepipeLog) {
     console.warn.call(console.warn, ...args);
   }  
 };
 
-const error = (...args) => {
+export const error = (...args) => {
   if (global.$statepipeLog) {
     console.error.call(console.error, ...args);
   }  
 };
 
 
-const parseJSON = (node, prop) => {
+export const parseJSON = (node, prop) => {
   prop = prop || STATE_ATTR;
 
   if (validateNode(node) && validateProp(prop)){
     try {
       const json = JSON.parse(node.getAttribute(prop));
       return validateState(json)? json : null;
-    }catch(e){ 
+    } catch(e) { 
       return null;
     }
   }
   return null;
 };
 
-
-const flatten = (acc,list) => {
+export const flatten = (acc,list) => {
   if (Array.isArray(acc) && Array.isArray(list)){
     acc = acc.concat(list);
   }
   return acc;
 };
 
-const getStatepipeName = node => {
+export const getStatepipeName = node => {
   if (validateNode(node)){
     const name = node.getAttribute(STATEPIPE_ATTR);
     if (name && name.length) return name;
@@ -81,7 +80,7 @@ const getStatepipeName = node => {
   return null;
 };
 
-const testSchema = node => {
+export const testSchema = node => {
   if (validateNode(node)){
     return COMPONENT_ATTR_LIST.map(type => {
       if (validateProp(node.getAttribute(type))){
@@ -92,10 +91,9 @@ const testSchema = node => {
   return null;
 };
 
-const queryComponents = (node, statepipeInstance) => {
+export const queryComponents = (node, statepipeInstance) => {
   if (validateNode(node)){
-    const candaidates = Array
-      .from(node.querySelectorAll(QUERY_COMPONENTS));
+    const candaidates = Array.from(node.querySelectorAll(QUERY_COMPONENTS));
     return [node]
       .concat(candaidates)
       .map(testSchema)
@@ -109,15 +107,16 @@ const queryComponents = (node, statepipeInstance) => {
         return schema;
       })
       .map(schema => {
+        schema.parent = statepipeInstance;
         schema.node.statepipe = statepipeInstance;
-        schema.wrapper = statepipeInstance;
+        schema.wrapper = node;
         return schema;
       });
   }
   return null;
 };
 
-const getStoreRunner = type => reducer => {
+export const getStoreRunner = type => reducer => {
   if (validateState(reducer)
   && validateState(reducer.store)
   && validateProp(type)
