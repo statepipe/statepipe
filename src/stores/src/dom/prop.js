@@ -2,7 +2,7 @@ import utils from "~/src/statepipe/utils";
 import {not, lensPath, set, view} from 'ramda';
 import resolveTarget from "./_resolveTarget";
 
-const propPick = (targetName, ...args) => (state, event, node, wrapper) => {
+const propPick = (targetName, ...args) => ({state, event, node, wrapper}) => {
   if (not(utils.validateProp(targetName)
     || args.length)) {
     return state;
@@ -21,7 +21,7 @@ const propPick = (targetName, ...args) => (state, event, node, wrapper) => {
   }, state);
 };
 
-const propSet = (targetName, propName, valueMap) => (state, event, node, wrapper) => {
+const propSet = (targetName, propName, valueMap) => ({state, event, node, wrapper}) => {
   propName = propName || "value";
   valueMap = valueMap || "value";
 

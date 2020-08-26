@@ -2,7 +2,7 @@ import utils from "~/src/statepipe/utils";
 import {not, lensPath, set, view} from 'ramda';
 import resolveTarget from "./_resolveTarget";
 
-const fnRun = (targetName, ...args) =>  (state, event, node, wrapper) => {
+const fnRun = (targetName, ...args) =>  ({state, event, node, wrapper}) => {
   if (not(utils.validateProp(targetName)
     || args.length)) {
     return state;
@@ -20,7 +20,7 @@ const fnRun = (targetName, ...args) =>  (state, event, node, wrapper) => {
   return state;
 };
 
-const fnGet = (targetName, fnName, targetProp) => (state, event, node, wrapper) => {
+const fnGet = (targetName, fnName, targetProp) => ({state, event, node, wrapper}) => {
   targetProp = targetProp || "value";
 
   if (not( utils.validateProp(targetName)

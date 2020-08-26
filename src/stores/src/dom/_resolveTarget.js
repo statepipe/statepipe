@@ -1,7 +1,7 @@
-export default function resolveTarget(value, event, node, ctx) {
+export default function resolveTarget(value, event, node, wrapper) {
   if (value === "event") return event;
   if (value === "self") return node;
-  if (value === "ctx") return ctx;
+  if (value === "wrapper") return wrapper;
   if (value === "doc")  return document;
   if (value === "docElm")  return document.documentElement;
   if (value === "body")  return document.body;

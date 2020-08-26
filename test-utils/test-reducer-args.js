@@ -31,9 +31,4 @@ export const ignoreStateType = (testRunner, rdcr) =>{
   testRunner.is("function", typeof rdcr(null));
   testRunner.is("function", typeof rdcr(1));
   testRunner.is("function", typeof rdcr(function(){}));
-
-  testRunner.is(null,rdcr()(null))
-  testRunner.is(undefined, rdcr()(undefined))
-  testRunner.is("1", rdcr()("1"))
-  testRunner.is(true,rdcr()(true))
 }

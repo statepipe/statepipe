@@ -57,7 +57,7 @@ const getTemplate = (name, state, node) => {
   return null;
 };
 
-const fnClass = fn => prop => (state, node) => {
+const fnClass = fn => prop => ({state, node}) => {
   prop = prop || "value";
   
   if (not(validateStateNode(state,node))){
@@ -91,7 +91,7 @@ const fnClass = fn => prop => (state, node) => {
   return state;
 };
 
-const textContent = prop => (state, node) => {
+const textContent = prop => ({state, node}) => {
   prop = prop || "value";
   if (not(validadeObject(state))
   || not(validadeObject(node))
@@ -112,7 +112,7 @@ const textContent = prop => (state, node) => {
   return state;
 };
 
-const innerHTML = name => (state, node) => {
+const innerHTML = name => ({state, node}) => {
   if ( not(validateProp(name))
   || not(validadeObject(state))
   || not(validadeObject(node))
@@ -137,6 +137,6 @@ export default {
   classToggle: fnClass("toggle"),
   text: textContent,
   template: innerHTML,
-  appendChild: (prop) => (state, node) => appendPrepend("appendChild", prop, state, node),
-  prependChild: (prop) =>(state, node) => appendPrepend("prepend", prop, state, node)
+  appendChild: (prop) => ({state, node}) => appendPrepend("appendChild", prop, state, node),
+  prependChild: (prop) =>({state, node}) => appendPrepend("prepend", prop, state, node)
 };

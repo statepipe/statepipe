@@ -2,8 +2,8 @@ import utils from "~/src/statepipe/utils";
 import {not, lensPath, set, view} from 'ramda';
 import resolveTarget from "./_resolveTarget";
 
-export default fn => (targetName, attrName, attrValue, ...args) =>
-  (state, event, node, wrapper) => {
+export default fn =>
+  (targetName, attrName, attrValue, ...args) => ({state, event, node, wrapper}) => {
     
     attrName = attrName || "value";
 
