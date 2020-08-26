@@ -1,40 +1,25 @@
 //general
 import dom from "../src/dom";
+import state from "../src/state";
 
-//from pipe
-import object from "../pipes/object";
-import math from "../pipes/math";
-import logic from "../pipes/logic";
-import list from "../pipes/list";
-
-const pipeIgnorePayload = fn => (...args) => state => {
-  args = ["-"].concat(args);
-  return fn(...args)(state, state);
+const pipeIgnorePayload = fn => ({state}) => {
+  return fn({payload:state, state});
 };
 
-const stateAndNode = fn => (...args) =>
-   (state, event, node) => fn(...args)(state, node);
-  
-let api = [object, math, logic, list]
+let api = Object
+  .keys(api)
   .reduce((api, reducer)=>{
     api = Object.keys(reducer).reduce((acc,fn) => {
       acc[fn] = pipeIgnorePayload(reducer[fn]);
       return acc;
     },api);
     return api;
-  },{});
+  }, {
+    ...dom,
+    ...state
+  });
 
 //only for pipes
 delete api.from;
 
-//fix params for dom reducers
-api = Object.keys(dom)
-  .reduce((acc,fn) => {
-    acc[fn] = stateAndNode(dom[fn]);
-    return acc;
-}, api);
-
-export default {
-  ...api,
-  ...event
-};
+export default api;

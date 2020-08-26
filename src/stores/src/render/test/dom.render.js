@@ -1,10 +1,10 @@
 import test from "ava"
-import store from "../render"
+import store from ".."
 import mockNode from "~/test-utils/mock-node"
 
 global.document = mockNode({})
 
-test('dom.render/ template' , t => {
+test('render/ template' , t => {
 
   let node = mockNode({})
   node.innerHTML = "empty"
@@ -23,7 +23,7 @@ test('dom.render/ template' , t => {
   global.document.setQueryResult([])
 })
 
-test('dom.render/ appendChild and prependChild' , t => {
+test('render/ appendChild and prependChild' , t => {
   
   global.document.setQueryResult([])
   
@@ -51,7 +51,7 @@ test('dom.render/ appendChild and prependChild' , t => {
   global.document.setQueryResult([])
 })
 
-test('dom.render/ text' , t => {
+test('render/ text' , t => {
 
   let node = mockNode()
   node.textContent = "empty"
@@ -75,7 +75,7 @@ test('dom.render/ text' , t => {
 })
 
 
-test('dom.render/ classAdd' , t => {
+test('render/ classAdd' , t => {
   const state = {
     value: "open",
     foo: {bar: "close"}
@@ -94,7 +94,7 @@ test('dom.render/ classAdd' , t => {
   t.deepEqual(false, node.classList.contains("fooo"))
 })
 
-test('dom.render/ classRm' , t => {
+test('render/ classRm' , t => {
   const state = {
     value: "open",
     foo: {bar: "close"}
@@ -113,7 +113,7 @@ test('dom.render/ classRm' , t => {
   t.deepEqual(false, node.classList.contains("close"))
 })
 
-test('dom.render/ classToggle' , t => {
+test('render/ classToggle' , t => {
   const state = {
     value: "open",
     foo: {bar: "close"}

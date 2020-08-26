@@ -1,11 +1,11 @@
 import list from "../src/state/list";
 import ignorePayload from "./_ignorePayload";
 
-const persistA = fn => (a,b,c,d) => (payload,state) => {
-  if (a === "-"){
+const persistA = fn => (a,b,c,d) => (ctx) => {
+  if (a === "-") {
     c = c || b;
   }
-  return ignorePayload(fn)(a,b,c,d)(payload,state);
+  return ignorePayload(fn)(a,b,c,d)(ctx);
 };
 
 export default {

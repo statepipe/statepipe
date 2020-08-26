@@ -2,12 +2,12 @@
 import math from "../src/state/math";
 import ignorePayload from "./_ignorePayload";
 
-const persistA = fn => (a,b,c,d) => (payload,state,action,node,ctx) => {
+const persistA = fn => (a,b,c,d) => (ctx) => {
   if (a === "-"){
     d = c;
     c = b;
   }
-  return ignorePayload(fn)(a,b,c,d)(payload,state,action,node,ctx);
+  return ignorePayload(fn)(a,b,c,d)(ctx);
 };
 
 export default {
