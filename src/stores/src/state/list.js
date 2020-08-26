@@ -22,7 +22,7 @@ const getLens = prop => lensPath((prop ||"").split("."));
 
 const lensValue = (prop, object) => view(getLens(prop), object);
 
-const fnFirstNumber = fn => (pA, pB, pC) => (payload, state) => {
+const fnList = fn => (pA, pB, pC) => ({payload, state}) => {
   
   pA = parseInt(pA);
   pB = pB || _v;
@@ -42,7 +42,7 @@ const fnFirstNumber = fn => (pA, pB, pC) => (payload, state) => {
     : state;
 };
 
-const fnAppPrepp = fn => (pA, pB, pC) => (payload, state) => {
+const fnAppPrepp = fn => (pA, pB, pC) => ({payload, state}) => {
 
   pA = pA || _v;
   pB = pB || _v;
@@ -60,7 +60,7 @@ const fnAppPrepp = fn => (pA, pB, pC) => (payload, state) => {
     : state;
   };
 
-const fnRevFlat = fn => (pA, pB) => (payload, state) => {
+const fnRevFlat = fn => (pA, pB) => ({payload, state}) => {
   
   pA = pA || _v;
   pB = pB || _v;
@@ -75,7 +75,7 @@ const fnRevFlat = fn => (pA, pB) => (payload, state) => {
     : state;
 };
 
-const fnConcat = (pA, pB, pC) => (payload, state) => {
+const fnConcat = (pA, pB, pC) => ({payload, state}) => {
   
   pA = pA || _v;
   pB = pB || _v;
@@ -95,7 +95,7 @@ const fnConcat = (pA, pB, pC) => (payload, state) => {
       : state;
 };
 
-const fnFilter = fn => (pA, pB, pC) => (payload, state) => {
+const fnFilter = fn => (pA, pB, pC) => ({payload, state}) => {
 
   pA = pA || _v;
   pB = pB || _v;
@@ -113,7 +113,7 @@ const fnFilter = fn => (pA, pB, pC) => (payload, state) => {
     : state;
 };
 
-const fnSort =(pA, pB) => (payload, state) => {
+const fnSort =(pA, pB) => ({payload, state}) => {
     
   pA = pA || _v;
   pB = pB || _v;
@@ -130,10 +130,10 @@ const fnSort =(pA, pB) => (payload, state) => {
 };
 
 export default {
-  take: fnFirstNumber(take),
-  takeLast: fnFirstNumber(takeLast),
-  drop: fnFirstNumber(drop),
-  dropLast: fnFirstNumber(dropLast),
+  take: fnList(take),
+  takeLast: fnList(takeLast),
+  drop: fnList(drop),
+  dropLast: fnList(dropLast),
 
   append: fnAppPrepp(append),
   prepend: fnAppPrepp(prepend),
@@ -142,8 +142,8 @@ export default {
   flatten: fnRevFlat(flatten),
   
   concat: fnConcat,
+  sort: fnSort,
 
   filter: fnFilter(equals),
   filterNot: fnFilter(curry((compare, val) => compose(not,equals(compare))(val))),
-  sort: fnSort
 };
