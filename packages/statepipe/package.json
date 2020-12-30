@@ -1,11 +1,32 @@
 {
+  "private": true,
   "name": "@statepipe/statepipe",
   "version": "0.1.0",
-  "description": "statepipe core",
-  "main": "index.js",
+  "description": "statepipe sources",
+  "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "test": "npm test"
+    "prettier": "npx prettier -u --check --loglevel=warn src/",
+    "prettier:fix": "npx prettier --loglevel=warn --write src/",
+    "eslint": "eslint src/*.js",
+    "lint": "npm run eslint && npm run prettier",
+    "jest": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
+    "pretest": "npm run lint",
+    "test": "npm run jest"
   },
-  "author": "",
-  "license": "ISC"
+  "jest": {
+    "verbose": true,
+    "bail": true,
+    "testMatch": ["**/__test__/*.js"]
+  },
+  "author": "igor almeida",
+  "license": "ISC",
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.8",
+    "eslint": "^7.16.0",
+    "eslint-config-defaults": "^9.0.0",
+    "jest": "^26.6.3",
+    "prettier": "2.2.1"
+  }
 }
