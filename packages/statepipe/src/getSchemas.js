@@ -9,6 +9,40 @@ import {
   validateStoreAttrName,
 } from '../../common/src/index';
 
+export const SCHEMA_INDEX = 'index';
+export const SCHEMA_STORE = 'store';
+export const SCHEMA_SLUG = 'slug';
+export const SCHEMA_ACTION = 'action';
+export const SCHEMA_EVENT = 'event';
+export const SCHEMA_FN = 'fn';
+export const SCHEMA_ARGS = 'args';
+
+export const TRIGGER_PROPS = [
+  SCHEMA_INDEX,
+  SCHEMA_STORE,
+  SCHEMA_SLUG,
+  SCHEMA_FN,
+  SCHEMA_ARGS,
+  SCHEMA_ACTION,
+  SCHEMA_EVENT,
+];
+
+export const PIPE_PROPS = [
+  SCHEMA_INDEX,
+  SCHEMA_STORE,
+  SCHEMA_SLUG,
+  SCHEMA_FN,
+  SCHEMA_ARGS,
+];
+
+export const OUT_PROPS = [
+  SCHEMA_INDEX,
+  SCHEMA_STORE,
+  SCHEMA_SLUG,
+  SCHEMA_FN,
+  SCHEMA_ARGS,
+];
+
 const getReducers = (type, store) => (slug, index) => {
   let pipes = slug
     .trim()
@@ -34,13 +68,13 @@ const getReducers = (type, store) => (slug, index) => {
       const parts = blob.split(':');
       const fn = parts.splice(0, 1)[0];
       if (validateProp(fn)) {
-        const schema = {
-          index,
-          store: store,
-          slug: blob,
-          fn: fn,
-          args: parts.filter(prop => prop.trim().length),
-        };
+        const schema = {};
+        schema[SCHEMA_INDEX] = index;
+        schema[SCHEMA_STORE] = store;
+        schema[SCHEMA_SLUG] = blob;
+        schema[SCHEMA_FN] = fn;
+        schema[SCHEMA_ARGS] = parts.filter(prop => prop.trim().length);
+
         if (type === TRIGGER_STORE && validateProp(action)) {
           schema.action = action;
           schema.event = event.split('.').pop();
@@ -59,7 +93,7 @@ const getReducers = (type, store) => (slug, index) => {
     });
 };
 
-export const parseStore = item => {
+export const parseStore = stores => item => {
   if (!isObject(item)) return null;
   if (!validateStoreAttrName(item.type)) return null;
   if (!isNode(item.node)) return null;
@@ -89,5 +123,5 @@ export const parseStore = item => {
 };
 
 export default stores => {
-  return isObject(stores) ? parseStore : null;
+  return isObject(stores) ? parseStore(stores) : null;
 };
