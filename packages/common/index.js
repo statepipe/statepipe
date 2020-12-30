@@ -1,89 +1,105 @@
-export const STATEPIPE_ATTR = ":statepipe";
-export const STATE_ATTR = ":state";
-export const PIPE_ATTR = ":pipe";
-export const TRIGGER_ATTR = ":trigger";
-export const OUT_ATTR = ":out";
-export const PAYLOAD_ATTR = ":payload";
-export const ACTION_ATTR = ":action";
+export const STATEPIPE_ATTR = ':statepipe';
+export const STATE_ATTR = ':state';
+export const PIPE_ATTR = ':pipe';
+export const TRIGGER_ATTR = ':trigger';
+export const OUT_ATTR = ':out';
+export const PAYLOAD_ATTR = ':payload';
+export const ACTION_ATTR = ':action';
 
-export const OUT_STORE = "out";
-export const PIPE_STORE = "pipe";
-export const TRIGGER_STORE = "trigger";
+export const OUT_STORE = 'out';
+export const PIPE_STORE = 'pipe';
+export const TRIGGER_STORE = 'trigger';
 
 export const QUERY_COMPONENTS = `[\\${TRIGGER_ATTR}],[\\${PIPE_ATTR}],[\\${OUT_ATTR}]`;
 export const QUERY_STATEPIPE = `[\\${STATEPIPE_ATTR}]`;
-export const COMPONENT_ATTR_LIST = [OUT_ATTR,PIPE_ATTR,TRIGGER_ATTR];
+export const COMPONENT_ATTR_LIST = [OUT_ATTR, PIPE_ATTR, TRIGGER_ATTR];
 
 export const ALIAS_STORES = {
-  [PIPE_ATTR]:PIPE_STORE,
-  [OUT_ATTR]:OUT_STORE,
-  [TRIGGER_ATTR]:TRIGGER_STORE
+  [PIPE_ATTR]: PIPE_STORE,
+  [OUT_ATTR]: OUT_STORE,
+  [TRIGGER_ATTR]: TRIGGER_STORE,
 };
 
 export const ALIAS_ATTR = {
-  [PIPE_STORE]:PIPE_ATTR,
-  [OUT_STORE]:OUT_ATTR,
-  [TRIGGER_STORE]:TRIGGER_ATTR
+  [PIPE_STORE]: PIPE_ATTR,
+  [OUT_STORE]: OUT_ATTR,
+  [TRIGGER_STORE]: TRIGGER_ATTR,
 };
 
-export const validateProp = prop => !!(typeof prop === "string" && prop.trim().length > 0);
-export const validateState = state => !!(!!state && typeof state === "object" && Array.isArray(state) === false);
-export const validateNode = node => !!(validateState(node) && !!node.parentNode && node.nodeName && typeof node.addEventListener === "function" && typeof node.setAttribute === "function");
-export const validateStoreAttrName = attr => !!([TRIGGER_STORE, OUT_STORE, PIPE_STORE].indexOf(attr) !== -1);
+export const not = value => !value;
+
+export const validateProp = prop =>
+  typeof prop === 'string' && prop.trim().length > 0;
+
+export const isObject = value =>
+  value !== null &&
+  value !== undefined &&
+  typeof value === 'object' &&
+  not(Array.isArray(value));
+
+export const isNode = node =>
+  isObject(node) &&
+  isObject(node.parentNode) &&
+  !!node.nodeName &&
+  typeof node.addEventListener === 'function' &&
+  typeof node.setAttribute === 'function' &&
+  typeof node.querySelectorAll === 'function' &&
+  typeof node.getAttribute === 'function';
+
+export const validateStoreAttrName = attr =>
+  [TRIGGER_STORE, OUT_STORE, PIPE_STORE].includes(attr);
 
 export const log = (...args) => {
-  if (global.$statepipeLog) {
+  if ($statepipeLog === true) {
     console.log.call(console.log, ...args);
-  }  
+  }
 };
 
 export const warn = (...args) => {
-  if (global.$statepipeLog) {
+  if ($statepipeLog === true) {
     console.warn.call(console.warn, ...args);
-  }  
+  }
 };
 
 export const error = (...args) => {
-  if (global.$statepipeLog) {
+  if ($statepipeLog === true) {
     console.error.call(console.error, ...args);
-  }  
+  }
 };
-
 
 export const parseJSON = (node, prop) => {
   prop = prop || STATE_ATTR;
 
-  if (validateNode(node) && validateProp(prop)){
+  if (isNode(node) && validateProp(prop)) {
     try {
       const json = JSON.parse(node.getAttribute(prop));
-      return validateState(json)? json : null;
-    } catch(e) { 
+      return isObject(json) ? json : null;
+    } catch (e) {
       return null;
     }
   }
   return null;
 };
 
-export const flatten = (acc,list) => {
-  if (Array.isArray(acc) && Array.isArray(list)){
+export const flatten = (acc, list) => {
+  if (Array.isArray(acc) && Array.isArray(list)) {
     acc = acc.concat(list);
   }
   return acc;
 };
 
 export const getStatepipeName = node => {
-  if (validateNode(node)){
+  if (isNode(node)) {
     const name = node.getAttribute(STATEPIPE_ATTR);
-    if (name && name.length) return name;
-    return null;
+    return validateProp(name) ? name.trim() : null;
   }
   return null;
 };
 
 export const testSchema = node => {
-  if (validateNode(node)){
+  if (isNode(node)) {
     return COMPONENT_ATTR_LIST.map(type => {
-      if (validateProp(node.getAttribute(type))){
+      if (validateProp(node.getAttribute(type))) {
         return {type: ALIAS_STORES[type], node};
       }
     }).filter(schema => schema);
@@ -92,7 +108,7 @@ export const testSchema = node => {
 };
 
 export const queryComponents = (node, statepipeInstance) => {
-  if (validateNode(node)){
+  if (isNode(node)) {
     const candaidates = Array.from(node.querySelectorAll(QUERY_COMPONENTS));
     return [node]
       .concat(candaidates)
@@ -101,7 +117,7 @@ export const queryComponents = (node, statepipeInstance) => {
       .reduce(flatten, [])
       .filter(schema => !schema.wrapper)
       .filter(schema => {
-        if (schema.node.statepipe){
+        if (schema.node.statepipe) {
           return null;
         }
         return schema;
@@ -116,12 +132,14 @@ export const queryComponents = (node, statepipeInstance) => {
 };
 
 export const getStoreRunner = type => reducer => {
-  if (validateState(reducer)
-  && validateState(reducer.store)
-  && validateProp(type)
-  && validateProp(reducer.fn)
-  && validateState(reducer.store[type])
-  && typeof reducer.store[type][reducer.fn] === "function"){
+  if (
+    isObject(reducer) &&
+    isObject(reducer.store) &&
+    validateProp(type) &&
+    validateProp(reducer.fn) &&
+    isObject(reducer.store[type]) &&
+    typeof reducer.store[type][reducer.fn] === 'function'
+  ) {
     reducer.run = reducer.store[type][reducer.fn];
     return reducer;
   }
@@ -135,8 +153,8 @@ export default {
   flatten,
   parseJSON,
   validateProp,
-  validateState,
-  validateNode,
+  isObject,
+  isNode,
   validateStoreAttrName,
   getStatepipeName,
   getStoreRunner,
@@ -154,5 +172,5 @@ export default {
   STATEPIPE_ATTR,
   COMPONENT_ATTR_LIST,
   PAYLOAD_ATTR,
-  ACTION_ATTR
+  ACTION_ATTR,
 };

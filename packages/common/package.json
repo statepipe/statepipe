@@ -4,16 +4,27 @@
   "version": "0.1.0",
   "description": "statepipe common scripts",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "npm test"
+    "prettier": "npx prettier -u --check --loglevel=warn .",
+    "prettier:fix": "npx prettier --loglevel=warn --write .",
+    "eslint": "eslint ./*.js",
+    "lint": "npm run eslint && npm run prettier",
+    "jest": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
+    "test": "npm run jest",
+    "dev": "snowpack dev",
+    "prebuild": "npm run lint && npm run test",
+    "build": "snowpack build"
   },
-  "author": "",
+  "author": "igor almeida",
   "license": "ISC",
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.8",
+    "eslint": "^7.16.0",
+    "eslint-config-defaults": "^9.0.0",
+    "jest": "^26.6.3",
     "prettier": "2.2.1",
     "snowpack": "^2.18.5"
-  },
-  "dependencies": {
-    "eslint": "^7.16.0"
   }
 }
