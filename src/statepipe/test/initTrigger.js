@@ -29,7 +29,8 @@ test('ignore reducers without action', t => {
     t.is(0, trigger.reducers.length) 
 })
 
-test('simple case', t => {
+test.skip('simple case', t => {
+    //testar o listener e o disparo!
     const schema = getSchemas({});
     
     const simpleTrigger = {
@@ -95,7 +96,7 @@ test('documentElement case', t => {
   global.document.documentElement.addEventListener = {}.addEventListener
 })
 
-test('document body case', t => {
+test('body case', t => {
   const schema = getSchemas({});
   
   const simpleTrigger = {
@@ -111,6 +112,25 @@ test('document body case', t => {
   t.is("pick", trigger.reducers[0].fn);
   global.document.body.addEventListener = {}.addEventListener
 })
+
+test.skip('window case', t => {
+    const schema = getSchemas({});
+    
+    const simpleTrigger = {
+        type: utils.TRIGGER_STORE,
+        node: node({ ":trigger": "foo@body.load|pick:a:b" })
+    };
+    const trigger = schema(simpleTrigger)
+    t.plan(4)
+    global.document.body.addEventListener = v => t.is(v,"load");
+    initTrigger(trigger)
+    t.is(1, trigger.reducers.length);
+    t.is("foo", trigger.reducers[0].action);
+    t.is("pick", trigger.reducers[0].fn);
+    global.document.body.addEventListener = {}.addEventListener
+  })
+  
+  
 
 
 test('multi triggers', t => {

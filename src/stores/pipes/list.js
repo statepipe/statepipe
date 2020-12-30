@@ -1,7 +1,7 @@
 import list from "../src/state/list";
 import ignorePayload from "./_ignorePayload";
 
-const persistA = fn => (a,b,c,d) => (ctx) => {
+const enforceA = fn => (a,b,c,d) => (ctx) => {
   if (a === "-") {
     c = c || b;
   }
@@ -18,7 +18,7 @@ export default {
   concat: ignorePayload(list.concat),
   filter: ignorePayload(list.filter),
   filterNot: ignorePayload(list.filterNot),
-  reverse: persistA(list.reverse),
-  flatten: persistA(list.flatten),
-  sort: persistA(list.sort)
+  reverse: enforceA(list.reverse),
+  flatten: enforceA(list.flatten),
+  sort: enforceA(list.sort)
 };

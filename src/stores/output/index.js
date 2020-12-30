@@ -3,22 +3,23 @@ import dom from "../src/dom";
 import state from "../src/state";
 import render from "../src/render";
 
-const pipeIgnorePayload = fn => ({state}) => {
-  return fn({payload:state, state});
+const pipeIgnorePayload = fn => (...args) => (ctx) => {
+  return fn(...args)({
+    ...ctx,
+    payload:ctx.state || {}
+  });
 };
 
-let api = Object
+let api = {
+  ...dom,
+  ...state,
+  ...render
+};
+
+Object
   .keys(api)
-  .reduce((api, reducer)=>{
-    api = Object.keys(reducer).reduce((acc,fn) => {
-      acc[fn] = pipeIgnorePayload(reducer[fn]);
-      return acc;
-    },api);
-    return api;
-  }, {
-    ...dom,
-    ...state,
-    ...render,
+  .forEach((reducer) => {
+    api[reducer] = pipeIgnorePayload(api[reducer]);
   });
 
 //only for pipes
