@@ -1,0 +1,11 @@
+{
+  "name": "@statepipe/statepipe",
+  "version": "0.1.0",
+  "description": "statepipe core",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "",
+  "license": "ISC"
+}

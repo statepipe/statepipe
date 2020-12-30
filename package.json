@@ -1,5 +1,6 @@
 {
   "name": "statepipe",
+    "private": true,
   "version": "0.1.1",
   "description": "",
   "main": "src/statepipe/index.js",
@@ -15,8 +16,12 @@
     "version": "npm run build",
     "postversion": "npm run coverage"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "dependencies": {
     "babel-plugin-root-import": "6.4.1",
+    "npm": "^7.3.0",
     "ramda": "0.26.1"
   },
   "devDependencies": {

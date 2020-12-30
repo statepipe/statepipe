@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "@statepipe/common",
+  "version": "0.1.0",
+  "description": "statepipe common scripts",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "2.2.1",
+    "snowpack": "^2.18.5"
+  },
+  "dependencies": {
+    "eslint": "^7.16.0"
+  }
+}

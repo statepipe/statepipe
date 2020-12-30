@@ -1,14 +1,14 @@
-name: Javascript tests
-on: [push, pull_request]
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: Lint and Test
-      uses: actions/setup-node@v1
-    - run: npm ci
-    - run: npm run lint
-    - run: npm test
+#name: Javascript tests
+#on: [push, pull_request]
+#jobs:
+#  test:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - name: Checkout
+#      uses: actions/checkout@v2
+#
+#    - name: Lint and Test
+#      uses: actions/setup-node@v1
+#    - run: npm ci
+#    - run: npm run lint
+#    - run: npm test
