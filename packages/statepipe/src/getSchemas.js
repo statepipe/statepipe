@@ -1,4 +1,13 @@
-import utils from './utils';
+import {
+  ALIAS_ATTR,
+  flatten,
+  isNode,
+  isObject,
+  log,
+  TRIGGER_STORE,
+  validateProp,
+  validateStoreAttrName,
+} from '../../common/src/index';
 
 const getReducers = (type, store) => (slug, index) => {
   let pipes = slug
@@ -12,9 +21,9 @@ const getReducers = (type, store) => (slug, index) => {
   }
 
   let action, event;
-  if (type === utils.TRIGGER_STORE) {
+  if (type === TRIGGER_STORE) {
     action = pipes[0].match(/^(.*)@(.*)$/);
-    if (action && action.length > 1 && utils.validateProp(action[1])) {
+    if (action && action.length > 1 && validateProp(action[1])) {
       event = action[2].trim();
       action = action[1].trim();
     }
@@ -24,7 +33,7 @@ const getReducers = (type, store) => (slug, index) => {
     .map(blob => {
       const parts = blob.split(':');
       const fn = parts.splice(0, 1)[0];
-      if (utils.validateProp(fn)) {
+      if (validateProp(fn)) {
         const schema = {
           index,
           store: store,
@@ -32,7 +41,7 @@ const getReducers = (type, store) => (slug, index) => {
           fn: fn,
           args: parts.filter(prop => prop.trim().length),
         };
-        if (type === utils.TRIGGER_STORE && utils.validateProp(action)) {
+        if (type === TRIGGER_STORE && validateProp(action)) {
           schema.action = action;
           schema.event = event.split('.').pop();
         }
@@ -43,45 +52,42 @@ const getReducers = (type, store) => (slug, index) => {
     .filter(item => !!item)
     .filter(item => {
       //only trigger with action pass
-      if (type === utils.TRIGGER_STORE) {
+      if (type === TRIGGER_STORE) {
         return item.action ? item : null;
       }
       return item;
     });
 };
 
+export const parseStore = item => {
+  if (!isObject(item)) return null;
+  if (!validateStoreAttrName(item.type)) return null;
+  if (!isNode(item.node)) return null;
+
+  const slugList = (item.node.getAttribute(ALIAS_ATTR[item.type]) || '')
+    .replace(/\s|\r|\r\n|\n|\s/gim, '')
+    .trim()
+    .split(',');
+
+  const result = Object.assign(item, {
+    reducers: slugList
+      .map(getReducers(item.type, stores))
+      .filter(item => !!item)
+      .reduce(flatten, [])
+      .filter(item => item),
+  });
+
+  result.reducers.forEach(o => {
+    log(
+      `:statepipe ${item.node.statepipe}: ${item.type}/ ${
+        item.node.nodeName
+      } ⋆ ${o.fn} args:${o.args.join(',')}`,
+    );
+  });
+
+  return result;
+};
+
 export default stores => {
-  if (!utils.validateState(stores)) {
-    return null;
-  }
-  return item => {
-    if (!utils.validateState(item)) return null;
-    if (!utils.validateStoreAttrName(item.type)) return null;
-    if (!utils.validateNode(item.node)) return null;
-
-    const slugList = (item.node.getAttribute(utils.ALIAS_ATTR[item.type]) || '')
-      .replace(/\s|\r|\r\n|\n|\s/gim, '')
-      .trim()
-      .split(',');
-
-    const result = Object.assign(item, {
-      reducers: slugList
-        .map(getReducers(item.type, stores))
-        .filter(item => !!item)
-        .reduce(utils.flatten, [])
-        .filter(item => item),
-    });
-
-    if (global.$statepipeLog) {
-      result.reducers.forEach(o => {
-        utils.log(
-          `:statepipe ${item.node.statepipe}: ${item.type}/ ${
-            item.node.nodeName
-          } ⋆ ${o.fn} args:${o.args.join(',')}`,
-        );
-      });
-    }
-
-    return result;
-  };
+  return isObject(stores) ? parseStore : null;
 };

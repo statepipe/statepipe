@@ -108,27 +108,28 @@ export const testSchema = node => {
 };
 
 export const queryComponents = (node, statepipeInstance) => {
-  if (isNode(node)) {
-    const candaidates = Array.from(node.querySelectorAll(QUERY_COMPONENTS));
-    return [node]
-      .concat(candaidates)
-      .map(testSchema)
-      .filter(schema => schema)
-      .reduce(flatten, [])
-      .filter(schema => !schema.wrapper)
-      .filter(schema => {
-        if (schema.node.statepipe) {
-          return null;
-        }
-        return schema;
-      })
-      .map(schema => {
-        schema.node.statepipe = statepipeInstance;
-        schema.wrapper = node;
-        return schema;
-      });
+  if (not(validateProp(statepipeInstance)) || not(isNode(node))) {
+    return null;
   }
-  return null;
+
+  const candaidates = Array.from(node.querySelectorAll(QUERY_COMPONENTS));
+  return [node]
+    .concat(candaidates)
+    .map(testSchema)
+    .filter(schema => schema)
+    .reduce(flatten, [])
+    .filter(schema => !schema.wrapper)
+    .filter(schema => {
+      if (schema.node.statepipe) {
+        return null;
+      }
+      return schema;
+    })
+    .map(schema => {
+      schema.node.statepipe = statepipeInstance;
+      schema.wrapper = node;
+      return schema;
+    });
 };
 
 export const getStoreRunner = type => reducer => {
