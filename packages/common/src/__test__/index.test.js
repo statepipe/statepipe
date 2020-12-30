@@ -1,7 +1,5 @@
 import {
-  not,
   isNode,
-  validateProp,
   isObject,
   validateStoreAttrName,
   TRIGGER_STORE,
@@ -13,42 +11,9 @@ import {
   error,
   parseJSON,
   getStatepipeName,
-} from './index';
+} from '../index';
 
-function render(html) {
-  let id = `test-${Date.now()}-${Math.random().toString().match(/\d+/)[0]}`;
-  const container = document.createElement('div');
-  container.setAttribute('id', id);
-  container.innerHTML = html;
-  document.body.innerHTML = '';
-  document.body.appendChild(container);
-  return container;
-}
-
-test('validateProp', () => {
-  expect(validateProp({})).toBe(false);
-  expect(validateProp(1)).toBe(false);
-  expect(validateProp(true)).toBe(false);
-  expect(validateProp(false)).toBe(false);
-  expect(validateProp(undefined)).toBe(false);
-  expect(validateProp(null)).toBe(false);
-  expect(validateProp(function () {})).toBe(false);
-  expect(validateProp('')).toBe(false);
-  expect(validateProp(' ')).toBe(false);
-  expect(validateProp('a')).toBe(true);
-});
-
-test('not', () => {
-  expect(not({})).toBe(false);
-  expect(not(1)).toBe(false);
-  expect(not(true)).toBe(false);
-  expect(not(false)).toBe(true);
-  expect(not(undefined)).toBe(true);
-  expect(not(null)).toBe(true);
-  expect(not('null')).toBe(false);
-  expect(not(function () {})).toBe(false);
-  expect(not([])).toBe(false);
-});
+import {render} from '../test-helpers';
 
 test('isNode', () => {
   expect(isNode()).toBe(false);
