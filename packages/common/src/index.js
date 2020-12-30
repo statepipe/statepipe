@@ -50,19 +50,19 @@ export const validateStoreAttrName = attr =>
   [TRIGGER_STORE, OUT_STORE, PIPE_STORE].includes(attr);
 
 export const log = (...args) => {
-  if ($statepipeLog === true) {
+  if (window.$statepipeLog === true) {
     console.log.call(console.log, ...args);
   }
 };
 
 export const warn = (...args) => {
-  if ($statepipeLog === true) {
+  if (window.$statepipeLog === true) {
     console.warn.call(console.warn, ...args);
   }
 };
 
 export const error = (...args) => {
-  if ($statepipeLog === true) {
+  if (window.$statepipeLog === true) {
     console.error.call(console.error, ...args);
   }
 };
