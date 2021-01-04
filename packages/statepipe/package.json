@@ -11,14 +11,14 @@
     "eslint": "eslint src/*.js",
     "lint": "npm run eslint && npm run prettier",
     "jest": "node --experimental-vm-modules node_modules/.bin/jest",
-    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
+    "jest:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
     "pretest": "npm run lint",
     "test": "npm run jest"
   },
   "jest": {
     "verbose": true,
     "bail": true,
-    "testMatch": ["**/__test__/*.js"]
+    "testMatch": ["src/**/__test__/*.js"]
   },
   "author": "igor almeida",
   "license": "ISC",

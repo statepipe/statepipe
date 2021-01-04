@@ -19,22 +19,27 @@ test('testing args', () => {
   expect(typeof getSchemas({})).toBe('function');
 });
 
-test('simple pipe', () => {
-  const parser = parseStore({});
-  const wrapper = statepipeWrapper(
-    `<span name="pipe1" ${PIPE_ATTR}="pass"></span>`,
-  );
-  const item = wrapper.querySelector('[name=pipe1]');
-  const result = parser({type: PIPE_STORE, node: item});
-  expect(isObject(result)).toBe(true);
-  expect(Object.keys(result)).toEqual(['type', 'node', 'reducers']);
+describe("testing pipe cases", () => {
 
-  result.reducers.forEach(red => {
-    PIPE_PROPS.forEach(n => {
-      expect(red[n] !== undefined).toEqual(true);
+  test('simple valid case', () => {
+    const parser = parseStore({});
+    const wrapper = statepipeWrapper(
+      `<span name="pipe1" ${PIPE_ATTR}="pass"></span>`,
+    );
+    const item = wrapper.querySelector('[name=pipe1]');
+    const result = parser({type: PIPE_STORE, node: item});
+    expect(isObject(result)).toBe(true);
+    expect(Object.keys(result)).toEqual(['type', 'node', 'reducers']);
+  
+    result.reducers.forEach(red => {
+      PIPE_PROPS.forEach(n => {
+        expect(red[n] !== undefined).toEqual(false);
+      });
     });
   });
+
 });
+
 
 // test('invalid args', t => {
 //   const schema = getSchemas({});
