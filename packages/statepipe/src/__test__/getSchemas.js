@@ -1,27 +1,149 @@
-import getSchemas, {parseStore, PIPE_PROPS} from '../getSchemas';
+import getSchemas, {
+  PIPE_PROPS,
+   getBlocks, 
+   parseReducers, 
+   SCHEMA_ACTION,
+   SCHEMA_ARGS,
+   SCHEMA_EVENT,
+   SCHEMA_FN,
+   SCHEMA_INDEX,
+   SCHEMA_SLUG,
+   SCHEMA_STORE,
+   getReducers} from '../getSchemas';
 import {
-  STATEPIPE_ATTR,
   PIPE_ATTR,
-  queryComponents,
   PIPE_STORE,
   isObject,
 } from '../../../common/src/index';
 import {statepipeWrapper} from '../../../common/src/test-helpers';
 
-test('testing args', () => {
-  expect(getSchemas(null)).toBe(null);
-  expect(getSchemas(undefined)).toBe(null);
-  expect(getSchemas()).toBe(null);
-  expect(getSchemas('')).toBe(null);
-  expect(getSchemas('a')).toBe(null);
-  expect(getSchemas(function () {})).toBe(null);
-  expect(getSchemas(1)).toBe(null);
-  expect(typeof getSchemas({})).toBe('function');
+
+const mockStore = {
+  [PIPE_STORE]: {
+    pass: (...args) => (ctx) => {
+      console.log(args)
+      return ctx;
+    },
+    fail: (...args) => () => {
+      console.log(args)
+      return null;
+    }
+  }
+}
+
+describe('Testing invalid cases', () => {
+
+  test('getSchemas 1s call', () => {
+    expect(typeof getSchemas(null)).toBe("function");
+    expect(typeof getSchemas(undefined)).toBe("function");
+    expect(typeof getSchemas()).toBe("function");
+    expect(typeof getSchemas('')).toBe("function");
+    expect(typeof getSchemas('a')).toBe("function");
+    expect(typeof getSchemas(function () {})).toBe("function");
+    expect(typeof getSchemas(1)).toBe("function");
+    expect(typeof getSchemas({})).toBe('function');
+  });
+  
+  test('getSchemas 2nd call', () => {
+    const fn = getSchemas({});
+    expect(fn(null)).toBe(null);
+    expect(fn(undefined)).toBe(null);
+    expect(fn()).toBe(null);
+    expect(fn('')).toBe(null);
+    expect(fn('a')).toBe(null);
+    expect(fn(function () {})).toBe(null);
+    expect(fn(1)).toBe(null);
+    expect(fn({})).toBe(null);
+    expect(fn([])).toBe(null);
+    expect(fn({type:PIPE_STORE,node:{}})).toBe(null);
+    expect(fn({type:PIPE_STORE,node:document})).toBe(null);
+  }); 
 });
 
-describe("testing pipe cases", () => {
+describe("helpers",()=>{
+  test("getBlocks",()=>{
+    expect(getBlocks(null)).toBe(null);
+    expect(getBlocks(undefined)).toBe(null);
+    expect(getBlocks()).toBe(null);
+    expect(getBlocks(function () {})).toBe(null);
+    expect(getBlocks(1)).toBe(null);
+    expect(getBlocks({})).toBe(null);
+    expect(getBlocks([])).toBe(null);
+    expect(getBlocks("").length).toBe(0);
+    expect(getBlocks('a')).toEqual(['a']);
+    expect(getBlocks('')).toEqual([]);
+    expect(getBlocks('a,b')).toEqual(['a','b']);
+    expect(getBlocks('a,,b')).toEqual(['a','b']);
+    expect(getBlocks('a, ,b')).toEqual(['a','b']);
+    expect(getBlocks('  a, ,  b')).toEqual(['a','b']);
+  });
 
-  test('simple valid case', () => {
+  test("getReducers",()=>{
+    expect(getReducers(null,{})).toBe(null);
+    expect(getReducers(undefined,{})).toBe(null);
+    expect(getReducers()).toBe(null);
+    expect(getReducers(function () {},{})).toBe(null);
+    expect(getReducers(1,{})).toBe(null);
+    expect(getReducers({},{})).toBe(null);
+    expect(getReducers([],{})).toBe(null);
+    expect(getReducers("",{})).toBe(null);
+    expect(getReducers("pass")).toBe(null);
+    expect(getReducers("pass",[])).toBe(null);
+    expect(getReducers("pass",Error)).toBe(null);
+    expect(getReducers("pass","")).toBe(null);
+    expect(getReducers("pass",1)).toBe(null);
+    expect(getReducers("pass",true)).toBe(null);
+    expect(getReducers("pass",function(){})).toBe(null);
+
+    const parse = getReducers(PIPE_STORE,mockStore);
+    expect(parse(null,0)).toBe(null);
+    expect(parse(undefined,0)).toBe(null);
+    expect(parse()).toBe(null);
+    expect(parse(function () {},0)).toBe(null);
+    expect(parse(1,0)).toBe(null);
+    expect(parse({},0)).toBe(null);
+    expect(parse([],0)).toBe(null);
+    expect(parse("",0)).toBe(null);
+
+    const t1 = parse("pass",0)[0];
+
+    expect(t1[SCHEMA_INDEX]).toBe(0);
+    expect(t1[SCHEMA_STORE]).toBe(mockStore);
+    expect(t1[SCHEMA_SLUG]).toBe("pass");
+    expect(t1[SCHEMA_FN]).toBe("pass");
+    expect(t1[SCHEMA_ARGS]).toEqual([]);
+
+    const t2 = parse("pass:a:b:c",0)[0];
+    expect(t2[SCHEMA_ARGS]).toEqual(["a","b","c"]);
+
+    const t3 = parse("pass:a: b :c  d",0)[0];
+    expect(t3[SCHEMA_ARGS]).toEqual(["a","b","c  d"]);
+  });
+
+  test.skip("parseReducers",()=>{
+    expect(parseReducers(null)).toBe(null);
+    expect(parseReducers(undefined)).toBe(null);
+    expect(parseReducers()).toBe(null);
+    expect(parseReducers(function () {})).toBe(null);
+    expect(parseReducers(1)).toBe(null);
+    expect(parseReducers({})).toBe(null);
+    expect(parseReducers([])).toBe(null);
+  });  
+});
+
+
+describe(`Testing ${PIPE_ATTR}`, () => {
+
+  test.skip('empty case', () => {
+    const parser = getSchemas({});
+    const wrapper = statepipeWrapper(
+      `<span name="pipe" ${PIPE_ATTR}=""></span>`,
+    );
+    const item = wrapper.querySelector('[name=pipe]');
+    const result = parser({type: PIPE_STORE, node: item});
+    expect(result).toBe(null);
+  });
+  test.skip('simple valid case', () => {
     const parser = parseStore({});
     const wrapper = statepipeWrapper(
       `<span name="pipe1" ${PIPE_ATTR}="pass"></span>`,
@@ -30,14 +152,13 @@ describe("testing pipe cases", () => {
     const result = parser({type: PIPE_STORE, node: item});
     expect(isObject(result)).toBe(true);
     expect(Object.keys(result)).toEqual(['type', 'node', 'reducers']);
-  
+
     result.reducers.forEach(red => {
       PIPE_PROPS.forEach(n => {
-        expect(red[n] !== undefined).toEqual(false);
+        expect(red[n] !== undefined).toBe(true);
       });
     });
   });
-
 });
 
 

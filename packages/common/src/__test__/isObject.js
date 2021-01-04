@@ -9,6 +9,7 @@ test('isObject', () => {
   expect(isObject(true)).toBe(false);
   expect(isObject([])).toBe(false);
   expect(isObject(false)).toBe(false);
+  expect(isObject(Error)).toBe(false);
   expect(isObject({})).toBe(true);
   expect(isObject(document.body)).toBe(true);
 });

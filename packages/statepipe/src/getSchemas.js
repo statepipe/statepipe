@@ -4,6 +4,7 @@ import {
   isNode,
   isObject,
   log,
+  not,
   TRIGGER_STORE,
   validateProp,
   validateStoreAttrName,
@@ -43,73 +44,125 @@ export const OUT_PROPS = [
   SCHEMA_ARGS,
 ];
 
-const getReducers = (type, store) => (slug, index) => {
-  let pipes = slug
-    .trim()
-    .split('|')
-    .map(val => val.trim())
-    .filter(val => val.length);
+/**
+ * This reducer is designed to run inside **parseReducers**
+ * and work in 2 steps.
+ * The fisrt capture the type and store and return a function that will
+ * parse all the slugs it gets and return an Array of reducers
+ * 
+ * @param {String} type 
+ * @param {Object} store 
+ * @returns {Function}
+ */
+export const getReducers = (type, store) => {
 
-  if (pipes.length < 1) {
+  if (!validateStoreAttrName(type)
+  || not(isObject(store))) {
     return null;
   }
-
-  let action, event;
-  if (type === TRIGGER_STORE) {
-    action = pipes[0].match(/^(.*)@(.*)$/);
-    if (action && action.length > 1 && validateProp(action[1])) {
-      event = action[2].trim();
-      action = action[1].trim();
-    }
-  }
-
-  return pipes
-    .map(blob => {
-      const parts = blob.split(':');
-      const fn = parts.splice(0, 1)[0];
-      if (validateProp(fn)) {
-        const schema = {};
-        schema[SCHEMA_INDEX] = index;
-        schema[SCHEMA_STORE] = store;
-        schema[SCHEMA_SLUG] = blob;
-        schema[SCHEMA_FN] = fn;
-        schema[SCHEMA_ARGS] = parts.filter(prop => prop.trim().length);
-
-        if (type === TRIGGER_STORE && validateProp(action)) {
-          schema.action = action;
-          schema.event = event.split('.').pop();
-        }
-        return schema;
-      }
+  /**
+   * Handle all slug names in order to strip actions, params etc
+   * and create a List of Store Reducers to be used
+   * by **statepipe**
+   * @param {String} slug  Slug name
+   * @param {Number} index Block execution order
+   * @returns {Array}
+   */
+  return (slug, index) => {
+  
+    if (typeof slug !== "string"
+    || typeof index !== "number"
+    || (typeof slug === "string" && !slug.length)) {
       return null;
-    })
-    .filter(item => !!item)
-    .filter(item => {
-      //only trigger with action pass
-      if (type === TRIGGER_STORE) {
-        return item.action ? item : null;
+    }
+  
+    let pipes = slug
+      .trim()
+      .split('|')
+      .map(val => val.trim())
+      .filter(val => val.length);
+  
+    if (pipes.length < 1) {
+      return null;
+    }
+  
+    let action, event;
+    if (type === TRIGGER_STORE) {
+      action = pipes[0].match(/^(.*)@(.*)$/);
+      if (action && action.length > 1 && validateProp(action[1])) {
+        event = action[2].trim();
+        action = action[1].trim();
       }
-      return item;
-    });
+    }
+  
+    return pipes
+      .map(blob => {
+        const parts = blob.split(':');
+        const fn = parts.splice(0, 1)[0];
+        if (validateProp(fn)) {
+          const schema = {};
+          schema[SCHEMA_INDEX] = index;
+          schema[SCHEMA_STORE] = store;
+          schema[SCHEMA_SLUG] = blob;
+          schema[SCHEMA_FN] = fn;
+          schema[SCHEMA_ARGS] = parts
+                                  .map(prop => prop.trim())
+                                  .filter(prop => !!prop && !!prop.length);
+  
+          if (type === TRIGGER_STORE && validateProp(action)) {
+            schema.action = action;
+            schema.event = event.split('.').pop();
+          }
+          return schema;
+        }
+        return null;
+      })
+      .filter(item => !!item)
+      .filter(item => {
+        //only trigger with action pass
+        if (type === TRIGGER_STORE) {
+          return item.action ? item : null;
+        }
+        return item;
+      });
+  };
+};
+
+export const getBlocks = (slug) => {
+  return typeof slug === "string" ? slug
+  .replace(/\s|\r|\r\n|\n|\s/gim, '')
+  .trim()
+  .split(',')
+  .filter(str => !!str && !!str.length) : null;
+};
+
+export const parseReducers = (blockList, item, stores) => {
+  return Array.isArray(blockList) && blockList.length > 0 ? blockList
+  .map(getReducers(item.type, stores))
+  .filter(item => !!item)
+  .reduce(flatten, [])
+  .filter(isObject) : null ;
 };
 
 export const parseStore = stores => item => {
-  if (!isObject(item)) return null;
-  if (!validateStoreAttrName(item.type)) return null;
-  if (!isNode(item.node)) return null;
+  if (
+    !isObject(item) ||
+    !validateStoreAttrName(item.type) ||
+    !isNode(item.node)
+  ) {
+    return null;
+  }
 
-  const slugList = (item.node.getAttribute(ALIAS_ATTR[item.type]) || '')
-    .replace(/\s|\r|\r\n|\n|\s/gim, '')
-    .trim()
-    .split(',');
+  const slug = item.node.getAttribute(ALIAS_ATTR[item.type]) || '';
+  const slugList = getBlocks(slug);
+  const reducers = parseReducers(slugList, item, stores);
 
-  const result = Object.assign(item, {
-    reducers: slugList
-      .map(getReducers(item.type, stores))
-      .filter(item => !!item)
-      .reduce(flatten, [])
-      .filter(item => item),
-  });
+  if (!reducers
+    || Array.isArray(reducers) && reducers.length == 0){
+      return null;
+  }
+
+  const result = Object.assign(item, {reducers});
 
   result.reducers.forEach(o => {
     log(
@@ -122,6 +175,4 @@ export const parseStore = stores => item => {
   return result;
 };
 
-export default stores => {
-  return isObject(stores) ? parseStore(stores) : null;
-};
+export default parseStore;
