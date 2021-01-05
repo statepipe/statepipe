@@ -1,13 +1,11 @@
 import {
   validateNode,
   validateState,
-  QUERY_STATEPIPE,
-  ACTION_ATTR,
-  STATE_ATTR,
   queryComponents,
   getStatepipeName,
   warn,
 } from '../../common/src/index';
+import {QUERY_STATEPIPE, ACTION_ATTR, STATE_ATTR} from '../../common/src/const';
 
 import getSchemas from './getSchemas';
 import initTrigger from './initTrigger';

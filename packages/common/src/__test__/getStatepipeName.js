@@ -1,4 +1,5 @@
-import {getStatepipeName, STATEPIPE_ATTR} from '../index';
+import {getStatepipeName} from '../index';
+import {STATEPIPE_ATTR} from '../const';
 import {render} from '../test-helpers';
 
 test('getStatepipeName', () => {

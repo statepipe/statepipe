@@ -1,9 +1,11 @@
 import {
   validateStoreAttrName,
+} from '../index';
+import {
   TRIGGER_STORE,
   PIPE_STORE,
   OUT_STORE,
-} from '../index';
+} from "../const";
 
 test('validateStoreAttrName', () => {
   expect(validateStoreAttrName(TRIGGER_STORE)).toBe(true);

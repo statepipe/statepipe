@@ -1,7 +1,10 @@
 import {
   isObject,
-  isNode,
   testSchema,
+} from '../index';
+
+import {render} from '../test-helpers';
+import {
   STATEPIPE_ATTR,
   TRIGGER_STORE,
   TRIGGER_ATTR,
@@ -9,8 +12,7 @@ import {
   OUT_ATTR,
   OUT_STORE,
   PIPE_STORE,
-} from '../index';
-import {render} from '../test-helpers';
+} from "../const";
 
 test('stress', () => {
   expect(testSchema()).toBe(null);

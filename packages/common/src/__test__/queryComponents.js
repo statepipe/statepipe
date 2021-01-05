@@ -1,10 +1,10 @@
+import {queryComponents} from '../index';
 import {
-  queryComponents,
   STATEPIPE_ATTR,
   TRIGGER_ATTR,
   PIPE_ATTR,
   OUT_ATTR,
-} from '../index';
+} from "../const";
 import {render} from '../test-helpers';
 
 test('stress tests', () => {

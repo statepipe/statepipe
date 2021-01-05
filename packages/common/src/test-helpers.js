@@ -8,7 +8,7 @@ export const render = html => {
   return container;
 };
 
-import {STATEPIPE_ATTR} from './index';
+import {STATEPIPE_ATTR} from './const';
 
 const hashName = () => {
   return `statepipe-${Date.now()}-${Math.random()

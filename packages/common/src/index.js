@@ -1,30 +1,24 @@
-export const STATEPIPE_ATTR = ':statepipe';
-export const STATE_ATTR = ':state';
-export const PIPE_ATTR = ':pipe';
-export const TRIGGER_ATTR = ':trigger';
-export const OUT_ATTR = ':out';
-export const PAYLOAD_ATTR = ':payload';
-export const ACTION_ATTR = ':action';
+import {
+  STATEPIPE_ATTR,
+  STATE_ATTR,
+  TRIGGER_STORE,
+  TRIGGER_ATTR,
+  PIPE_STORE,
+  PIPE_ATTR,
+  OUT_STORE,
+  OUT_ATTR,
+  QUERY_COMPONENTS,
+  QUERY_STATEPIPE,
+  ALIAS_ATTR,
+  ALIAS_STORES,
+  COMPONENT_ATTR_LIST,
+  PAYLOAD_ATTR,
+  ACTION_ATTR,
+} from './const';
 
-export const OUT_STORE = 'out';
-export const PIPE_STORE = 'pipe';
-export const TRIGGER_STORE = 'trigger';
-
-export const QUERY_COMPONENTS = `[\\${TRIGGER_ATTR}],[\\${PIPE_ATTR}],[\\${OUT_ATTR}]`;
-export const QUERY_STATEPIPE = `[\\${STATEPIPE_ATTR}]`;
-export const COMPONENT_ATTR_LIST = [OUT_ATTR, PIPE_ATTR, TRIGGER_ATTR];
-
-export const ALIAS_STORES = {
-  [PIPE_ATTR]: PIPE_STORE,
-  [OUT_ATTR]: OUT_STORE,
-  [TRIGGER_ATTR]: TRIGGER_STORE,
-};
-
-export const ALIAS_ATTR = {
-  [PIPE_STORE]: PIPE_ATTR,
-  [OUT_STORE]: OUT_ATTR,
-  [TRIGGER_STORE]: TRIGGER_ATTR,
-};
+export const validateStore = store => {
+  return !!store[PIPE_STORE] || !!store[OUT_STORE] || !!store[TRIGGER_STORE];
+}; 
 
 export const not = value => !value;
 
@@ -160,18 +154,4 @@ export default {
   getStatepipeName,
   getStoreRunner,
   queryComponents,
-  QUERY_STATEPIPE,
-  ALIAS_STORES,
-  ALIAS_ATTR,
-  OUT_ATTR,
-  OUT_STORE,
-  PIPE_ATTR,
-  PIPE_STORE,
-  TRIGGER_ATTR,
-  TRIGGER_STORE,
-  STATE_ATTR,
-  STATEPIPE_ATTR,
-  COMPONENT_ATTR_LIST,
-  PAYLOAD_ATTR,
-  ACTION_ATTR,
 };

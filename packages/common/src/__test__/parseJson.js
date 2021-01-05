@@ -1,4 +1,5 @@
-import {parseJSON, STATE_ATTR} from '../index';
+import {parseJSON} from '../index';
+import {STATE_ATTR} from '../const';
 import {render} from '../test-helpers';
 
 test('parseJSON', () => {
