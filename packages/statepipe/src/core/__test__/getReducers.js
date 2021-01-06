@@ -8,10 +8,9 @@ import {
   SCHEMA_SLUG,
   SCHEMA_STORE,
   PIPE_STORE,
-  PIPE_PROPS,
   TRIGGER_STORE,
   OUT_STORE,
-} from '../../../common/src/const';
+} from '../../common/const';
 
 const mockStore = {
   [PIPE_STORE]: {

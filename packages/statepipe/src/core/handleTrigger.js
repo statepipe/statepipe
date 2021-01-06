@@ -50,7 +50,9 @@ export default schema => {
   }
   return event => {
     //update reducers list with only items with valid store
-    let reducers = schema.reducers.filter(utils.getStoreRunner(schema.type));
+    let reducers = schema.reducers.filter(
+      utils.injectBlobFnFromStore(schema.type),
+    );
     const oldstate = utils.parseJSON(schema.node);
 
     if (!utils.validateState(oldstate)) {

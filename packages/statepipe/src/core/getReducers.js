@@ -3,7 +3,7 @@ import {
   not,
   isObject,
   validateProp,
-} from '../../common/src/index';
+} from '../common/index';
 
 import {
   TRIGGER_STORE,
@@ -14,7 +14,7 @@ import {
   SCHEMA_EVENT,
   SCHEMA_ARGS,
   SCHEMA_ACTION,
-} from '../../common/src/const';
+} from '../common/const';
 
 /**
  * This reducer is designed to run inside **parseReducers**

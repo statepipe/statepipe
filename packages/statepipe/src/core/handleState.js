@@ -13,7 +13,9 @@ export default schema => {
   }
 
   try {
-    schema.reducers = schema.reducers.filter(utils.getStoreRunner(schema.type));
+    schema.reducers = schema.reducers.filter(
+      utils.injectBlobFnFromStore(schema.type),
+    );
 
     let index;
     schema.reducers.reduce((acc, reducer) => {

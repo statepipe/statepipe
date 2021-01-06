@@ -2,18 +2,20 @@
   "private": true,
   "name": "@statepipe/statepipe",
   "version": "0.1.0",
-  "description": "statepipe sources",
+  "description": "statepipe source code",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "prettier": "npx prettier -u --check --loglevel=warn src/",
-    "prettier:fix": "npx prettier --loglevel=warn --write src/",
-    "eslint": "eslint src/*.js",
+    "prettier": "npx prettier -u --check --loglevel=warn src/**",
+    "prettier:fix": "npx prettier --loglevel=debug --write src/**",
+    "eslint": "eslint src/**",
     "lint": "npm run eslint && npm run prettier",
-    "jest": "node --experimental-vm-modules node_modules/.bin/jest",
-    "jest:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
+    "jest": "node --experimental-vm-modules node_modules/.bin/jest src/core",
+    "jest:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch src/core",
     "pretest": "npm run lint",
-    "test": "npm run jest"
+    "test": "npm run jest",
+    "prebuild":"npm run prettier:fix",
+    "build": "echo build"
   },
   "jest": {
     "verbose": true,

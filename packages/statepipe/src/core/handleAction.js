@@ -51,7 +51,7 @@ export default (action, payload, origin) => {
 
     try {
       schema.reducers = schema.reducers.filter(
-        utils.getStoreRunner(schema.type),
+        utils.injectBlobFnFromStore(schema.type),
       );
 
       newState = schema.reducers.reduce((acc, reducer) => {

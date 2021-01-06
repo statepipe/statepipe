@@ -1,6 +1,6 @@
 import getSchemas, {getBlocks, parseReducers} from '../getSchemas';
 
-import {isObject} from '../../../common/src/index';
+import {isObject} from '../../common';
 
 import {
   SCHEMA_ARGS,
@@ -15,25 +15,18 @@ import {
   PIPE_STORE,
   OUT_STORE,
   TRIGGER_STORE,
-} from '../../../common/src/const';
+} from '../../common/const';
 
-import {statepipeWrapper} from '../../../common/src/test-helpers';
+import {statepipeWrapper} from '../../common/test-helpers';
 
 const mockStore = {
-  [PIPE_STORE]: {
-
-  },
-  [OUT_STORE]: {
-
-  },
-  [TRIGGER_STORE]: {
-
-  }
+  [PIPE_STORE]: {},
+  [OUT_STORE]: {},
+  [TRIGGER_STORE]: {},
 };
 
 describe('test helpers', () => {
-  describe('getBlocks',()=>{
-    
+  describe('getBlocks', () => {
     test('stress args', () => {
       expect(getBlocks(null)).toBe(null);
       expect(getBlocks(undefined)).toBe(null);
@@ -60,38 +53,41 @@ describe('test helpers', () => {
       ).toEqual(['a', 'b']);
     });
   });
-  
-  describe("parseReducers",()=>{
+
+  describe('parseReducers', () => {
     const blob = {
-      type:PIPE_STORE,
-      node:document
+      type: PIPE_STORE,
+      node: document,
     };
     test('stress args', () => {
-      expect(parseReducers(null,mockStore,blob)).toBe(null);
-      expect(parseReducers(undefined,mockStore,blob)).toBe(null);
-      expect(parseReducers(function () {},mockStore,blob)).toBe(null);
-      expect(parseReducers(1,mockStore,blob)).toBe(null);
-      expect(parseReducers({},mockStore,blob)).toBe(null);
-      expect(parseReducers([],mockStore,blob)).toBe(null);
-      expect(parseReducers("",mockStore,blob)).toBe(null);
-      expect(parseReducers(" ",mockStore,blob)).toBe(null);
-      expect(parseReducers("a",mockStore,blob)).toBe(null);
+      expect(parseReducers(null, mockStore, blob)).toBe(null);
+      expect(parseReducers(undefined, mockStore, blob)).toBe(null);
+      expect(parseReducers(function () {}, mockStore, blob)).toBe(null);
+      expect(parseReducers(1, mockStore, blob)).toBe(null);
+      expect(parseReducers({}, mockStore, blob)).toBe(null);
+      expect(parseReducers([], mockStore, blob)).toBe(null);
+      expect(parseReducers('', mockStore, blob)).toBe(null);
+      expect(parseReducers(' ', mockStore, blob)).toBe(null);
+      expect(parseReducers('a', mockStore, blob)).toBe(null);
     });
     test('working case', () => {
       const wrapper = statepipeWrapper(
         `<span name="pipe" ${PIPE_ATTR}="pass:a:b|fail"></span>`,
       );
       const span = wrapper.querySelector('[name=pipe]');
-      const result = parseReducers(["pass","fail"],{
-        ...blob,
-        node:span
-      },mockStore);
-      
-      expect(result[0][SCHEMA_FN]).toBe("pass");
-      expect(result[1][SCHEMA_FN]).toBe("fail");
+      const result = parseReducers(
+        ['pass', 'fail'],
+        {
+          ...blob,
+          node: span,
+        },
+        mockStore,
+      );
+
+      expect(result[0][SCHEMA_FN]).toBe('pass');
+      expect(result[1][SCHEMA_FN]).toBe('fail');
     });
   });
-
 });
 
 describe('getSchemas', () => {
@@ -105,11 +101,11 @@ describe('getSchemas', () => {
     expect(getSchemas(true)).toBe(null);
     expect(getSchemas(1)).toBe(null);
     expect(getSchemas({})).toBe(null);
-    expect(getSchemas({foo:  1})).toBe(null);
-    expect(typeof getSchemas({[PIPE_STORE]:  {}})).toBe("function");
-    expect(typeof getSchemas({[OUT_STORE]:  {}})).toBe("function");
-    expect(typeof getSchemas({[TRIGGER_STORE]:  {}})).toBe("function");
-    expect(typeof getSchemas(mockStore)).toBe("function");
+    expect(getSchemas({foo: 1})).toBe(null);
+    expect(typeof getSchemas({[PIPE_STORE]: {}})).toBe('function');
+    expect(typeof getSchemas({[OUT_STORE]: {}})).toBe('function');
+    expect(typeof getSchemas({[TRIGGER_STORE]: {}})).toBe('function');
+    expect(typeof getSchemas(mockStore)).toBe('function');
   });
 
   test('stress args 2nd call', () => {
@@ -128,7 +124,6 @@ describe('getSchemas', () => {
   });
 
   describe(PIPE_ATTR, () => {
-    
     test('empty case', () => {
       const parser = getSchemas(mockStore);
       const wrapper = statepipeWrapper(
@@ -148,7 +143,7 @@ describe('getSchemas', () => {
       const result = parser({type: PIPE_STORE, node: item});
       expect(isObject(result)).toBe(true);
       expect(Object.keys(result)).toEqual(['type', 'node', 'reducers']);
-  
+
       result.reducers.forEach(red => {
         PIPE_PROPS.forEach(n => {
           expect(red[n] !== undefined).toBe(true);
@@ -156,7 +151,7 @@ describe('getSchemas', () => {
       });
       expect(result.type).toEqual(PIPE_STORE);
       expect(result.node).toEqual(item);
-      expect(result.reducers[0][SCHEMA_FN]).toEqual("pass");
+      expect(result.reducers[0][SCHEMA_FN]).toEqual('pass');
     });
 
     test('multi stores', () => {
@@ -168,22 +163,20 @@ describe('getSchemas', () => {
       const result = parser({type: PIPE_STORE, node: item});
       expect(result.type).toEqual(PIPE_STORE);
       expect(result.node).toEqual(item);
-      expect(result.reducers[0][SCHEMA_FN]).toEqual("pass1");
-      expect(result.reducers[0][SCHEMA_ARGS]).toEqual(["a"]);
+      expect(result.reducers[0][SCHEMA_FN]).toEqual('pass1');
+      expect(result.reducers[0][SCHEMA_ARGS]).toEqual(['a']);
       expect(result.reducers[0][SCHEMA_INDEX]).toEqual(0);
-      
-      expect(result.reducers[1][SCHEMA_FN]).toEqual("pass2");
+
+      expect(result.reducers[1][SCHEMA_FN]).toEqual('pass2');
       expect(result.reducers[1][SCHEMA_ARGS]).toEqual([]);
       expect(result.reducers[1][SCHEMA_INDEX]).toEqual(0);
 
-      expect(result.reducers[2][SCHEMA_FN]).toEqual("fail");
-      expect(result.reducers[2][SCHEMA_ARGS]).toEqual(["b"]);
+      expect(result.reducers[2][SCHEMA_FN]).toEqual('fail');
+      expect(result.reducers[2][SCHEMA_ARGS]).toEqual(['b']);
       expect(result.reducers[2][SCHEMA_INDEX]).toEqual(1);
     });
   });
-  
 });
-
 
 // test('invalid args', t => {
 //   const schema = getSchemas({});
