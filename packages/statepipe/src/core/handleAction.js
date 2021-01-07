@@ -1,49 +1,55 @@
-import utils from '~/src/statepipe/utils';
+import {
+  validateProp,
+  injectBlobFnFromStore,
+  isNode,
+  isObject,
+  parseJSON,
+} from '../common';
+import {PIPE_STORE, STATE_ATTR} from '../common/const';
+import {log, warn} from '../common/log';
 
-export default (action, payload, origin) => {
-  if (
-    !utils.validateState(payload) ||
-    !utils.validateNode(origin) ||
-    !utils.validateProp((origin || {}).statepipe) ||
-    !utils.validateProp(action)
-  ) {
+/**
+ * 
+ * @param {String} action 
+ * @param {Object} payload 
+ * @param {HTMLElement} origin 
+ */
+const handleAction = (action, payload, origin) => {
+
+  if (!isObject(payload) || !isNode(origin) || !origin.statepipe || !validateProp(action)) {
     return null;
   }
 
   return schema => {
     if (
-      !utils.validateState(schema) ||
-      !utils.validateNode(schema.node) ||
-      !utils.PIPE_STORE === schema.type
+      !isObject(schema) ||
+      !isNode(schema.node) ||
+      PIPE_STORE !== schema.type
     ) {
       return null;
     }
 
     const prefix = `:statepipe ${schema.node.statepipe}: ${schema.type}/ ${schema.node.nodeName}`;
-    const currentState = utils.parseJSON(schema.node);
+    const currentState = parseJSON(schema.node);
 
     const resolveAction = (block, newState) => {
-      if (!utils.validateState(newState)) {
-        utils.log(`${prefix} (${block}) ∴ no state changes!`);
+      if (!isObject(newState)) {
+        log(`${prefix} (${block}) ∴ no state changes!`);
         return;
       }
 
       const sNState = JSON.stringify(newState);
       const sState = JSON.stringify(currentState);
 
-      if (
-        utils.validateProp(sNState) &&
-        utils.validateProp(sState) &&
-        sNState !== sState
-      ) {
-        schema.node.setAttribute(utils.STATE_ATTR, sNState);
-        utils.log(`${prefix} (${block}) ∴ state`, sNState);
+      if (validateProp(sNState) && validateProp(sState) && sNState !== sState) {
+        schema.node.setAttribute(STATE_ATTR, sNState);
+        log(`${prefix} (${block}) ∴ state`, sNState);
       } else {
-        utils.log(`${prefix} (${block}) ∴ no state changes!`);
+        log(`${prefix} (${block}) ∴ no state changes!`);
       }
     };
 
-    if (!utils.validateState(currentState)) {
+    if (!isObject(currentState)) {
       return null;
     }
 
@@ -51,7 +57,7 @@ export default (action, payload, origin) => {
 
     try {
       schema.reducers = schema.reducers.filter(
-        utils.injectBlobFnFromStore(schema.type),
+        injectBlobFnFromStore(schema.type),
       );
 
       newState = schema.reducers.reduce((acc, reducer) => {
@@ -63,7 +69,7 @@ export default (action, payload, origin) => {
           index = reducer.index;
           acc = currentState;
         }
-        if (utils.validateState(acc)) {
+        if (isObject(acc)) {
           const fn = reducer.run.apply(reducer, reducer.args);
           if (typeof fn === 'function') {
             acc = fn({
@@ -74,7 +80,7 @@ export default (action, payload, origin) => {
               origin: origin,
               wrapper: schema.wrapper,
             });
-            utils.log(
+            log(
               `${prefix} (${reducer.index}) > ${reducer.fn}(${(
                 reducer.args || []
               ).join(',')}) payload`,
@@ -84,7 +90,7 @@ export default (action, payload, origin) => {
               'action: ' + action,
             );
           } else {
-            utils.log(
+            log(
               `${prefix} (${reducer.index}) > ${reducer.fn}(${(
                 reducer.args || []
               ).join(',')}) reducer is not a function!`,
@@ -101,8 +107,10 @@ export default (action, payload, origin) => {
         resolveAction(lastIndex, newState);
       }
     } catch (err) {
-      utils.warn(`${prefix} > error running reducers!`, err);
+      warn(`${prefix} > error running reducers!`, err);
     }
     return schema;
   };
 };
+
+export default handleAction;
