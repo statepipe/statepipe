@@ -24,10 +24,10 @@ export const CTX_PROPS = [
 ];
 
 /**
- * 
- * @param {String} action 
- * @param {Object} payload 
- * @param {HTMLElement} origin 
+ *
+ * @param {String} action
+ * @param {Object} payload
+ * @param {HTMLElement} origin
  */
 const handleAction = (action, payload, origin) => {
   if (
@@ -97,8 +97,8 @@ const handleAction = (action, payload, origin) => {
           const fn = reducer.run.apply(reducer, reducer.args);
           if (typeof fn === 'function') {
             acc = fn({
-              [CTX_ACTION]:  action,
-              [CTX_PAYLOAD]:  payload,
+              [CTX_ACTION]: action,
+              [CTX_PAYLOAD]: payload,
               [CTX_STATE]: acc,
               [CTX_NODE]: schema.node,
               [CTX_ORIGIN]: origin,

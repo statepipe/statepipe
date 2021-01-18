@@ -34,7 +34,7 @@ export default (type, store) => {
    * Handle all slug names in order to strip actions, params etc
    * and create a List of Store Reducers to be used
    * by **statepipe**
-   * 
+   *
    * @param {String} slug  foo|bar, fire@click, fire@click|foo:bar|loren
    * @param {Number} index Block execution order
    * @returns {Array} list of Objects [{TRIGGER_PROPS},{PIPE_PROPS},{OUT_PROPS}]

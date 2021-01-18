@@ -92,7 +92,7 @@ describe('basic tests', () => {
       }),
     );
   });
-  
+
   test('expected case', () => {
     const state = {value: 3};
     const span = document.createElement('span');
@@ -107,7 +107,7 @@ describe('basic tests', () => {
           expect(ctx.payload).toEqual(validPayload);
           CTX_PROPS.map(prop => {
             expect(ctx[prop]).not.toBe(undefined);
-          })
+          });
           return {
             value: ctx.state.value + ctx.payload.value,
           };
@@ -217,7 +217,7 @@ describe('basic tests', () => {
     mockStore[PIPE_STORE] = {
       multi: () => {
         return () => {
-          throw new Error("shall not pass");
+          throw new Error('shall not pass');
         };
       },
       stop: () => {
@@ -236,7 +236,7 @@ describe('basic tests', () => {
     fn(schema);
     expect(JSON.parse(span.getAttribute(STATE_ATTR)).value).toBe(3);
   });
-  
+
   test('multi blocks', () => {
     const state = {value: 3};
     const span = document.createElement('span');
@@ -245,32 +245,32 @@ describe('basic tests', () => {
     span.setAttribute(PIPE_ATTR, 'multi:2|neg,loren');
 
     mockStore[PIPE_STORE] = {
-      multi: (to) => {
-        return (ctx) => {
+      multi: to => {
+        return ctx => {
           return {value: ctx.payload.value * parseInt(to)};
         };
       },
       neg: () => {
-        return (ctx) => {
+        return ctx => {
           return {value: ctx.payload.value * -1};
         };
       },
       loren: () => {
-        return (ctx) => {
+        return ctx => {
           return {
             ...ctx.state,
-            loren: ctx.payload.loren.toUpperCase()
+            loren: ctx.payload.loren.toUpperCase(),
           };
         };
-      }
+      },
     };
 
     const wrapper = statepipeWrapper(span);
     const list = queryComponents(wrapper, wrapper.getAttribute(':statepipe'));
-    const fn = handleAction('ping', {value:7,loren:"loren"}, span);
+    const fn = handleAction('ping', {value: 7, loren: 'loren'}, span);
     const schema = getSchema(mockStore)(list[0]);
     fn(schema);
     expect(JSON.parse(span.getAttribute(STATE_ATTR)).value).toBe(3);
-    expect(JSON.parse(span.getAttribute(STATE_ATTR)).loren).toBe("LOREN");
+    expect(JSON.parse(span.getAttribute(STATE_ATTR)).loren).toBe('LOREN');
   });
 });

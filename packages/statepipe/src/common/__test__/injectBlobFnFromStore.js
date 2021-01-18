@@ -2,7 +2,6 @@ import {injectBlobFnFromStore} from '../index';
 import {PIPE_STORE, OUT_STORE, TRIGGER_STORE} from '../const';
 
 const invalidType = 'foo';
-const invalidStore = {};
 const validStore = {
   [PIPE_STORE]: {
     pass: function () {

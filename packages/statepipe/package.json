@@ -8,6 +8,8 @@
   "scripts": {
     "prettier": "npx prettier -u --check --loglevel=warn src/**",
     "prettier:fix": "npx prettier --loglevel=debug --write src/**",
+    "eslint:fix": "eslint src/** --fix",
+    "lint:fix": "npm run prettier:fix && npm run eslint:fix",
     "eslint": "eslint src/**",
     "lint": "npm run eslint && npm run prettier",
     "jest": "node --experimental-vm-modules node_modules/.bin/jest src/core",

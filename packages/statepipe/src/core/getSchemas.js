@@ -28,7 +28,7 @@ export const getBlocks = slug => {
 /**
  * Parse a block list of slugs and return a list with Objects
  * that statepipe will uses to initialize components.
- * 
+ *
  * @param {Array} blockList
  * @param {Object} item - ()
  * @param {Object} stores - object that contains all the stores the reducers can call
@@ -50,7 +50,7 @@ export const parseReducers = (blockList, item, stores) => {
 /**
  * Initialize the function with the object that
  * group all stores.
- * 
+ *
  * @param {Object} stores object with
  * @returns {Function}
  */

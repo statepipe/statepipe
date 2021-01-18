@@ -16,9 +16,11 @@ import {warn, error, log} from './log';
  * @param {Object} store
  * @returns {Boolean}
  */
-export const validateStore = store => 
-    !!store &&
-    (isObject(store[PIPE_STORE]) || isObject(store[OUT_STORE]) || isObject(store[TRIGGER_STORE]));
+export const validateStore = store =>
+  !!store &&
+  (isObject(store[PIPE_STORE]) ||
+    isObject(store[OUT_STORE]) ||
+    isObject(store[TRIGGER_STORE]));
 
 /**
  * Check if **attr** is part of expected store names
@@ -30,21 +32,21 @@ export const validateStoreAttrName = attr =>
 
 /**
  * Test if **value** is a falsy value
- * @param {*} value 
+ * @param {*} value
  * @returns {Boolean}
  */
 export const not = value => !value;
 
 /**
  * Test if **prop** is a not empty string
- * @param {String} prop 
+ * @param {String} prop
  */
 export const validateProp = prop =>
   typeof prop === 'string' && prop.trim().length > 0;
 
 /**
  * Test if **value** is a Object
- * @param {Object} value 
+ * @param {Object} value
  * @returns {Boolean}
  */
 export const isObject = value =>
@@ -56,7 +58,7 @@ export const isObject = value =>
 /**
  * Test if **node** has the expected props required
  * by statepipe to run
- * @param {*} node 
+ * @param {*} node
  * @returns {Boolean}
  */
 export const isNode = node =>
@@ -71,12 +73,12 @@ export const isNode = node =>
 /**
  * This will extract the content of attribute **prop**
  * and try to parse it as a json.
- * 
+ *
  * Ex:
- * 
+ *
  * var str = node.gettAttribute(prop)
  * return JSON.parse(str)
- * @param {HTMLElement} node 
+ * @param {HTMLElement} node
  * @param {String} prop . prop nome to extract. default STATE_ATTR
  */
 export const parseJSON = (node, prop = STATE_ATTR) => {
@@ -94,8 +96,8 @@ export const parseJSON = (node, prop = STATE_ATTR) => {
 
 /**
  * Append **list** into **acc**
- * @param {acc} acc 
- * @param {list} list 
+ * @param {acc} acc
+ * @param {list} list
  * @returns {Array}
  */
 export const groupSchemas = (acc, list) => {
@@ -107,7 +109,7 @@ export const groupSchemas = (acc, list) => {
 
 /**
  * Check if the given **node** has the avalid STATEPIPE_ATTR defined
- * @param {HTMLElement} node 
+ * @param {HTMLElement} node
  * @returns {Boolean}
  */
 export const getStatepipeName = node => {
@@ -125,13 +127,13 @@ export const getStatepipeName = node => {
  * node = <span :trigger="foo">foo</span>
  * testSchema(node)
  * // returns [{type:trigger,node}]
- * 
+ *
  * * //my node
  * node = <span :trigger="foo" :pipe="bar">foo</span>
  * testSchema(node)
  * // returns [{type:trigger,node},{type:pipe,node}]
- * 
- * @param {HTMLElement} node 
+ *
+ * @param {HTMLElement} node
  * @returns {Array}  list of blob
  */
 export const testSchema = node => {
@@ -146,13 +148,13 @@ export const testSchema = node => {
 };
 
 /**
- * This method will map all the components 
+ * This method will map all the components
  * that matches expected statepipe props and
- * return a list of Objects with the proper type 
+ * return a list of Objects with the proper type
  * and the reference to the node.
- * 
- * @param {HTMLElement} node 
- * @param {String} statepipeInstance 
+ *
+ * @param {HTMLElement} node
+ * @param {String} statepipeInstance
  * @returns {Array} [{type, node}, {type,node}...]
  */
 export const queryComponents = (node, statepipeInstance) => {
@@ -181,9 +183,9 @@ export const queryComponents = (node, statepipeInstance) => {
 };
 
 /**
- * Set a new prop **run** on **block** with 
+ * Set a new prop **run** on **block** with
  * the function at specific store.
- * 
+ *
  * @param {String} type any of OUT_STORE, PIPE_STORE or TRIGGER_STORE
  * @return {Object}
  */

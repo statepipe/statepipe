@@ -8,11 +8,6 @@ import {
   SCHEMA_INDEX,
   TRIGGER_PROPS,
   PIPE_PROPS,
-  OUT_PROPS,
-  SCHEMA_EVENT,
-  SCHEMA_SLUG,
-  SCHEMA_ACTION,
-  SCHEMA_STORE,
   PIPE_ATTR,
   PIPE_STORE,
   OUT_STORE,
@@ -29,7 +24,6 @@ const mockStore = {
 };
 
 describe('test helpers', () => {
-
   describe('getBlocks', () => {
     test('stress args', () => {
       expect(getBlocks(null)).toBe(null);
@@ -82,7 +76,7 @@ describe('test helpers', () => {
         node: document,
       };
       const result = parseReducers(
-        [null,   'pass ', 0,   '  fail',   {},   function   ()   {}],
+        [null, 'pass ', 0, '  fail', {}, function () {}],
         {
           ...blob,
           node: document,
@@ -108,7 +102,15 @@ describe('test helpers', () => {
       };
 
       const result = parseReducers(
-        [null,   'ping@click|pass ', 0,   '  fail', 'rm@click|fail',   {},   function   ()   {}],
+        [
+          null,
+          'ping@click|pass ',
+          0,
+          '  fail',
+          'rm@click|fail',
+          {},
+          function () {},
+        ],
         {
           ...blob,
           node: document,
@@ -126,10 +128,10 @@ describe('test helpers', () => {
       expect(result[1][SCHEMA_FN]).toBe('pass');
       expect(result[1][SCHEMA_INDEX]).toBe(1);
 
-      expect(result[2][SCHEMA_FN]).toBe("rm@click");
+      expect(result[2][SCHEMA_FN]).toBe('rm@click');
       expect(result[2][SCHEMA_INDEX]).toBe(4);
 
-      expect(result[3][SCHEMA_FN]).toBe("fail");
+      expect(result[3][SCHEMA_FN]).toBe('fail');
       expect(result[3][SCHEMA_INDEX]).toBe(4);
     });
   });
@@ -222,4 +224,3 @@ describe('getSchemas', () => {
     });
   });
 });
-
