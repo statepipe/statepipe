@@ -1,9 +1,11 @@
-import utils from './utils';
+import {isObject, parseJSON, isNode, injectBlobFnFromStore} from '../common';
+import {PAYLOAD_ATTR, ACTION_ATTR} from '../common/const';
+import {log,warn} from '../common/log';
 
 const getPayload = (schema, event) => (acc, reducer) => {
   if (
-    utils.validateState(acc) &&
-    utils.validateState(reducer) &&
+    isObject(acc) &&
+    isObject(reducer) &&
     typeof reducer.run === 'function'
   ) {
     const prefix = `:statepipe ${schema.wrapper.getAttribute(':statepipe')}: ${
@@ -19,14 +21,14 @@ const getPayload = (schema, event) => (acc, reducer) => {
           state: acc,
           node: schema.node,
         });
-        utils.log(
+        log(
           `${prefix} (${reducer.index}) > ${reducer.fn}(${(
             reducer.args || []
           ).join(',')}) partial payload:`,
           acc,
         );
       } else {
-        utils.log(
+        log(
           `${prefix} (${reducer.index}) > ${reducer.fn}(${(
             reducer.args || []
           ).join(',')}) reducer is not a function!`,
@@ -34,7 +36,7 @@ const getPayload = (schema, event) => (acc, reducer) => {
         );
       }
     } catch (err) {
-      utils.warn(
+      warn(
         `${prefix} ${reducer.fn}(${reducer.args.join(',')}) error:`,
         err,
       );
@@ -45,23 +47,23 @@ const getPayload = (schema, event) => (acc, reducer) => {
 };
 
 export default schema => {
-  if (!utils.validateState(schema) || !utils.validateNode(schema.node)) {
+  if (!isObject(schema) || !isNode(schema.node)) {
     return null;
   }
   return event => {
     //update reducers list with only items with valid store
     let reducers = schema.reducers.filter(
-      utils.injectBlobFnFromStore(schema.type),
+      injectBlobFnFromStore(schema.type),
     );
-    const oldstate = utils.parseJSON(schema.node);
+    const oldstate = parseJSON(schema.node);
 
-    if (!utils.validateState(oldstate)) {
+    if (!isObject(oldstate)) {
       return schema;
     }
 
     const resolveTrigger = (block, value) => {
-      if (utils.validateState(value) && Object.keys(value).length) {
-        utils.log(
+      if (isObject(value) && Object.keys(value).length) {
+        log(
           `:statepipe ${schema.wrapper.getAttribute(':statepipe')}: ${
             schema.type
           }/ ${schema.node.nodeName} (${block.index}) ∴ action=${
@@ -69,10 +71,10 @@ export default schema => {
           } payload`,
           value,
         );
-        schema.node.setAttribute(utils.PAYLOAD_ATTR, JSON.stringify(value));
-        schema.node.setAttribute(utils.ACTION_ATTR, block.action);
+        schema.node.setAttribute(PAYLOAD_ATTR, JSON.stringify(value));
+        schema.node.setAttribute(ACTION_ATTR, block.action);
       } else {
-        utils.log(
+        log(
           `:statepipe ${schema.wrapper}: ${schema.type}/ ${schema.node.nodeName} (${block.index}) ∴ action ${block.action} wont be fired!`,
         );
       }

@@ -13,6 +13,7 @@ import {
   OUT_STORE,
   TRIGGER_STORE,
   TRIGGER_ATTR,
+  OUT_ATTR,
 } from '../../common/const';
 
 import {statepipeWrapper} from '../../common/test-helpers';
@@ -222,5 +223,11 @@ describe('getSchemas', () => {
       expect(result.reducers[2][SCHEMA_ARGS]).toEqual(['b']);
       expect(result.reducers[2][SCHEMA_INDEX]).toEqual(1);
     });
+  });
+  describe(OUT_ATTR, () => {
+    test.skip('TBD', () => {});
+  });
+  describe(TRIGGER_ATTR, () => {
+    test.skip('TBD', () => {});
   });
 });
