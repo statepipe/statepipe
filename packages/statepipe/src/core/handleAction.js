@@ -8,6 +8,21 @@ import {
 import {PIPE_STORE, STATE_ATTR} from '../common/const';
 import {log, warn} from '../common/log';
 
+export const CTX_ACTION = 'action';
+export const CTX_PAYLOAD = 'payload';
+export const CTX_STATE = 'state';
+export const CTX_NODE = 'node';
+export const CTX_ORIGIN = 'origin';
+export const CTX_WRAPPER = 'wrapper';
+export const CTX_PROPS = [
+  CTX_ACTION,
+  CTX_PAYLOAD,
+  CTX_STATE,
+  CTX_NODE,
+  CTX_ORIGIN,
+  CTX_WRAPPER,
+];
+
 /**
  * 
  * @param {String} action 
@@ -15,11 +30,20 @@ import {log, warn} from '../common/log';
  * @param {HTMLElement} origin 
  */
 const handleAction = (action, payload, origin) => {
-
-  if (!isObject(payload) || !isNode(origin) || !origin.statepipe || !validateProp(action)) {
+  if (
+    !isObject(payload) ||
+    !isNode(origin) ||
+    !origin.statepipe ||
+    !validateProp(action)
+  ) {
     return null;
   }
 
+  /**
+   * Schema to resolve the given action.
+   * @param {Object} schema
+   * @return schema
+   */
   return schema => {
     if (
       !isObject(schema) ||
@@ -73,12 +97,12 @@ const handleAction = (action, payload, origin) => {
           const fn = reducer.run.apply(reducer, reducer.args);
           if (typeof fn === 'function') {
             acc = fn({
-              action,
-              payload,
-              state: acc,
-              node: schema.node,
-              origin: origin,
-              wrapper: schema.wrapper,
+              [CTX_ACTION]:  action,
+              [CTX_PAYLOAD]:  payload,
+              [CTX_STATE]: acc,
+              [CTX_NODE]: schema.node,
+              [CTX_ORIGIN]: origin,
+              [CTX_WRAPPER]: schema.wrapper,
             });
             log(
               `${prefix} (${reducer.index}) > ${reducer.fn}(${(

@@ -3,7 +3,7 @@
  */
 export const log = (...args) => {
   if (window.$statepipeLog === true) {
-    console.log.call(console.log, ...args);
+    console.log(...args);
   }
 };
 
@@ -12,7 +12,7 @@ export const log = (...args) => {
  */
 export const warn = (...args) => {
   if (window.$statepipeLog === true) {
-    console.warn.call(console.warn, ...args);
+    console.warn(...args);
   }
 };
 
@@ -21,6 +21,6 @@ export const warn = (...args) => {
  */
 export const error = (...args) => {
   if (window.$statepipeLog === true) {
-    console.error.call(console.error, ...args);
+    console.error(...args);
   }
 };

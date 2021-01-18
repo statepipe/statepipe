@@ -48,8 +48,11 @@ export const parseReducers = (blockList, item, stores) => {
 };
 
 /**
- *
+ * Initialize the function with the object that
+ * group all stores.
+ * 
  * @param {Object} stores object with
+ * @returns {Function}
  */
 export const getSchemas = stores => {
   if (not(isObject(stores))) {
@@ -59,7 +62,13 @@ export const getSchemas = stores => {
   if (not(validateStore(stores))) {
     return null;
   }
-
+  /**
+   * Parse the **item** (result of queryComponents)
+   * and **stores** to create the schema statepipe uses.
+   *
+   * @param {Object} item
+   * @return {Object}
+   */
   return item => {
     if (
       !isObject(item) ||

@@ -1,12 +1,29 @@
-import handleAction from '../handleAction';
-import {STATEPIPE_ATTR, PIPE_STORE, STATE_ATTR} from '../../common/const';
+import handleAction, {CTX_PROPS} from '../handleAction';
+import {
+  STATEPIPE_ATTR,
+  PIPE_STORE,
+  STATE_ATTR,
+  OUT_STORE,
+  TRIGGER_STORE,
+  PIPE_ATTR,
+} from '../../common/const';
+
+import {statepipeWrapper} from '../../common/test-helpers';
+import {queryComponents} from '../../common';
+import getSchema from '../getSchemas';
+
+const mockStore = {
+  [PIPE_STORE]: {},
+  [OUT_STORE]: {},
+  [TRIGGER_STORE]: {},
+};
 
 describe('basic tests', () => {
   document.body.setAttribute(STATEPIPE_ATTR, 'sample');
   document.body.setAttribute(STATE_ATTR, JSON.stringify({value: 'pass'}));
   document.body.statepipe = 'sample';
 
-  const validPayload = {value: 1};
+  const validPayload = {value: 7};
   const validAction = 'ping';
   const validOrigin = document.body;
 
@@ -68,7 +85,6 @@ describe('basic tests', () => {
     expect(null).toBe(fn({node: validOrigin, type: function () {}}));
     expect(null).toBe(fn({node: validOrigin, type: []}));
     expect(null).toBe(fn({node: span, type: PIPE_STORE}));
-
     expect('object').toBe(
       typeof fn({
         node: validOrigin,
@@ -76,339 +92,185 @@ describe('basic tests', () => {
       }),
     );
   });
+  
+  test('expected case', () => {
+    const state = {value: 3};
+    const span = document.createElement('span');
+
+    span.setAttribute(STATE_ATTR, JSON.stringify(state));
+    span.setAttribute(PIPE_ATTR, 'pass');
+
+    mockStore[PIPE_STORE] = {
+      pass: () => {
+        return ctx => {
+          expect(ctx.state).toEqual(state);
+          expect(ctx.payload).toEqual(validPayload);
+          CTX_PROPS.map(prop => {
+            expect(ctx[prop]).not.toBe(undefined);
+          })
+          return {
+            value: ctx.state.value + ctx.payload.value,
+          };
+        };
+      },
+    };
+
+    const wrapper = statepipeWrapper(span);
+    const list = queryComponents(wrapper, wrapper.getAttribute(':statepipe'));
+    const fn = handleAction('ping', validPayload, span);
+    const schema = getSchema(mockStore)(list[0]);
+
+    expect(typeof fn(schema)).toBe('object');
+    expect(JSON.parse(span.getAttribute(STATE_ATTR)).value).toBe(10);
+  });
+
+  test('pipe args', () => {
+    const state = {value: 3};
+    const span = document.createElement('span');
+
+    span.setAttribute(STATE_ATTR, JSON.stringify(state));
+    span.setAttribute(PIPE_ATTR, 'pass:a:b:c');
+
+    mockStore[PIPE_STORE] = {
+      pass: (a, b, c) => {
+        expect(a).toEqual('a');
+        expect(b).toEqual('b');
+        expect(c).toEqual('c');
+        return () => {
+          return {value: 'abc'};
+        };
+      },
+    };
+
+    const wrapper = statepipeWrapper(span);
+    const list = queryComponents(wrapper, wrapper.getAttribute(':statepipe'));
+    const fn = handleAction('ping', validPayload, span);
+    const schema = getSchema(mockStore)(list[0]);
+    fn(schema);
+    expect(JSON.parse(span.getAttribute(STATE_ATTR)).value).toBe('abc');
+  });
+
+  test('multi pipes', () => {
+    const state = {value: 3};
+    const span = document.createElement('span');
+
+    span.setAttribute(STATE_ATTR, JSON.stringify(state));
+    span.setAttribute(PIPE_ATTR, 'multi:2|foo|neg');
+
+    mockStore[PIPE_STORE] = {
+      multi: to => {
+        return ctx => {
+          return {value: ctx.payload.value * parseInt(to)};
+        };
+      },
+      neg: () => {
+        return ctx => {
+          return {value: ctx.payload.value * -1};
+        };
+      },
+    };
+
+    const wrapper = statepipeWrapper(span);
+    const list = queryComponents(wrapper, wrapper.getAttribute(':statepipe'));
+    const fn = handleAction('ping', validPayload, span);
+    const schema = getSchema(mockStore)(list[0]);
+    fn(schema);
+    expect(JSON.parse(span.getAttribute(STATE_ATTR)).value).toBe(-7);
+  });
+
+  test('stop the pipe', () => {
+    const state = {value: 3};
+    const span = document.createElement('span');
+
+    span.setAttribute(STATE_ATTR, JSON.stringify(state));
+    span.setAttribute(PIPE_ATTR, 'multi:2|stop|mult:5');
+
+    mockStore[PIPE_STORE] = {
+      multi: to => {
+        expect(to).toEqual('2');
+        return ctx => {
+          return {value: ctx.payload.value * parseInt(to)};
+        };
+      },
+      stop: () => {
+        return () => {
+          return null;
+        };
+      },
+    };
+
+    const wrapper = statepipeWrapper(span);
+    const list = queryComponents(wrapper, wrapper.getAttribute(':statepipe'));
+    const fn = handleAction('ping', validPayload, span);
+    const schema = getSchema(mockStore)(list[0]);
+    fn(schema);
+    expect(JSON.parse(span.getAttribute(STATE_ATTR)).value).toBe(3);
+  });
+
+  test('handling reducer error', () => {
+    const state = {value: 3};
+    const span = document.createElement('span');
+
+    span.setAttribute(STATE_ATTR, JSON.stringify(state));
+    span.setAttribute(PIPE_ATTR, 'multi:2|stop|mult:5');
+
+    mockStore[PIPE_STORE] = {
+      multi: () => {
+        return () => {
+          throw new Error("shall not pass");
+        };
+      },
+      stop: () => {
+        //should not be called
+        expect(true).toBe(false);
+        return () => {
+          return null;
+        };
+      },
+    };
+
+    const wrapper = statepipeWrapper(span);
+    const list = queryComponents(wrapper, wrapper.getAttribute(':statepipe'));
+    const fn = handleAction('ping', validPayload, span);
+    const schema = getSchema(mockStore)(list[0]);
+    fn(schema);
+    expect(JSON.parse(span.getAttribute(STATE_ATTR)).value).toBe(3);
+  });
+  
+  test('multi blocks', () => {
+    const state = {value: 3};
+    const span = document.createElement('span');
+
+    span.setAttribute(STATE_ATTR, JSON.stringify(state));
+    span.setAttribute(PIPE_ATTR, 'multi:2|neg,loren');
+
+    mockStore[PIPE_STORE] = {
+      multi: (to) => {
+        return (ctx) => {
+          return {value: ctx.payload.value * parseInt(to)};
+        };
+      },
+      neg: () => {
+        return (ctx) => {
+          return {value: ctx.payload.value * -1};
+        };
+      },
+      loren: () => {
+        return (ctx) => {
+          return {
+            ...ctx.state,
+            loren: ctx.payload.loren.toUpperCase()
+          };
+        };
+      }
+    };
+
+    const wrapper = statepipeWrapper(span);
+    const list = queryComponents(wrapper, wrapper.getAttribute(':statepipe'));
+    const fn = handleAction('ping', {value:7,loren:"loren"}, span);
+    const schema = getSchema(mockStore)(list[0]);
+    fn(schema);
+    expect(JSON.parse(span.getAttribute(STATE_ATTR)).value).toBe(3);
+    expect(JSON.parse(span.getAttribute(STATE_ATTR)).loren).toBe("LOREN");
+  });
 });
-
-// test.skip('handleAction/ test reducer args and context', t => {
-//   const config = contexts.withChildren([
-//     contexts.element(utils.PIPE_ATTR, 'pass:a:b:c:d'),
-//     contexts.element(utils.TRIGGER_ATTR, 'ping@click|foo'),
-//   ]);
-//   let ctx;
-
-//   const wrapper = config.wrapper.querySelectorAll()[0];
-//   const payload = {value: 'init'};
-//   const state = {value: true};
-//   const done = {done: true};
-
-//   const sp = statepipe(config.wrapper, {
-//     [utils.PIPE_STORE]: {
-//       pass: (a, b, c, d) => {
-//         t.is(a, 'a');
-//         t.is(b, 'b');
-//         t.is(c, 'c');
-//         t.is(d, 'd');
-//         return context => {
-//           t.is(wrapper, context.wrapper);
-//           t.is(ctx.components[0].node, context.node);
-//           t.is(ctx.components[1].node, context.origin);
-//           t.deepEqual(state, context.state);
-//           t.is('ping', context.action);
-//           t.deepEqual(payload, context.payload);
-//           return done;
-//         };
-//       },
-//     },
-//   });
-
-//   ctx = sp[config.name];
-//   const handler = handleAction('ping', payload, ctx.components[1].node);
-
-//   t.plan(11);
-//   handler(ctx.components[0]);
-
-//   t.is(
-//     JSON.stringify(done),
-//     ctx.components[0].node.getAttribute(utils.STATE_ATTR),
-//   );
-// });
-
-// test.skip('handleAction/ resolve action/state for every block', t => {
-//   //global.$statepipeLog = true;
-//   const config = contexts.withChildren([
-//     contexts.element(utils.PIPE_ATTR, 'passA,fail,passB'),
-//   ]);
-//   let ctx;
-
-//   const sp = statepipe(config.wrapper, {
-//     [utils.PIPE_STORE]: {
-//       fail: () => {
-//         t.pass();
-//         return () => {
-//           t.pass();
-//           return null;
-//         };
-//       },
-//       passA: () => {
-//         t.pass();
-//         return ({state, payload}) => {
-//           t.is(true, state.value);
-//           t.is('init', payload.value);
-//           return {value: 'passA'};
-//         };
-//       },
-//       passB: () => {
-//         t.pass();
-//         return ({state, payload}) => {
-//           t.is(true, state.value);
-//           t.is('init', payload.value);
-//           return {value: 'passB'};
-//         };
-//       },
-//     },
-//   });
-
-//   ctx = sp[config.name];
-
-//   const handler = handleAction('ping', {value: 'init'}, ctx.components[0].node);
-
-//   t.plan(9);
-//   handler(ctx.components[0]);
-//   t.is(
-//     JSON.stringify({value: 'passB'}),
-//     ctx.components[0].node.getAttribute(utils.STATE_ATTR),
-//   );
-// });
-
-// test.skip('handleAction/ produce new state', t => {
-//   const config = contexts.simple();
-//   let ctx;
-
-//   const sp = statepipe(config.wrapper, {
-//     [utils.PIPE_STORE]: {
-//       set: value => {
-//         t.is('value', value);
-//         return ({payload, state, action}) => {
-//           t.is('ping', action);
-//           t.is(true, utils.validateState(payload));
-//           t.is(true, utils.validateState(state));
-//           t.is('init', payload.value);
-//           return {value: value};
-//         };
-//       },
-//     },
-//   });
-//   ctx = sp[config.name];
-
-//   const handler = handleAction('ping', {value: 'init'}, ctx.components[1].node);
-
-//   t.plan(11);
-//   t.is('function', typeof handler);
-//   t.is(null, handler());
-//   t.is(null, handler({}));
-//   t.is(
-//     null,
-//     handler(function () {}),
-//   );
-//   t.is(null, handler(null));
-//   handler(ctx.components[1]);
-
-//   t.is(
-//     JSON.stringify({value: 'value'}),
-//     ctx.components[0].node.getAttribute(utils.STATE_ATTR),
-//   );
-// });
-
-// test.skip('handleAction/ missing store reducer', t => {
-//   //global.$statepipeLog = true;
-//   const config = contexts.withChildren([
-//     contexts.element(utils.PIPE_ATTR, 'set:foo|error|pass:true'),
-//   ]);
-//   let ctx;
-
-//   const sp = statepipe(config.wrapper, {
-//     [utils.PIPE_STORE]: {
-//       set: value => {
-//         return ({payload, state}) => {
-//           t.is('init', payload.value);
-//           t.is(true, state.value);
-//           t.pass();
-//           return {value: value};
-//         };
-//       },
-//       pass: value => {
-//         return ({payload, state}) => {
-//           t.is('init', payload.value);
-//           t.is('foo', state.value);
-//           t.pass();
-//           return {value: value};
-//         };
-//       },
-//     },
-//   });
-//   ctx = sp[config.name];
-
-//   t.plan(8);
-//   const handler = handleAction('ping', {value: 'init'}, ctx.components[0].node);
-//   handler(ctx.components[0]);
-//   t.is(2, ctx.components[0].reducers.length);
-//   t.is(
-//     JSON.stringify({value: 'true'}),
-//     ctx.components[0].node.getAttribute(utils.STATE_ATTR),
-//   );
-// });
-
-// test.skip('handleAction/ malformed state', t => {
-//   const config = contexts.simple();
-
-//   const sp = statepipe(config.wrapper, {
-//     [utils.PIPE_STORE]: {
-//       set: () => {
-//         t.fail();
-//         return () => {
-//           t.fail();
-//           return {value: 'none'};
-//         };
-//       },
-//     },
-//   });
-
-//   let ctx = sp[config.name];
-//   t.plan(3);
-
-//   ctx.components[1].node.setAttribute(utils.STATE_ATTR, '-');
-//   let handler = handleAction('ping', {value: 'init'}, ctx.components[1].node);
-//   handler(ctx.components[1]);
-//   t.is('-', ctx.components[1].node.getAttribute(utils.STATE_ATTR));
-
-//   ctx.components[1].node.setAttribute(utils.STATE_ATTR, null);
-//   handler = handleAction('ping', {value: 'init'}, ctx.components[1].node);
-//   handler(ctx.components[1]);
-//   t.is(null, ctx.components[1].node.getAttribute(utils.STATE_ATTR));
-
-//   ctx.components[1].node.setAttribute(utils.STATE_ATTR, '[]');
-//   handler = handleAction('ping', {value: 'init'}, ctx.components[1].node);
-//   handler(ctx.components[1]);
-//   t.is('[]', ctx.components[1].node.getAttribute(utils.STATE_ATTR));
-// });
-
-// test.skip('handleAction/ handle reducer error', t => {
-//   const config = contexts.withChildren([
-//     contexts.element(utils.PIPE_ATTR, 'set:foo'),
-//   ]);
-//   let ctx;
-
-//   const sp = statepipe(config.wrapper, {
-//     [utils.PIPE_STORE]: {
-//       set: value => {
-//         return () => {
-//           t.pass();
-//           throw new Error('handler should catch this');
-//           return {value: value};
-//         };
-//       },
-//     },
-//   });
-//   ctx = sp[config.name];
-
-//   t.plan(2);
-//   const handler = handleAction('ping', {value: 'init'}, ctx.components[0].node);
-//   handler(ctx.components[0]);
-//   t.is(
-//     JSON.stringify({value: true}),
-//     ctx.components[0].node.getAttribute(utils.STATE_ATTR),
-//   );
-// });
-
-// test.skip('handleAction/ handle reducer malformed reducer function', t => {
-//   const config = contexts.withChildren([
-//     contexts.element(utils.PIPE_ATTR, 'pass'),
-//   ]);
-//   let ctx;
-
-//   const sp = statepipe(config.wrapper, {
-//     [utils.PIPE_STORE]: {
-//       pass: value => {
-//         t.pass();
-//         return true;
-//       },
-//     },
-//   });
-
-//   ctx = sp[config.name];
-
-//   const handler = handleAction('ping', {value: 'init'}, ctx.components[0].node);
-//   handler(ctx.components[0]);
-//   t.plan(2);
-//   t.is(
-//     JSON.stringify({value: true}),
-//     ctx.components[0].node.getAttribute(utils.STATE_ATTR),
-//   );
-// });
-
-// test.skip('handleAction/ preserve element state btw blocks', t => {
-//   const config = contexts.withChildren([
-//     contexts.element(utils.PIPE_ATTR, 'rA:a,rB:b'),
-//   ]);
-//   let ctx;
-
-//   const sp = statepipe(config.wrapper, {
-//     [utils.PIPE_STORE]: {
-//       rA: value => {
-//         t.is('a', value);
-//         return ({state, action}) => {
-//           t.is('ping', action);
-//           t.is(true, state.value);
-//           return {value: value};
-//         };
-//       },
-//       rB: value => {
-//         t.is('b', value);
-//         return ({payload, state}) => {
-//           t.is(true, state.value);
-//           t.is('init', payload.value);
-//           return {value: value};
-//         };
-//       },
-//     },
-//   });
-
-//   ctx = sp[config.name];
-
-//   const handler = handleAction('ping', {value: 'init'}, ctx.components[0].node);
-
-//   t.plan(7);
-//   handler(ctx.components[0]);
-//   t.is(
-//     JSON.stringify({value: 'b'}),
-//     ctx.components[0].node.getAttribute(utils.STATE_ATTR),
-//   );
-// });
-
-// test.skip('handleAction/ preserve element state btw reducers', t => {
-//   const config = contexts.withChildren([
-//     contexts.element(utils.PIPE_ATTR, 'rA:a|rB:b'),
-//   ]);
-//   let ctx;
-
-//   const sp = statepipe(config.wrapper, {
-//     [utils.PIPE_STORE]: {
-//       rA: value => {
-//         t.is('a', value);
-//         return ({state, action}) => {
-//           t.is('ping', action);
-//           t.is(true, state.value);
-//           return {value: value};
-//         };
-//       },
-//       rB: value => {
-//         t.is('b', value);
-//         return ({payload, state}) => {
-//           t.is('a', state.value);
-//           t.is('init', payload.value);
-//           return {value: value};
-//         };
-//       },
-//     },
-//   });
-
-//   ctx = sp[config.name];
-
-//   const handler = handleAction('ping', {value: 'init'}, ctx.components[0].node);
-
-//   t.plan(7);
-//   handler(ctx.components[0]);
-//   t.is(
-//     JSON.stringify({value: 'b'}),
-//     ctx.components[0].node.getAttribute(utils.STATE_ATTR),
-//   );
-// });
