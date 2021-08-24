@@ -1,13 +1,9 @@
 import {isObject, parseJSON, isNode, injectBlobFnFromStore} from '../common';
 import {PAYLOAD_ATTR, ACTION_ATTR} from '../common/const';
-import {log,warn} from '../common/log';
+import {log, warn} from '../common/log';
 
 const getPayload = (schema, event) => (acc, reducer) => {
-  if (
-    isObject(acc) &&
-    isObject(reducer) &&
-    typeof reducer.run === 'function'
-  ) {
+  if (isObject(acc) && isObject(reducer) && typeof reducer.run === 'function') {
     const prefix = `:statepipe ${schema.wrapper.getAttribute(':statepipe')}: ${
       schema.type
     }/ ${schema.node.nodeName}`;
@@ -36,10 +32,7 @@ const getPayload = (schema, event) => (acc, reducer) => {
         );
       }
     } catch (err) {
-      warn(
-        `${prefix} ${reducer.fn}(${reducer.args.join(',')}) error:`,
-        err,
-      );
+      warn(`${prefix} ${reducer.fn}(${reducer.args.join(',')}) error:`, err);
       acc = null;
     }
   }
@@ -52,9 +45,7 @@ export default schema => {
   }
   return event => {
     //update reducers list with only items with valid store
-    let reducers = schema.reducers.filter(
-      injectBlobFnFromStore(schema.type),
-    );
+    let reducers = schema.reducers.filter(injectBlobFnFromStore(schema.type));
     const oldstate = parseJSON(schema.node);
 
     if (!isObject(oldstate)) {

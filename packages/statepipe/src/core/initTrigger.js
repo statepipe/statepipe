@@ -16,37 +16,40 @@ export const TARGETS = {
 };
 
 export const parseTarget = (slug, node) => {
-  if (not(validateProp(slug)) || not(node)){
+  if (not(validateProp(slug)) || not(node)) {
     return null;
   }
-  const slices = slug.split(".");
-  if (slices.length !== 2){
-    return {event:slug, target:node};
+  const slices = slug.split('.');
+  if (slices.length !== 2) {
+    return {event: slug, target: node};
   }
   const bind = slices[0].trim();
   const event = slices[1].trim();
-  if (!bind.length){
-    return {event:slug, target:node};
+  if (!bind.length) {
+    return {event: slug, target: node};
   }
   return [
     TARGET_DOC_ELEMENT,
     TARGET_DOCUMENT,
     TARGET_WINDOW,
-    TARGET_BODY
-  ].reduce((acc, item)=>{
-    if (bind.match(new RegExp(`^${item}$`))){
-      acc = {
-        event: event,
-        target:TARGETS[item]
-      };
-    }
-    return acc;
-  }, {
-    event:slug,
-    target:node
-  });
+    TARGET_BODY,
+  ].reduce(
+    (acc, item) => {
+      if (bind.match(new RegExp(`^${item}$`))) {
+        acc = {
+          event: event,
+          target: TARGETS[item],
+        };
+      }
+      return acc;
+    },
+    {
+      event: slug,
+      target: node,
+    },
+  );
 };
- 
+
 export default blob => {
   blob = blob || {};
   if (
@@ -60,11 +63,12 @@ export default blob => {
 
   blob.reducers = blob.reducers
     .map(schema => {
-      
-      if (not(schema)
-      || not(schema.fn)
-      || not(typeof schema.fn === 'string')
-      || not(!!schema.fn.match(/.@./))) {
+      if (
+        not(schema) ||
+        not(schema.fn) ||
+        not(typeof schema.fn === 'string') ||
+        not(!!schema.fn.match(/.@./))
+      ) {
         return schema;
       }
       const actionAndHandler = schema.fn.split('@');
@@ -75,9 +79,9 @@ export default blob => {
         if (!!target && typeof target.addEventListener === 'function') {
           target.addEventListener(event, handleTrigger(blob));
           log(
-            `:statepipe ${blob.wrapper||''}: ${blob.type}/ ${target.nodeName} (${
-              schema.index
-            }) bind "${event}"`,
+            `:statepipe ${blob.wrapper || ''}: ${blob.type}/ ${
+              target.nodeName
+            } (${schema.index}) bind "${event}"`,
           );
         }
         return null;
